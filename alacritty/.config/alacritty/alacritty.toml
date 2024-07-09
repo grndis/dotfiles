@@ -21,7 +21,7 @@ blur = true
 option_as_alt = "Both"
 
 [font]
-normal.family = "FiraCode NF" 
+normal.family = "FiraCode Nerd Font" 
 normal.style= "Retina"
 size = 14
 offset.y = 3
