@@ -29,7 +29,7 @@ offset.y = 3
 # TokyoNight Alacritty Colors
 # Default colors
 [colors.primary]
-background = '#1a1b26'
+background = '#0A0912'
 foreground = '#c0caf5'
 
 #[colors.cursor]
