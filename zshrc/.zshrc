@@ -5,6 +5,7 @@ if [[ -f "/opt/homebrew/bin/brew" ]] then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+
 ################################################################
 # Zinit
 ################################################################
@@ -42,6 +43,7 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 
+
 ################################################################
 # History
 ################################################################
@@ -57,6 +59,7 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+
 ################################################################
 # Completion styling
 ################################################################
@@ -66,6 +69,7 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+
 ################################################################
 # Aliases
 ################################################################
@@ -73,16 +77,13 @@ alias ls='ls --color'
 alias vim='nvim'
 alias c='clear'
 
+
 ################################################################
 # Shell integrations
 ################################################################
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
-################################################################
-# Composer
-################################################################
-export PATH="$PATH:/Users/grandis/.composer/vendor/bin"
 
 ################################################################
 # pnpm
@@ -98,8 +99,7 @@ esac
 # Export PATH
 ################################################################
 export PATH="$PATH:$HOME/.local/bin"
-
-
+export PATH="$PATH:/Users/grandis/.composer/vendor/bin"
 
 
 ################################################################
