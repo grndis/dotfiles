@@ -17,6 +17,71 @@ return {
           title = "Saved",
         },
       },
+      {
+        filter = {
+          event = "msg_show",
+          kind = "emsg",
+          find = "E%d+:",
+        },
+        opts = {
+          skip = true,
+        },
+      },
+      {
+        filter = {
+          event = "notify",
+          find = "Reloading",
+        },
+        opts = {
+          skip = true,
+        },
+      },
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "before #%d+", -- This will match any message containing "before #"
+        },
+        view = "notify",
+        opts = {
+          title = "Undo",
+        },
+      },
+      -- Route for redo
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "after #%d+", -- This will match any message containing "after #"
+        },
+        view = "notify",
+        opts = {
+          title = "Redo",
+        },
+      },
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "oldest",
+        },
+        view = "notify",
+        opts = {
+          title = "Oldest",
+        },
+      },
+      -- Route for "Already at newest change"
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "newest",
+        },
+        view = "notify",
+        opts = {
+          title = "Newest",
+        },
+      },
     },
   },
 }
