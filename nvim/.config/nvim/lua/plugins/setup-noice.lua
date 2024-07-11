@@ -1,3 +1,5 @@
+-- if true then return {} end -- Disable noice
+
 return {
   -- ~/.config/nvim/lua/setup-noice.lua
 
@@ -10,9 +12,9 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "written",
+          find = "saved",
         },
-        view = "notify",
+        view = "mini",
         opts = {
           title = "Saved",
         },
@@ -21,38 +23,9 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "E382:",
+          find = "Undo", -- This will match any message containing "before #"
         },
-        opts = {
-          skip = true,
-        },
-      },
-      {
-        filter = {
-          event = "msg_show",
-          kind = "emsg",
-          find = "E%d+:",
-        },
-        opts = {
-          skip = true,
-        },
-      },
-      {
-        filter = {
-          event = "notify",
-          find = "Reloading",
-        },
-        opts = {
-          skip = true,
-        },
-      },
-      {
-        filter = {
-          event = "msg_show",
-          kind = "",
-          find = "before #", -- This will match any message containing "before #"
-        },
-        view = "notify",
+        view = "mini",
         opts = {
           title = "Undo",
         },
@@ -62,9 +35,9 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "after #", -- This will match any message containing "after #"
+          find = "Redo", -- This will match any message containing "after #"
         },
-        view = "notify",
+        view = "mini",
         opts = {
           title = "Redo",
         },
@@ -75,7 +48,7 @@ return {
           kind = "",
           find = "oldest",
         },
-        view = "notify",
+        view = "mini",
         opts = {
           title = "Oldest",
         },
@@ -87,7 +60,7 @@ return {
           kind = "",
           find = "newest",
         },
-        view = "notify",
+        view = "mini",
         opts = {
           title = "Newest",
         },
@@ -96,6 +69,33 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
+          find = "Copied!",
+        },
+        view = "mini",
+        opts = {
+          title = "Copied!",
+        },
+      },
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "Pasted!",
+        },
+        view = "mini",
+        opts = {
+          title = "Pasted!",
+        },
+      },
+      ---------------------- Disable Notification --------------------------------
+      {
+        filter = {
+          any = {
+            { event = "msg_show", kind = "" },
+            { event = "notify", find = "Reloading" },
+            { event = "msg_show", kind = "emsg", find = "E%d+:" },
+            { event = "msg_show", kind = "", find = "E382:" },
+          },
         },
         opts = {
           skip = true,
