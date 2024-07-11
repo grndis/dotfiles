@@ -20,6 +20,16 @@ return {
       {
         filter = {
           event = "msg_show",
+          kind = "",
+          find = "E%d+:",
+        },
+        opts = {
+          skip = true,
+        },
+      },
+      {
+        filter = {
+          event = "msg_show",
           kind = "emsg",
           find = "E%d+:",
         },
