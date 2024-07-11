@@ -21,7 +21,7 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "E%d+:",
+          find = "E382:",
         },
         opts = {
           skip = true,
@@ -50,7 +50,7 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "before #%d+", -- This will match any message containing "before #"
+          find = "before #", -- This will match any message containing "before #"
         },
         view = "notify",
         opts = {
@@ -62,7 +62,7 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "after #%d+", -- This will match any message containing "after #"
+          find = "after #", -- This will match any message containing "after #"
         },
         view = "notify",
         opts = {
