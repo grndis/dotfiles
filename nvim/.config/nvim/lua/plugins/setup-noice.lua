@@ -82,6 +82,15 @@ return {
           title = "Newest",
         },
       },
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+        },
+        opts = {
+          skip = true,
+        },
+      },
     },
   },
 }
