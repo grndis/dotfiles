@@ -1,16 +1,12 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
-
-augroup("CustomMessages", { clear = true })
-
 -- Custom message for saving a file
-autocmd("BufWritePost", {
-  group = "CustomMessages",
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = vim.api.nvim_create_augroup("CustomMessages", { clear = true }),
   pattern = "*",
-  callback = function() print "File saved!" end,
+  callback = function() vim.api.nvim_echo({ { "File saved!", "Normal" } }, false, {}) end,
 })
+
 --
 -- -- Custom message for yank
 -- autocmd("TextYankPost", {
