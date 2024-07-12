@@ -91,7 +91,7 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "Copied!",
+          find = "copied!",
         },
         view = "mini",
         opts = {
@@ -102,7 +102,7 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "Pasted!",
+          find = "Pasted",
         },
         view = "mini",
         opts = {
