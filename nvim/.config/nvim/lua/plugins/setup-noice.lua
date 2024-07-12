@@ -4,6 +4,14 @@ return {
   -- ~/.config/nvim/lua/setup-noice.lua
 
   require("noice").setup {
+    format = {
+      substitute = {
+        pattern = "^:%%?s/",
+        icon = " ",
+        ft = "regex",
+        opts = { border = { text = { top = " sub (old/new/) " } } },
+      },
+    },
     messages = {
       enabled = true, -- enables the Noice messages UI
       view = "mini", -- default view for messages
