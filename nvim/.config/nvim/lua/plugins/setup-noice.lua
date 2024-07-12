@@ -49,7 +49,7 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "ater #", -- This will match any message containing "after #"
+          find = "after #", -- This will match any message containing "after #"
         },
         view = "mini",
         opts = {
