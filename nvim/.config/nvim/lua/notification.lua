@@ -30,9 +30,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 local function check_undo_state()
   local undotree = vim.fn.undotree()
   if undotree.seq_cur == 0 then
-    vim.api.nvim_echo({ { "[⇤] Oldest ", "Normal" } }, false, {})
+    vim.api.nvim_echo({ { "[-] Oldest ", "Normal" } }, false, {})
   elseif undotree.seq_cur == undotree.seq_last then
-    vim.api.nvim_echo({ { "[⇥] Newest ", "Normal" } }, false, {})
+    vim.api.nvim_echo({ { "[-] Newest ", "Normal" } }, false, {})
   end
 end
 

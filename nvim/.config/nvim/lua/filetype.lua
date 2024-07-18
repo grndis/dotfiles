@@ -18,4 +18,7 @@ vim.filetype.add {
   pattern = {
     [".*%.blade%.php"] = "blade",
   },
+  extension = {
+    ["http"] = "http",
+  },
 }

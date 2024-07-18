@@ -1,3 +1,5 @@
+command_timeout = 5000  # Timeout in milliseconds
+
 format = """
 [](#a3aed2)\
 [  ](bg:#a3aed2 fg:#090c0c)\
