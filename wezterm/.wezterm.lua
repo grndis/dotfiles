@@ -48,7 +48,7 @@ config.colors = {
 }
 
 -- Keeping your existing font settings
-config.font = wezterm.font("FiraCode Nerd Font", { weight = "Medium" })
+config.font = wezterm.font("Liga SFMono Nerd Font", { weight = "Medium" })
 config.font_size = 14
 config.line_height = 1.4
 
