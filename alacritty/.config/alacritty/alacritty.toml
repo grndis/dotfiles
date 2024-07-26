@@ -21,8 +21,8 @@ blur = true
 option_as_alt = "Both"
 
 [font]
-normal.family = "FiraCode Nerd Font" 
-normal.style= "Retina"
+normal.family = "Liga SFMono Nerd Font" 
+normal.style= "Regular"
 size = 14
 offset.y = 3
 
