@@ -30,6 +30,7 @@ return {
   { import = "astrocommunity.scrolling.nvim-scrollbar" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
+  { import = "astrocommunity.motion.leap-nvim" },
   -- { import = "astrocommunity.editing-support.undotree" },
   -- { import = "astrocommunity.colorscheme.github-nvim-theme" },
   -- { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
