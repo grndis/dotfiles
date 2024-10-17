@@ -95,7 +95,8 @@ alias ls="eza --color=always --git --icons=always"
 ################################################################
 # Shell integrations
 ################################################################
-eval "$(fzf --zsh)"
+# eval "$(fzf --zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init --cmd cd zsh)"
 
 
@@ -133,4 +134,5 @@ fi
 # Starship
 ################################################################
 eval "$(starship init zsh)"
+
 
