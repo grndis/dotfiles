@@ -40,7 +40,8 @@ zinit light jeffreytse/zsh-vi-mode
 ################################################################
 # ZVM Custom Config
 ################################################################
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
+ZVM_VI_ESCAPE_BINDKEY=^[
+ZVM_VI_EDITOR=nvim
 
 ################################################################
 # Load completions
@@ -115,7 +116,6 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/Users/grandis/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
 
-export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

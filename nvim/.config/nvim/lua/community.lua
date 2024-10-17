@@ -34,7 +34,7 @@ return {
   -- { import = "astrocommunity.editing-support.undotree" },
   -- { import = "astrocommunity.colorscheme.github-nvim-theme" },
   -- { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
-  -- { import = "astrocommunity.terminal-integration.vim-tmux-navigator" },
+  { import = "astrocommunity.terminal-integration.vim-tmux-navigator" },
   { import = "astrocommunity.terminal-integration.vim-tmux-yank" },
   -- import/override with your plugins folder
 }
