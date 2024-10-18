@@ -34,6 +34,8 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
+zinit ice lucid wait
+zinit snippet OMZP::fzf
 
 
 
@@ -41,7 +43,21 @@ zinit light jeffreytse/zsh-vi-mode
 # ZVM Custom Config
 ################################################################
 ZVM_VI_ESCAPE_BINDKEY=^[
-ZVM_VI_EDITOR=nvim
+ZVM_VI_SURROUND_BINDKEY='classic'
+ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+local icur=$(zvm_cursor_style $ZVM_INSERT_MODE_CURSOR)
+local ncur=$(zvm_cursor_style $ZVM_NORMAL_MODE_CURSOR)
+local vcur=$(zvm_cursor_style $ZVM_VISUAL_MODE_CURSOR)
+local vlcur=$(zvm_cursor_style $ZVM_VISUAL_LINE_MODE_CURSOR)
+ZVM_INSERT_MODE_CURSOR=$icur'\e\e]12;#4fa6ed\a'
+ZVM_NORMAL_MODE_CURSOR=$ncur'\e\e]12;#98c379\a'
+ZVM_VISUAL_MODE_CURSOR=$vcur'\e\e]12;#c678dd\a'
+ZVM_VISUAL_LINE_MODE_CURSOR=$vlcur'\e\e]12;#c678dd\a'
+ZVM_VI_HIGHLIGHT_FOREGROUND=#cccccc
+ZVM_VI_HIGHLIGHT_BACKGROUND=#c678dd
+ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold,underline
+ZVM_TERM=xterm-256color
+ZVM_VI_EDITOR='nvim'
 
 ################################################################
 # Load completions
