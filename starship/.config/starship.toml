@@ -70,9 +70,9 @@ format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
 
 [character]
 disabled = false
-success_symbol = '[❯](bold #769ff0)'
+success_symbol = '[❯](bold green)'
 error_symbol = '[❯](bold red)'
-
+vimcmd_symbol = '[❚](bold grey)'
 
 [line_break]
 disabled = false
