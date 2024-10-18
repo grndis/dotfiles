@@ -71,8 +71,8 @@ format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
 
 [character]
 disabled = true
-success_symbol = '[➜](bold green) '
-error_symbol = '[➜](bold red) '
+success_symbol = '[➜](bold green)'
+error_symbol = '[➜](bold red)'
 
 
 [line_break]
