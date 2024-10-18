@@ -1,4 +1,4 @@
-################################################################
+###############################################################
 # Shell Options
 ################################################################
 setopt globdots  #include hidden files in globbing
@@ -10,6 +10,11 @@ setopt globdots  #include hidden files in globbing
 if [[ -f "/opt/homebrew/bin/brew" ]] then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+################################################################
+# Starship
+################################################################
+eval "$(starship init zsh)"
 
 
 ################################################################
@@ -145,10 +150,5 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
-
-################################################################
-# Starship
-################################################################
-eval "$(starship init zsh)"
 
 
