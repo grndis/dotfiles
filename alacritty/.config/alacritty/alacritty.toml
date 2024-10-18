@@ -23,8 +23,8 @@ option_as_alt = "Both"
 [font]
 normal.family = "Liga SFMono Nerd Font" 
 normal.style= "Regular"
-size = 14
-offset.y = 3
+size = 14.5
+offset.y = 8
 
 # TokyoNight Alacritty Colors
 # Default colors
