@@ -15,7 +15,6 @@ $golang\
 $php\
 [](fg:#212736 bg:#1d2230)\
 $time\
-$line_break\
 [\u200B](fg:#1d2230)\
 \n$character"""
 
@@ -70,9 +69,9 @@ style = "bg:#1d2230"
 format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
 
 [character]
-disabled = true
-success_symbol = '[➜](bold green)'
-error_symbol = '[➜](bold red)'
+disabled = false
+success_symbol = '[❯](bold #769ff0)'
+error_symbol = '[❯](bold red)'
 
 
 [line_break]
