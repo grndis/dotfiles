@@ -36,5 +36,6 @@ return {
   -- { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
   { import = "astrocommunity.terminal-integration.vim-tmux-navigator" },
   { import = "astrocommunity.terminal-integration.vim-tmux-yank" },
+  -- { import = "astrocommunity.remote-development.remote-sshfs-nvim" },
   -- import/override with your plugins folder
 }
