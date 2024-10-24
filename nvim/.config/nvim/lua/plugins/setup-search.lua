@@ -1,0 +1,3 @@
+return {
+  "cshuaimin/ssr.nvim",
+}

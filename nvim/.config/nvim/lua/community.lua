@@ -7,6 +7,7 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+  { import = "astrocommunity.search.grug-far-nvim" },
   -- { import = "astrocommunity.pack.lua" },
   -- { import = "astrocommunity.recipes.heirline-mode-text-statusline" },
   -- { import = "astrocommunity.editing-support.conform-nvim" },
@@ -28,9 +29,13 @@ return {
   -- { import = "astrocommunity.indent.indent-rainbowline" },
   -- { import = "astrocommunity.scrolling.vim-smoothie" },
   { import = "astrocommunity.scrolling.nvim-scrollbar" },
+  -- { import = "astrocommunity.scrolling.mini-animate" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   { import = "astrocommunity.motion.leap-nvim" },
+  { import = "astrocommunity.motion.flit-nvim" },
+  { import = "astrocommunity.motion.nvim-spider" },
+  { import = "astrocommunity.motion.nvim-tree-pairs" },
   -- { import = "astrocommunity.editing-support.undotree" },
   -- { import = "astrocommunity.colorscheme.github-nvim-theme" },
   -- { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
