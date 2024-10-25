@@ -13,6 +13,7 @@ return {
   -- { import = "astrocommunity.editing-support.conform-nvim" },
   { import = "astrocommunity.editing-support.bigfile-nvim" },
   { import = "astrocommunity.completion.copilot-cmp" },
+  { import = "astrocommunity.completion.cmp-tmux" },
   -- { import = "astrocommunity.completion.codeium-nvim" },
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.pack.lua" },
