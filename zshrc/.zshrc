@@ -115,6 +115,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 alias vim='nvim'
 alias v='nvim'
 alias c='clear'
+alias f='yazi'
 alias ls="eza --color=always --git --icons=always"
 
 ################################################################
@@ -138,6 +139,8 @@ esac
 ################################################################
 # Export PATH
 ################################################################
+export EDITOR=nvim
+export VISUAL=nvim
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/Users/grandis/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
@@ -155,3 +158,15 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+
+################################################################
+## Yazi setup
+################################################################
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
