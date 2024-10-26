@@ -4,7 +4,7 @@ function M.open_lazygit()
   local function is_tmux() return vim.env.TMUX ~= nil end
 
   if is_tmux() then
-    vim.fn.system 'tmux popup -d "#{pane_current_path}" -xC -yC -w90% -h90% -E "lazygit"'
+    vim.fn.system 'tmux popup -d "#{pane_current_path}" -xC -yC -w90% -h90% -E "lazygit  --use-config-file=$HOME/.config/lazygit/theme.yml"'
   else
     -- Save the current buffer number
     local current_buf = vim.api.nvim_get_current_buf()
