@@ -2,7 +2,7 @@ command_timeout = 5000  # Timeout in milliseconds
 
 format = """
 [](#a3aed2)\
-[  ](bg:#a3aed2 fg:#090c0c)\
+$os$hostname\
 [](bg:#769ff0 fg:#a3aed2)\
 $directory\
 [](fg:#769ff0 bg:#394260)\
@@ -19,6 +19,34 @@ $time\
 \n$character"""
 
 add_newline = true
+
+[os]
+disabled = false
+style = "bg:#a3aed2 fg:#090c0c"
+format = '[$symbol]($style)'
+
+[os.symbols]
+Windows = ""
+Ubuntu = ""
+SUSE = ""
+Raspbian = ""
+RedHatEnterprise = ""
+Mint = "  "
+Linux = "  "
+Gentoo = "  "
+Fedora = "  "
+Debian = "  "
+Arch = "  "
+Alpine = "  "
+Amazon = "  "
+Android = "  "
+Macos = "  "
+
+[hostname]
+ssh_only = false
+style = "bg:#333844 fg:#a0a9cb"
+format = "[ $hostname ]($style)"
+disabled = false
 
 [directory]
 style = "fg:#212736 bg:#7AA2F7"
@@ -65,8 +93,8 @@ format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-style = "bg:#1d2230"
-format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
+style = "bg:#333844"
+format = '[[  $time ](fg:#a0a9cb bg:#333844)]($style)'
 
 [character]
 disabled = false
