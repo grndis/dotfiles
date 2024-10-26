@@ -117,6 +117,7 @@ alias v='nvim'
 alias c='clear'
 alias f='yazi'
 alias ls="eza --color=always --git --icons=always"
+alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/theme.yml'
 
 ################################################################
 # Shell integrations
@@ -144,6 +145,7 @@ export VISUAL=nvim
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/Users/grandis/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
