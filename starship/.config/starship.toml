@@ -26,25 +26,25 @@ style = "bg:#a3aed2 fg:#090c0c"
 format = '[$symbol]($style)'
 
 [os.symbols]
-Windows = "  "
-Ubuntu = "  "
-SUSE = "  "
-Raspbian = "  "
-RedHatEnterprise = "  "
-Mint = "  "
-Linux = "  "
-Gentoo = "  "
-Fedora = "  "
-Debian = "  "
-Arch = "  "
-Alpine = "  "
-Amazon = "  "
-Android = "  "
-Macos = "  "
+Windows = " "
+Ubuntu = " "
+SUSE = " "
+Raspbian = " "
+RedHatEnterprise = " "
+Mint = " "
+Linux = " "
+Gentoo = " "
+Fedora = " "
+Debian = " "
+Arch = " "
+Alpine = " "
+Amazon = " "
+Android = " "
+Macos = " "
 
 [hostname]
 ssh_only = false
-style = "bg:#333844 fg:#a0a9cb"
+style = "bg:#a3aed2 fg:#090c0c"
 format = "[ $hostname ]($style)"
 disabled = false
 
