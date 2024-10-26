@@ -117,7 +117,7 @@ alias v='nvim'
 alias c='clear'
 alias f='yazi'
 alias ls="eza --color=always --git --icons=always"
-alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/theme.yml'
+alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 
 ################################################################
 # Shell integrations
