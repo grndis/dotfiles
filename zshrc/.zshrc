@@ -118,6 +118,8 @@ alias c='clear'
 alias f='yazi'
 alias ls="eza --color=always --git --icons=always"
 alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
+alias a='atac'
+
 
 ################################################################
 # Shell integrations
@@ -130,7 +132,7 @@ eval "$(atuin init zsh)"
 ################################################################
 # pnpm
 ################################################################
-export PNPM_HOME="/Users/grandis/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -143,7 +145,7 @@ esac
 export EDITOR=nvim
 export VISUAL=nvim
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:/Users/grandis/.composer/vendor/bin"
+export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -173,5 +175,15 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+
+################################################################
+## Atuin setup
+################################################################
 . "$HOME/.atuin/bin/env"
 
+
+################################################################
+## ATAC setup
+################################################################
+export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
+export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
