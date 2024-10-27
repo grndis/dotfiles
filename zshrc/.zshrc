@@ -125,7 +125,7 @@ alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 # eval "$(fzf --zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init --cmd cd zsh)"
-
+eval "$(atuin init zsh)"
 
 ################################################################
 # pnpm
@@ -172,3 +172,6 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+. "$HOME/.atuin/bin/env"
+
