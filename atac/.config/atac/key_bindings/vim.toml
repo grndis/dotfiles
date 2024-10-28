@@ -51,7 +51,7 @@ select = "Enter"
 
 # Collections list, query params, headers, cookies
 [keybindings.generic.list_and_table_actions]
-create_element = "n"
+create_element = "a"
 delete_element = "d"
 edit_element = "i" # Edit query param, header, basic auth, bearer token
 rename_element = "r" # Only used in the collections list (main menu)
@@ -64,7 +64,7 @@ change_url = "Shift-U"
 change_method = "Shift-M"
 request_settings = "Shift-S"
 
-next_view = "Shift-V"
+next_view = "f"
 
 send_request = "Space"
 alt_send_request = "Ctrl-Enter"
@@ -81,5 +81,5 @@ scroll_right = "l"
 
 yank_response_part = "y" # Used to yank the current result tab (e.g. body, headers, cookies)
 
-result_next_tab = "Ctrl-t" # Will use param_next_tab depending on the selected view
+result_next_tab = "t" # Will use param_next_tab depending on the selected view
 
