@@ -2,4 +2,5 @@
 
 return {
   { "rcarriga/nvim-notify", enabled = false },
+  { "akinsho/toggleterm", enabled = false },
 }
