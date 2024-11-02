@@ -67,8 +67,15 @@ style = "bg:#394260"
 format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
 
 [git_status]
+format = "[[$conflicted](yellow bg:#394260)[$untracked](fg:#a0a9cb bg:#394260)[$modified$renamed](bg:#394260)[$staged](green bg:#394260)[$deleted](red bg:#394260)($ahead_behind$stashed)]($style)"
+conflicted = " $count "
+untracked = " $count "
+modified = " $count "
+deleted = " $count "
+staged = " $count "
+renamed = " $count "
+stashed = " $count "
 style = "bg:#394260"
-format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
 
 [nodejs]
 symbol = ""
