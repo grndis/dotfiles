@@ -2,5 +2,6 @@
 
 return {
   { "rcarriga/nvim-notify", enabled = false },
-  { "akinsho/toggleterm", enabled = false },
+  { "akinsho/toggleterm.nvim", enabled = false },
+  { "max397574/better-escape.nvim", enabled = false },
 }
