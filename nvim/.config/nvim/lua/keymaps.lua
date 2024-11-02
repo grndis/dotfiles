@@ -11,26 +11,26 @@ vim.keymap.set("n", "<leader>ta", function() require("utils.atac").open_atac() e
 vim.keymap.set("n", "<leader>r", ":checktime<CR>", { silent = true, desc = "Reload" })
 vim.keymap.set(
   "n",
-  "<leader>as",
+  "<leader>aa",
   "<cmd>CodeCompanionActions<cr>",
   { noremap = true, silent = true, desc = "AI Actions" }
 )
 vim.keymap.set(
   "v",
-  "<leader>as",
+  "<leader>aa",
   "<cmd>CodeCompanionActions<cr>",
   { noremap = true, silent = true, desc = "AI Actions" }
 )
 
 vim.keymap.set(
   "n",
-  "<leader>aa",
+  "<leader>ai",
   "<cmd>CodeCompanionChat Toggle<cr>",
   { noremap = true, silent = true, desc = "AI Chat" }
 )
 vim.keymap.set(
   "v",
-  "<leader>aa",
+  "<leader>ai",
   "<cmd>CodeCompanionChat Toggle<cr>",
   { noremap = true, silent = true, desc = "AI Chat" }
 )

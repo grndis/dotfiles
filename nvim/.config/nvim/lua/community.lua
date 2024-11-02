@@ -8,6 +8,7 @@
 return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.search.grug-far-nvim" },
+  -- { import = "astrocommunity.bars-and-lines.bufferline-nvim" },
   -- { import = "astrocommunity.pack.lua" },
   -- { import = "astrocommunity.recipes.heirline-mode-text-statusline" },
   -- { import = "astrocommunity.editing-support.conform-nvim" },
