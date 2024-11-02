@@ -15,7 +15,6 @@ $golang\
 $php\
 [](fg:#212736 bg:#1d2230)\
 $time\
-[\u200B](fg:#1d2230)\
 \n$character"""
 
 add_newline = true
@@ -99,7 +98,7 @@ format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
 
 [time]
 disabled = false
-time_format = "%R" # Hour:Minute Format
+time_format = "%R"
 style = "bg:#333844"
 format = '[[  $time ](fg:#a0a9cb bg:#333844)]($style)'
 
