@@ -51,6 +51,6 @@ vim.cmd [[cab cc CodeCompanion]]
 
 local wk = require "which-key"
 wk.add {
-  { "<leader>a", group = "󰚩 AI" },
+  { "<leader>a", group = " AI" },
   { "<leader>t", group = " Terminal" },
 }
