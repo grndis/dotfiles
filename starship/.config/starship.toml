@@ -78,7 +78,7 @@ stashed = "󰪥 $count "
 up_to_date = " 󰄳 "
 ahead = " [󰳡 $count](yellow bg:#4c546f) "
 behind = " [󰳛 $count](green bg:#4c546f) "
-diverged = " [󰁝$ahead_count](yellow bg:#4c546f) [󰁅${behind_count}](green bg:#4c546f) "
+diverged = " [󰁝$ahead_count](yellow bg:#4c546f) [󰳛${behind_count}](green bg:#4c546f) "
 style = "fg:#a0a9cb bg:#394260"
 
 [nodejs]
