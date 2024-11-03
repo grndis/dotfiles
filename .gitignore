@@ -1,4 +1,3 @@
 .DS_Store
-tmux/.config/tmux/plugins/*
-/tmux/.config/tmux/plugins/*
+
 launch_configurations
