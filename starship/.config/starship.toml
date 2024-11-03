@@ -66,19 +66,19 @@ style = "bg:#394260"
 format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
 
 [git_status]
-format ="[$all_status[$ahead_behind](fg:#dddddd bg:#4c546f)]($style)"
-# format = "[[$conflicted](yellow bg:#394260)($untracked$modified$renamed)[$staged](green bg:#394260)[$deleted](red bg:#394260)($stashed)[$ahead_behind](fg:#dddddd bg:#4c546f)]($style)"
+format ="[$all_status[$ahead_behind](fg:#dddddd bg:#394260)]($style)"
+# format = "[[$conflicted](yellow bg:#394260)($untracked$modified$renamed)[$staged](green bg:#394260)[$deleted](red bg:#394260)($stashed)[$ahead_behind](fg:#dddddd bg:#394260)]($style)"
 conflicted = "[ $count ](yellow bg:#394260)"
 staged = "[ $count ](green bg:#394260)"
 deleted = "[󰍶 $count ](red bg:#394260)"
 untracked = " $count "
 modified = " $count "
 renamed = " $count "
-stashed = "󰪥 $count "
-up_to_date = "[  ](green bg:#4c546f)"
-ahead = " [󰁝$count](yellow bg:#4c546f) "
-behind = " [󰁅$count](green bg:#4c546f) "
-diverged = " [󰁝$ahead_count](yellow bg:#4c546f) [󰁅${behind_count}](green bg:#4c546f) "
+stashed = "󰓏 $count "
+up_to_date = "[ ](green bg:#394260)"
+ahead = "[󰁝$count](yellow bg:#394260) "
+behind = "[󰁅$count](green bg:#394260) "
+diverged = "[󰁝$ahead_count](yellow bg:#394260) [󰁅${behind_count}](green bg:#394260) "
 style = "fg:#a0a9cb bg:#394260"
 
 [nodejs]
