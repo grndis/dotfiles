@@ -20,6 +20,9 @@ blur = true
 
 option_as_alt = "Both"
 
+[mouse]
+hide_when_typing = true
+
 [font]
 normal.family = "Liga SFMono Nerd Font" 
 normal.style= "Regular"
