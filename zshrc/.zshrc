@@ -186,3 +186,13 @@ function y() {
 ################################################################
 export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
+
+
+# Function to get API key from Keychain
+function get_api_key() {
+    security find-generic-password -a ${USER} -s "$1" -w
+}
+
+# Export the API key
+export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
+
