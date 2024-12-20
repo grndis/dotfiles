@@ -115,6 +115,7 @@ return {
           any = {
             { event = "msg_show", kind = "" },
             { event = "notify", find = "Reloading" },
+            { event = "notify", find = "Minuet" },
             { event = "msg_show", kind = "emsg", find = "E%d+:" },
             { event = "msg_show", kind = "", find = "E382:" },
           },

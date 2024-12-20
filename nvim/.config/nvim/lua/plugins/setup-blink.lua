@@ -77,6 +77,7 @@ return {
           module = "blink-cmp-copilot",
           score_offset = 100,
           async = true,
+          min_keyword_length = 0,
           transform_items = function(_, items)
             local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
             local kind_idx = #CompletionItemKind + 1
