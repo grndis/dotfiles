@@ -59,7 +59,7 @@ return {
         minuet = {
           name = "minuet",
           module = "minuet.blink",
-          score_offset = 100,
+          score_offset = 90,
           min_keyword_length = 0,
           async = true,
           transform_items = function(_, items)
