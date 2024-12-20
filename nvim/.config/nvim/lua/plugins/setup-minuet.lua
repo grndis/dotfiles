@@ -1,3 +1,5 @@
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 return {
   {
     "milanglacier/minuet-ai.nvim",
@@ -42,7 +44,7 @@ return {
           },
           optional = {
             generationConfig = {
-              maxOutputTokens = 256,
+              maxOutputTokens = 512,
               temperature = 0.2,
               topP = 0.95,
               topK = 40,

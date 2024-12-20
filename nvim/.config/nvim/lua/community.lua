@@ -16,7 +16,7 @@ return {
   -- { import = "astrocommunity.completion.copilot-cmp" },
   { import = "astrocommunity.completion.cmp-tmux" },
   -- { import = "astrocommunity.completion.magazine-nvim" },
-  { import = "astrocommunity.completion.blink-cmp" },
+  -- { import = "astrocommunity.completion.blink-cmp" },
   -- { import = "astrocommunity.completion.codeium-nvim" },
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.pack.lua" },
