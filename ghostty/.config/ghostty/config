@@ -1,13 +1,16 @@
 mouse-hide-while-typing = true
-window-decoration = false
+macos-titlebar-style = hidden
 window-colorspace = display-p3
 window-save-state = always
 confirm-close-surface = false
 shell-integration = zsh
 
+macos-icon =  custom-style
+macos-icon-frame = beige
+macos-icon-screen-color = #000000
+
 font-size = 15
 adjust-cell-height = 10
-
 
 palette = 0=#15161e
 palette = 1=#f7768e
