@@ -30,8 +30,8 @@ return {
       -- Blink does not expose its default kind icons so you must copy them all (or set your custom ones) and add Copilot
       kind_icons = {
         Copilot = "",
-        Minuet = "",
-        Codium = "󰚩",
+        Codium = "",
+        Minuet = "󰚩",
         Text = "󰉿",
         Method = "󰊕",
         Function = "󰊕",
@@ -70,7 +70,7 @@ return {
         codeium = {
           name = "codeium",
           module = "blink.compat.source",
-          score_offset = 80,
+          score_offset = -80,
           async = true,
           min_keyword_length = 0,
           transform_items = function(_, items)
@@ -86,7 +86,7 @@ return {
         minuet = {
           name = "minuet",
           module = "minuet.blink",
-          score_offset = 90,
+          score_offset = -90,
           min_keyword_length = 0,
           async = true,
           transform_items = function(_, items)
@@ -102,7 +102,7 @@ return {
         copilot = {
           name = "copilot",
           module = "blink-cmp-copilot",
-          score_offset = 100,
+          score_offset = -100,
           async = true,
           min_keyword_length = 0,
           transform_items = function(_, items)
@@ -156,9 +156,35 @@ return {
       },
     },
     completion = {
+      ghost_text = { enabled = true },
       menu = {
         border = "rounded",
         winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        draw = {
+          columns = { { "kind_icon" }, { "label", gap = 1 } },
+          components = {
+            label = {
+              width = { fill = true, max = 60 },
+              text = function(ctx)
+                local highlights_info = require("colorful-menu").blink_highlights(ctx)
+                if highlights_info ~= nil then
+                  return highlights_info.label
+                else
+                  return ctx.label
+                end
+              end,
+              highlight = function(ctx)
+                local highlights = {}
+                local highlights_info = require("colorful-menu").blink_highlights(ctx)
+                if highlights_info ~= nil then highlights = highlights_info.highlights end
+                for _, idx in ipairs(ctx.label_matched_indices) do
+                  table.insert(highlights, { idx, idx + 1, group = "BlinkCmpLabelMatch" })
+                end
+                return highlights
+              end,
+            },
+          },
+        },
       },
       accept = {
         auto_brackets = { enabled = true },
