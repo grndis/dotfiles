@@ -9,6 +9,10 @@ macos-icon =  custom-style
 macos-icon-frame = beige
 macos-icon-screen-color = #000000
 
+keybind = ctrl+m=text:\x0D
+keybind = ctrl+i=text:\x09
+keybind = ctrl+[=text:\x1B
+
 font-size = 15
 adjust-cell-height = 10
 
