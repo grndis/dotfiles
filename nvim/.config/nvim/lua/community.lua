@@ -42,6 +42,7 @@ return {
   { import = "astrocommunity.motion.nvim-spider" },
   { import = "astrocommunity.motion.nvim-tree-pairs" },
   { import = "astrocommunity.motion.vim-matchup" },
+  { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
   -- { import = "astrocommunity.editing-support.undotree" },
   -- { import = "astrocommunity.colorscheme.github-nvim-theme" },
   -- { import = "astrocommunity.keybinding.nvcheatsheet-nvim" },
