@@ -15,13 +15,13 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
     { "saghen/blink.compat", opts = { enable_events = true } },
-    {
-      "Exafunction/codeium.nvim",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-      },
-      opts = {},
-    },
+    -- {
+    --   "Exafunction/codeium.nvim",
+    --   dependencies = {
+    --     "nvim-lua/plenary.nvim",
+    --   },
+    --   opts = {},
+    -- },
   },
   opts_extend = { "sources.default", "sources.cmdline" },
   opts = {
@@ -65,24 +65,24 @@ return {
       },
     },
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "copilot", "codeium" },
+      default = { "lsp", "path", "snippets", "buffer", "copilot" },
       providers = {
-        codeium = {
-          name = "codeium",
-          module = "blink.compat.source",
-          score_offset = -80,
-          async = true,
-          min_keyword_length = 0,
-          transform_items = function(_, items)
-            local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-            local kind_idx = #CompletionItemKind + 1
-            CompletionItemKind[kind_idx] = "Codium"
-            for _, item in ipairs(items) do
-              item.kind = kind_idx
-            end
-            return items
-          end,
-        },
+        -- codeium = {
+        --   name = "codeium",
+        --   module = "blink.compat.source",
+        --   score_offset = -80,
+        --   async = true,
+        --   min_keyword_length = 0,
+        --   transform_items = function(_, items)
+        --     local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+        --     local kind_idx = #CompletionItemKind + 1
+        --     CompletionItemKind[kind_idx] = "Codium"
+        --     for _, item in ipairs(items) do
+        --       item.kind = kind_idx
+        --     end
+        --     return items
+        --   end,
+        -- },
         -- minuet = {
         --   name = "minuet",
         --   module = "minuet.blink",
