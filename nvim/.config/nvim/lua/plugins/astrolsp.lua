@@ -20,7 +20,7 @@ return {
     -- customize lsp formatting options
     formatting = {
       filter = function(client)
-        if vim.bo.filetype == "php" then return client.name == "null-ls" end
+        -- if vim.bo.filetype == "php" then return client.name == "null-ls" end
         if vim.bo.filetype == "vue" then return client.name == "null-ls" end
         return true
       end,
