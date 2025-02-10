@@ -196,3 +196,6 @@ function get_api_key() {
 # Export the API key
 export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
 
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/grandis/.cache/lm-studio/bin"
