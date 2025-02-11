@@ -7,7 +7,8 @@ local augroup = vim.api.nvim_create_augroup("CustomMessages", { clear = true })
 vim.api.nvim_create_autocmd("BufWritePost", {
   group = augroup,
   pattern = "*",
-  callback = function() vim.api.nvim_echo({ { "[✔] Saved ", "Normal" } }, false, {}) end,
+  -- callback = function() vim.api.nvim_echo({ { "[✔] Saved ", "Normal" } }, false, {}) end,
+  callback = function() vim.api.nvim_echo({ { "    ", "Normal" } }, false, {}) end,
 })
 
 -- Autocommand for yanking (copying) text
@@ -21,7 +22,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
       vim.highlight.on_yank { higroup = "IncSearch", timeout = 200 }
 
       -- Print a message indicating text was copied
-      vim.api.nvim_echo({ { "[✔] Copied ", "Normal" } }, false, {})
+      -- vim.api.nvim_echo({ { "[✔] Copied ", "Normal" } }, false, {})
+      vim.api.nvim_echo({ { "    ", "Normal" } }, false, {})
     end
   end,
 })
@@ -50,7 +52,11 @@ map_with_message("n", "u", "undo", "[↩] Undo ", true)
 map_with_message("n", "<C-r>", "redo", "[↪] Redo ", true)
 
 -- Set up keymaps for paste without undo state check
-map_with_message("n", "p", "normal! p", "[✔] Pasted ", false)
-map_with_message("n", "P", "normal! P", "[✔] Pasted ", false)
-map_with_message("v", "p", "normal! p", "[✔] Pasted ", false)
-map_with_message("v", "P", "normal! P", "[✔] Pasted ", false)
+-- map_with_message("n", "p", "normal! p", "[✔] Pasted ", false)
+-- map_with_message("n", "P", "normal! P", "[✔] Pasted ", false)
+-- map_with_message("v", "p", "normal! p", "[✔] Pasted ", false)
+-- map_with_message("v", "P", "normal! P", "[✔] Pasted ", false)
+map_with_message("n", "p", "normal! p", "  󰢨  ", false)
+map_with_message("n", "P", "normal! P", "  󰢨  ", false)
+map_with_message("v", "p", "normal! p", "  󰢨  ", false)
+map_with_message("v", "P", "normal! P", "  󰢨  ", false)
