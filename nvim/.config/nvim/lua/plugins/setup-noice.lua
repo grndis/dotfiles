@@ -29,6 +29,16 @@ return {
     notify = {
       enabled = false,
     },
+    cmdline = {
+      format = {
+        search_down = {
+          view = "cmdline",
+        },
+        search_up = {
+          view = "cmdline",
+        },
+      },
+    },
     routes = {
       {
         filter = {
@@ -114,10 +124,15 @@ return {
         filter = {
           any = {
             { event = "msg_show", kind = "" },
-            { event = "notify", find = "Reloading" },
-            { event = "notify", find = "Minuet" },
-            { event = "msg_show", kind = "emsg", find = "E%d+:" },
-            { event = "msg_show", kind = "", find = "E382:" },
+            { event = "notify", kind = "" },
+            -- { event = "notify", find = "Reloading" },
+            -- { event = "notify", find = "Minuet" },
+            -- { event = "msg_show", kind = "emsg", find = "E%d+:" },
+            -- { event = "msg_show", kind = "", find = "E382:" },
+            { error = true },
+            { warning = true },
+            { event = "lsp" },
+            -- { event = "none-ls" },
           },
         },
         opts = {

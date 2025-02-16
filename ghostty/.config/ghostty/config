@@ -5,9 +5,11 @@ window-save-state = always
 confirm-close-surface = false
 shell-integration = zsh
 
-macos-icon =  custom-style
-macos-icon-frame = beige
-macos-icon-screen-color = #000000
+macos-icon = custom-style
+macos-icon-frame = aluminum
+macos-icon-ghost-color = #283457
+macos-icon-screen-color = #0a0912
+
 
 keybind = ctrl+m=text:\x0D
 keybind = ctrl+i=text:\x09
