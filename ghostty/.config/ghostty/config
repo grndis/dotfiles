@@ -5,7 +5,7 @@ window-save-state = always
 confirm-close-surface = false
 shell-integration = zsh
 
-macos-icon = custom-style
+macos-icon = xray
 macos-icon-frame = aluminum
 macos-icon-ghost-color = #283457
 macos-icon-screen-color = #0a0912
