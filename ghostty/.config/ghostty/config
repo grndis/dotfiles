@@ -16,6 +16,7 @@ keybind = ctrl+i=text:\x09
 keybind = ctrl+[=text:\x1B
 keybind = global:ctrl+;=toggle_quick_terminal
 
+font-family = "Geist Mono"
 font-size = 15
 adjust-cell-height = 10
 
