@@ -8,6 +8,7 @@
 return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.search.grug-far-nvim" },
+  { import = "astrocommunity.file-explorer.oil-nvim" },
   -- { import = "astrocommunity.bars-and-lines.bufferline-nvim" },
   -- { import = "astrocommunity.pack.lua" },
   -- { import = "astrocommunity.recipes.heirline-mode-text-statusline" },
@@ -21,7 +22,7 @@ return {
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.git.diffview-nvim" },
-  { import = "astrocommunity.git.neogit" },
+  -- { import = "astrocommunity.git.neogit" },
   -- { import = "astrocommunity.pack.vue" },
   -- { import = "astrocommunity.pack.php" },
   { import = "astrocommunity.pack.blade" },
