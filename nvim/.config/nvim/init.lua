@@ -15,6 +15,12 @@ if not pcall(require, "lazy") then
   vim.cmd.quit()
 end
 
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
+
 require "lazy_setup"
 require "filetype"
 require "notification"

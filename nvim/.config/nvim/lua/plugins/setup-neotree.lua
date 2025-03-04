@@ -25,4 +25,19 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("neo-tree").setup(opts)
+
+    -- Function to auto-refresh NeoTree when files change
+    local function refresh_neotree()
+      local events = require "neo-tree.events"
+      events.fire_event(events.GIT_EVENT)
+    end
+
+    -- Set up an autocmd to call the refresh function
+    vim.api.nvim_create_autocmd({ "BufWritePost", "FocusGained" }, {
+      callback = function() refresh_neotree() end,
+      desc = "Refresh NeoTree when files change",
+    })
+  end,
 }

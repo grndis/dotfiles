@@ -7,8 +7,10 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+  { import = "astrocommunity.recipes.neo-tree-dark" },
+  { import = "astrocommunity.recipes.cache-colorscheme" },
   { import = "astrocommunity.search.grug-far-nvim" },
-  { import = "astrocommunity.file-explorer.oil-nvim" },
+  -- { import = "astrocommunity.file-explorer.oil-nvim" },
   -- { import = "astrocommunity.bars-and-lines.bufferline-nvim" },
   -- { import = "astrocommunity.pack.lua" },
   -- { import = "astrocommunity.recipes.heirline-mode-text-statusline" },
