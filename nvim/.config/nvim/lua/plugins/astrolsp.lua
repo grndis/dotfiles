@@ -1,4 +1,4 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
@@ -12,12 +12,20 @@ return {
   opts = {
     -- Configuration table of features provided by AstroLSP
     features = {
+      autoformat = false, -- enable or disable auto formatting on start
       codelens = true, -- enable/disable codelens refresh on start
       inlay_hints = false, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
     },
     -- customize lsp formatting options
     formatting = {
+      filter = function(client)
+        vim.lsp.buf.format { filter = require("wordpress").null_ls_formatter }
+
+        -- if vim.bo.filetype == "php" then return client.name == "null-ls" end
+        if vim.bo.filetype == "vue" then return client.name == "null-ls" end
+        return true
+      end,
       -- control auto formatting on save
       format_on_save = {
         enabled = true, -- enable or disable format on save globally
@@ -31,8 +39,9 @@ return {
       disabled = { -- disable formatting capabilities for the listed language servers
         -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
         -- "lua_ls",
+        -- "intelphense",
       },
-      timeout_ms = 1000, -- default format timeout
+      timeout_ms = 5000, -- default format timeout
       -- filter = function(client) -- fully override the default formatting function
       --   return true
       -- end
@@ -48,6 +57,97 @@ return {
     },
     -- customize how language servers are attached
     handlers = {
+      intelephense = function()
+        require("lspconfig").intelephense.setup {
+          -- on_attach = function(client, bufnr)
+          -- Disable Intelephense's formatting capabilities
+          -- client.server_capabilities.documentFormattingProvider = false
+          -- client.server_capabilities.documentRangeFormattingProvider = false
+
+          -- Your existing on_attach logic here...
+          -- end,
+          settings = {
+            intelephense = {
+              stubs = {
+                "apache",
+                "bcmath",
+                "bz2",
+                "calendar",
+                "com_dotnet",
+                "Core",
+                "ctype",
+                "curl",
+                "date",
+                "dba",
+                "dom",
+                "enchant",
+                "exif",
+                "FFI",
+                "fileinfo",
+                "filter",
+                "fpm",
+                "ftp",
+                "gd",
+                "gettext",
+                "gmp",
+                "hash",
+                "iconv",
+                "imap",
+                "intl",
+                "json",
+                "ldap",
+                "libxml",
+                "mbstring",
+                "meta",
+                "mysqli",
+                "oci8",
+                "odbc",
+                "openssl",
+                "pcntl",
+                "pcre",
+                "PDO",
+                "pdo_ibm",
+                "pdo_mysql",
+                "pdo_pgsql",
+                "pdo_sqlite",
+                "pgsql",
+                "Phar",
+                "posix",
+                "pspell",
+                "readline",
+                "Reflection",
+                "session",
+                "shmop",
+                "SimpleXML",
+                "snmp",
+                "soap",
+                "sockets",
+                "sodium",
+                "SPL",
+                "sqlite3",
+                "standard",
+                "superglobals",
+                "sysvmsg",
+                "sysvsem",
+                "sysvshm",
+                "tidy",
+                "tokenizer",
+                "xml",
+                "xmlreader",
+                "xmlrpc",
+                "xmlwriter",
+                "xsl",
+                "Zend OPcache",
+                "zip",
+                "zlib",
+                "wordpress",
+                "phpunit",
+              },
+              -- ...
+            },
+          },
+        }
+      end,
       -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
       -- function(server, opts) require("lspconfig")[server].setup(opts) end
 
