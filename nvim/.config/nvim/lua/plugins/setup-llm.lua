@@ -13,11 +13,18 @@ return {
         temperature = 0.3,
         top_p = 0.7,
 
-        prompt = "You are a helpful assistant.",
-
         prefix = {
-          user = { text = " ", hl = "Title" },
-          assistant = { text = " ", hl = "Added" },
+          user = { text = "  ", hl = "Title" },
+          assistant = { text = "  ", hl = "Added" },
+        },
+
+        spinner = {
+          text = {
+            "󰧞󰧞",
+            "󰧞󰧞",
+            "󰧞󰧞",
+            "󰧞󰧞",
+          },
         },
 
         -- history_path = "/tmp/llm-history",
@@ -52,10 +59,6 @@ return {
           ["HalfPageDown"]      = { mode = {"i","n"}, key = "<C-d>" },
           ["JumpToTop"]         = { mode = "n", key = "gg" },
           ["JumpToBottom"]      = { mode = "n", key = "G" },
-        },
-        app_handler = {
-          -- Your AI tools Configuration
-          -- TOOL_NAME = { ... }
         },
       }
     end,
