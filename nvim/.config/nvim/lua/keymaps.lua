@@ -13,45 +13,45 @@ vim.keymap.set("n", "<leader>gg", function() require("utils.lazygit").open_lazyg
   desc = "LazyGit",
 })
 
-vim.keymap.set("n", "<leader>ta", function() require("utils.atac").open_atac() end, {
-  desc = "Open Atac",
-})
-
+-- vim.keymap.set("n", "<leader>ta", function() require("utils.atac").open_atac() end, {
+--   desc = "Open Atac",
+-- })
+--
 vim.keymap.set("n", "<leader>r", ":checktime<CR>", { silent = true, desc = "Reload" })
 
-vim.keymap.set(
-  "n",
-  "<leader>aa",
-  "<cmd>CodeCompanionActions<cr>",
-  { noremap = true, silent = true, desc = "AI Actions" }
-)
-vim.keymap.set(
-  "v",
-  "<leader>aa",
-  "<cmd>CodeCompanionActions<cr>",
-  { noremap = true, silent = true, desc = "AI Actions" }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>ai",
-  "<cmd>CodeCompanionChat Toggle<cr>",
-  { noremap = true, silent = true, desc = "AI Chat" }
-)
-
-vim.keymap.set(
-  "v",
-  "<leader>ai",
-  "<cmd>CodeCompanionChat Toggle<cr>",
-  { noremap = true, silent = true, desc = "AI Chat" }
-)
-
-vim.keymap.set("v", "<leader>ad", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true, desc = "AI Add" })
+-- vim.keymap.set(
+--   "n",
+--   "<leader>aa",
+--   "<cmd>CodeCompanionActions<cr>",
+--   { noremap = true, silent = true, desc = "AI Actions" }
+-- )
+-- vim.keymap.set(
+--   "v",
+--   "<leader>aa",
+--   "<cmd>CodeCompanionActions<cr>",
+--   { noremap = true, silent = true, desc = "AI Actions" }
+-- )
+--
+-- vim.keymap.set(
+--   "n",
+--   "<leader>ai",
+--   "<cmd>CodeCompanionChat Toggle<cr>",
+--   { noremap = true, silent = true, desc = "AI Chat" }
+-- )
+--
+-- vim.keymap.set(
+--   "v",
+--   "<leader>ai",
+--   "<cmd>CodeCompanionChat Toggle<cr>",
+--   { noremap = true, silent = true, desc = "AI Chat" }
+-- )
+--
+-- vim.keymap.set("v", "<leader>ad", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true, desc = "AI Add" })
 
 vim.keymap.set("n", "<leader>tt", '<CMD>lua require("FTerm").toggle()<CR>', { desc = "Open Terminal" })
 vim.keymap.set("t", "<leader>tt", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 -- Expand 'cc' into 'CodeCompanion' in the command line
-vim.cmd [[cab cc CodeCompanion]]
+-- vim.cmd [[cab cc CodeCompanion]]
 
 local wk = require "which-key"
 wk.add {
