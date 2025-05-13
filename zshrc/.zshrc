@@ -196,6 +196,7 @@ function get_api_key() {
 
 # Export the API key
 export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
+export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
 
 
 # Added by LM Studio CLI (lms)
