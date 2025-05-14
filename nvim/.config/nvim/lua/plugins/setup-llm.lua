@@ -18,16 +18,6 @@ return {
           user = { text = "  ", hl = "Title" },
           assistant = { text = "  ", hl = "Added" },
         },
-
-        spinner = {
-          text = {
-            "󰧞󰧞",
-            "󰧞󰧞",
-            "󰧞󰧞",
-            "󰧞󰧞",
-          },
-        },
-
         -- history_path = "/tmp/llm-history",
         save_session = true,
         max_history = 15,
