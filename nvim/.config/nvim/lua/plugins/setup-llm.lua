@@ -8,11 +8,19 @@ return {
       require("llm").setup {
         -- [[ Github Models ]]
         url = "https://models.inference.ai.azure.com/chat/completions",
-        model = "gpt-4o",
+        model = "gpt-4o-mini",
         api_type = "openai",
-        max_tokens = 4096,
         temperature = 0.3,
         top_p = 0.7,
+
+        spinner = {
+          text = {
+            "󰧞󰧞",
+            "󰧞󰧞",
+            "󰧞󰧞",
+            "󰧞󰧞",
+          },
+        },
 
         prefix = {
           user = { text = "  ", hl = "Title" },
@@ -73,9 +81,10 @@ return {
                     - Follow the format of examples carefully if the examples are provided.
                     - Use Markdown formatting in your answers.
                     - Include the programming language name at the start of the Markdown code blocks.]],
-            handler = tools.action_handler,
+            handler = tools.flexi_handler,
             opts = {
-              only_display_diff = true,
+              apply_visual_selection = true,
+              enter_flexible_window = true,
               templates = {
                 lua = [[- For the Lua language, you should use the LDoc style.
                       - Start all comment lines with "---".
