@@ -140,7 +140,7 @@ return {
                               %s
                               ```
                               ]],
-                vim.fn.system "git diff --no-ext-diff --staged"
+                vim.fn.system "git diff --no-ext-diff"
               )
             end,
 
