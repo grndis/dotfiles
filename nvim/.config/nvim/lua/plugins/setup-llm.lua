@@ -81,7 +81,7 @@ return {
                     - Follow the format of examples carefully if the examples are provided.
                     - Use Markdown formatting in your answers.
                     - Include the programming language name at the start of the Markdown code blocks.]],
-            handler = tools.flexi_handler,
+            handler = tools.action_handler,
             opts = {
               apply_visual_selection = true,
               enter_flexible_window = true,
