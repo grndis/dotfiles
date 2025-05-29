@@ -23,7 +23,7 @@ return {
   -- { import = "astrocommunity.completion.codeium-nvim" },
   { import = "astrocommunity.utility.noice-nvim" },
   { import = "astrocommunity.pack.lua" },
-  { import = "astrocommunity.git.diffview-nvim" },
+  -- { import = "astrocommunity.git.diffview-nvim" },
   { import = "astrocommunity.git.mini-diff" },
   -- { import = "astrocommunity.git.neogit" },
   -- { import = "astrocommunity.pack.vue" },
