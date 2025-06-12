@@ -9,9 +9,9 @@
 --   desc = "LazyGit",
 -- })
 --
--- vim.keymap.set("n", "<leader>gg", function() require("utils.lazygit").open_lazygit() end, {
---   desc = "LazyGit",
--- })
+vim.keymap.set("n", "<leader>gg", function() require("utils.lazygit").open_lazygit() end, {
+  desc = "LazyGit",
+})
 --
 -- vim.keymap.set("n", "<leader>ta", function() require("utils.atac").open_atac() end, {
 --   desc = "Open Atac",

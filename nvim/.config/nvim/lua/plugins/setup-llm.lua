@@ -1,3 +1,5 @@
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 return {
   {
     "Kurama622/llm.nvim",
@@ -146,6 +148,7 @@ return {
             opts = {
               enter_flexible_window = true,
               apply_visual_selection = false,
+              timeout = 15,
               win_opts = {
                 relative = "editor",
                 position = "50%",
