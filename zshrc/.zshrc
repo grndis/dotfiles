@@ -119,6 +119,7 @@ alias f='yazi'
 alias ls="eza --color=always --git --icons=always"
 alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 alias a='atac'
+alias z='zellij'
 
 
 ################################################################
