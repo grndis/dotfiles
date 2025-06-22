@@ -129,7 +129,7 @@ return {
             { event = "msg_show", kind = "" },
             { event = "notify", kind = "" },
             { event = "msg_show", kind = "echomsg" },
-            -- { event = "notify", find = "Reloading" },
+            { event = "notify", kind = "info" },
             -- { event = "notify", find = "Minuet" },
             -- { event = "msg_show", kind = "emsg", find = "E%d+:" },
             -- { event = "msg_show", kind = "", find = "E382:" },
