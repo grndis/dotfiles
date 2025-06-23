@@ -136,8 +136,16 @@ keybinds clear-defaults=true {
         bind "Ctrl a" { SwitchToMode "Tmux"; }
     }
     shared_except "locked" {
+        // bind "Ctrl t" {
+        //     LaunchOrFocusPlugin "file:~/.config/zellij/plugins/room.wasm" {
+        //         floating true
+        //         ignore_case true
+        //         quick_jump true
+        //     }
+        // }
+
         bind "Ctrl h" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "move_focus_or_tab";
                 payload "left";
 
@@ -147,7 +155,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Ctrl j" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "move_focus";
                 payload "down";
 
@@ -156,7 +164,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Ctrl k" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "move_focus";
                 payload "up";
 
@@ -165,7 +173,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Ctrl l" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "move_focus_or_tab";
                 payload "right";
 
@@ -174,7 +182,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Alt h" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "resize";
                 payload "left";
 
@@ -183,7 +191,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Alt j" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "resize";
                 payload "down";
 
@@ -192,7 +200,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Alt k" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "resize";
                 payload "up";
 
@@ -201,7 +209,7 @@ keybinds clear-defaults=true {
         }
 
         bind "Alt l" {
-            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
                 name "resize";
                 payload "right";
 
