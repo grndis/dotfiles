@@ -202,3 +202,4 @@ export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/grandis/.cache/lm-studio/bin"
+eval "$(zellij setup --generate-auto-start zsh)"
