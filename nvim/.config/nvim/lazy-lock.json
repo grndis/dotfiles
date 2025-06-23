@@ -80,5 +80,6 @@
   "vim-tmux-navigator": { "branch": "master", "commit": "412c474e97468e7934b9c217064025ea7a69e05e" },
   "vim-tmux-yank": { "branch": "master", "commit": "8432fd440f61ddead070093be06b3dd6b0b5790e" },
   "which-key.nvim": { "branch": "main", "commit": "fcbf4eea17cb299c02557d576f0d568878e354a4" },
-  "wordpress.nvim": { "branch": "main", "commit": "fbcbdd608c7431de63a24796b24c5ed5dc9f8aed" }
+  "wordpress.nvim": { "branch": "main", "commit": "fbcbdd608c7431de63a24796b24c5ed5dc9f8aed" },
+  "zellij-nav.nvim": { "branch": "main", "commit": "91cc2a642d8927ebde50ced5bf71ba470a0fc116" }
 }

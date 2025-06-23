@@ -46,6 +46,7 @@ keybinds clear-defaults=true {
         // bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "|" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
+        bind "=" { ToggleFloatingPanes; SwitchToMode "Normal"; }
 
         // Moving between tabs
         bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
