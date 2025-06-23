@@ -18,10 +18,10 @@ layout {
                 // comment: #565f89
                 // bg_highlight: #292e42
                 
-                format_left   "#[bg=#1a1b26,fg=#7aa2f7]█#[bg=#7aa2f7,fg=#323845,bold] #[bg=#292e42,fg=#7aa2f7,bold] {session} #[bg=#1a1b26,fg=#292e42,bold]#[bg=#1a1b26] {tabs}"
+                format_left   "{mode}#[bg=#323845,fg=#a0aed5,bold] {session} #[bg=#1a1b26,fg=#292e42,bold]#[bg=#1a1b26] {tabs}"
                 format_center ""
-                format_right  "{mode}"
-                format_space  ""
+                format_right  ""
+                format_space  "#[bg=#181825]"
                 format_hide_on_overlength "true"
                 format_precedence "crl"
 
@@ -30,20 +30,20 @@ layout {
                 border_format   "#[fg=#565f89]{char}"
                 border_position "top"
 
-                mode_normal        "#[bg=#6EA3FE,fg=#323845,bold] NORMAL#[bg=#1a1b26,fg=#6EA3FE]█"
-                mode_locked        "#[bg=#545c7e,fg=#323845,bold] LOCKED #[bg=#1a1b26,fg=#545c7e]█"
-                mode_resize        "#[bg=#f7768e,fg=#323845,bold] RESIZE#[bg=#1a1b26,fg=#f7768e]█"
-                mode_pane          "#[bg=#7aa2f7,fg=#323845,bold] PANE#[bg=#1a1b26,fg=#7aa2f7]█"
-                mode_tab           "#[bg=#bb9af7,fg=#323845,bold] TAB#[bg=#1a1b26,fg=#bb9af7]█"
-                mode_scroll        "#[bg=#e0af68,fg=#323845,bold] SCROLL#[bg=#1a1b26,fg=#e0af68]█"
-                mode_enter_search  "#[bg=#7dcfff,fg=#323845,bold] ENT-SEARCH#[bg=#1a1b26,fg=#7dcfff]█"
-                mode_search        "#[bg=#7dcfff,fg=#323845,bold] SEARCH#[bg=#1a1b26,fg=#7dcfff]█"
-                mode_rename_tab    "#[bg=#bb9af7,fg=#323845,bold] RENAME-TAB#[bg=#1a1b26,fg=#bb9af7]█"
-                mode_rename_pane   "#[bg=#7aa2f7,fg=#323845,bold] RENAME-PANE#[bg=#1a1b26,fg=#7aa2f7]█"
-                mode_session       "#[bg=#7aa2f7,fg=#323845,bold] SESSION#[bg=#1a1b26,fg=#7aa2f7]█"
-                mode_move          "#[bg=#bb9af7,fg=#323845,bold] MOVE#[bg=#1a1b26,fg=#bb9af7]█"
-                mode_prompt        "#[bg=#7dcfff,fg=#323845,bold] PROMPT#[bg=#1a1b26,fg=#7dcfff]█"
-                mode_tmux          "#[bg=#ff9e64,fg=#323845,bold] TMUX#[bg=#1a1b26,fg=#ff9e64]█"
+                mode_normal        "#[bg=#A0AED5,fg=#000000,bold] "
+                mode_locked        "#[bg=#545c7e,fg=#A0AED5,bold] "
+                mode_resize        "#[bg=#f7768e,fg=#323845,bold] "
+                mode_pane          "#[bg=#7aa2f7,fg=#323845,bold] "
+                mode_tab           "#[bg=#bb9af7,fg=#323845,bold] "
+                mode_scroll        "#[bg=#e0af68,fg=#323845,bold] "
+                mode_enter_search  "#[bg=#7dcfff,fg=#323845,bold] "
+                mode_search        "#[bg=#7dcfff,fg=#323845,bold] "
+                mode_rename_tab    "#[bg=#bb9af7,fg=#323845,bold] "
+                mode_rename_pane   "#[bg=#7aa2f7,fg=#323845,bold] "
+                mode_session       "#[bg=#7aa2f7,fg=#323845,bold] "
+                mode_move          "#[bg=#bb9af7,fg=#323845,bold] "
+                mode_prompt        "#[bg=#7dcfff,fg=#323845,bold] "
+                mode_tmux          "#[bg=#6ea3fe,fg=#323845,bold] "
 
                 // formatting for inactive tabs (dimmed blue)
                 tab_normal              "#[bg=#1a1b26,fg=#545c7e]█#[bg=#545c7e,fg=#c0caf5,bold]{index} #[bg=#292e42,fg=#a9b1d6,bold] {name}{floating_indicator}#[bg=#1a1b26,fg=#292e42,bold]█"
@@ -56,7 +56,7 @@ layout {
                 tab_active_sync         "#[bg=#1a1b26,fg=#6EA3FE]█#[bg=#6EA3FE,fg=#323845,bold]{index} #[bg=#292e42,fg=#c0caf5,bold] {name}{sync_indicator}#[bg=#1a1b26,fg=#292e42,bold]█"
 
                 // separator between the tabs
-                tab_separator           "#[bg=#1a1b26] "
+                tab_separator           "#[bg=#1a1b26]"
 
                 // indicators
                 tab_sync_indicator       " "
@@ -64,7 +64,7 @@ layout {
                 tab_floating_indicator   " 󰹙"
 
                 command_git_branch_command     "git rev-parse --abbrev-ref HEAD"
-                command_git_branch_format      "#[fg=blue] {stdout} "
+                command_git_branch_format      "#[fg=#6ea3fe] {stdout} "
                 command_git_branch_interval    "10"
                 command_git_branch_rendermode  "static"
 
