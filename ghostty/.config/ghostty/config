@@ -14,7 +14,6 @@ macos-icon-screen-color = #0a0912
 keybind = ctrl+m=text:\x0D
 keybind = ctrl+i=text:\x09
 keybind = ctrl+[=text:\x1B
-keybind = global:ctrl+;=toggle_quick_terminal
 
 font-family = "Geist Mono"
 font-size = 15
