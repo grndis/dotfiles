@@ -1,9 +1,4 @@
 -- Configuration
-local targetApps = {
-	"com.raycast.macos",
-	"dev.warp.Warp-Stable",
-}
-
 local keyMappings = {
 	{ hotkey = { "ctrl" }, key = "m", replacement = "return", repeatable = false },
 	{ hotkey = { "ctrl" }, key = "i", replacement = "tab",    repeatable = false },
@@ -40,40 +35,8 @@ local function createHotkeys()
 	end
 end
 
-local function isTargetApp(bundleID)
-	for _, target in ipairs(targetApps) do
-		if bundleID == target then
-			return true
-		end
-	end
-	return false
-end
-
-local function isRaycastRunning()
-	local raycast = hs.application.find("com.raycast.macos")
-	return raycast ~= nil
-end
-
-local function shouldActivateHotkeys()
-	-- Check if we're in a target app window
-	local currentWindow = hs.window.focusedWindow()
-	if currentWindow then
-		local app = currentWindow:application()
-		if app and isTargetApp(app:bundleID()) then
-			return true
-		end
-	end
-
-	-- Check if Raycast is running and we're in a text field
-	if isRaycastRunning() and isInTextField then
-		return true
-	end
-
-	return false
-end
-
 local function updateHotkeyState()
-	if shouldActivateHotkeys() then
+	if isInTextField then
 		if #activeHotkeys == 0 then
 			createHotkeys()
 		end
@@ -85,57 +48,39 @@ local function updateHotkeyState()
 end
 
 -- Text field detection using accessibility events
-local function setupTextFieldWatcher()
-	if textFieldWatcher then
-		textFieldWatcher:stop()
-	end
+textFieldWatcher = hs.eventtap.new({
+	hs.eventtap.event.types.keyDown,
+	hs.eventtap.event.types.leftMouseDown,
+	hs.eventtap.event.types.rightMouseDown,
+}, function(event)
+	-- Small delay to let focus settle
+	hs.timer.doAfter(0.05, function()
+		local element = hs.axuielement.systemWideElement():attributeValue("AXFocusedUIElement")
+		local wasInTextField = isInTextField
 
-	textFieldWatcher = hs.eventtap.new({
-		hs.eventtap.event.types.keyDown,
-		hs.eventtap.event.types.leftMouseDown,
-		hs.eventtap.event.types.rightMouseDown,
-	}, function(event)
-		-- Small delay to let focus settle
-		hs.timer.doAfter(0.05, function()
-			local element = hs.axuielement.systemWideElement():attributeValue("AXFocusedUIElement")
-			local wasInTextField = isInTextField
+		if element then
+			local role = element:attributeValue("AXRole")
+			local subrole = element:attributeValue("AXSubrole")
 
-			if element then
-				local role = element:attributeValue("AXRole")
-				local subrole = element:attributeValue("AXSubrole")
+			-- Check if focused element is a text field
+			isInTextField = (
+				role == "AXTextField"
+				or role == "AXTextArea"
+				or role == "AXComboBox"
+				or subrole == "AXSearchField"
+				or role == "AXStaticText"
+			)
+		else
+			isInTextField = false
+		end
 
-				-- Check if focused element is a text field
-				isInTextField = (
-					role == "AXTextField"
-					or role == "AXTextArea"
-					or role == "AXComboBox"
-					or subrole == "AXSearchField"
-				)
-			else
-				isInTextField = false
-			end
-
-			-- Only update if text field state changed
-			if isInTextField ~= wasInTextField then
-				updateHotkeyState()
-			end
-		end)
-
-		return false -- Don't block the original event
+		-- Only update if text field state changed
+		if isInTextField ~= wasInTextField then
+			updateHotkeyState()
+		end
 	end)
 
-	textFieldWatcher:start()
-end
-
--- Window focus watcher (for regular apps)
-hs.window.filter.new():subscribe(hs.window.filter.windowFocused, function(window)
-	updateHotkeyState()
+	return false -- Don't block the original event
 end)
 
--- Setup text field detection
-setupTextFieldWatcher()
-
--- Handle initial state
-hs.timer.doAfter(0.5, function()
-	updateHotkeyState()
-end)
+textFieldWatcher:start()
