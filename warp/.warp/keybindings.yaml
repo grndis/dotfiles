@@ -1,2 +1,16 @@
 ---
+"pane_group:navigate_right": ctrl-right
+"pane_group:resize_right": ctrl-shift-H
+"pane_group:navigate_down": ctrl-down
+"pane_group:resize_up": ctrl-shift-K
+"pane_group:resize_left": ctrl-shift-L
+"pane_group:add_down": ctrl--
+"pane_group:navigate_left": ctrl-left
+"pane_group:add_right": ctrl-shift-|
 "input:open_completion_suggestions": tab
+"workspace:shift_focus_left": ctrl-l
+"pane_group:resize_down": ctrl-shift-J
+"pane_group:add_left": "ctrl-\\"
+"pane_group:add_up": ctrl-shift-_
+"pane_group:navigate_up": ctrl-up
+"workspace:shift_focus_right": ctrl-h
