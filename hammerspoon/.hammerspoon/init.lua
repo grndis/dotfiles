@@ -5,9 +5,9 @@ local targetApps = {
 }
 
 local keyMappings = {
-	{ key = "m", replacement = "return", repeatable = false },
-	{ key = "i", replacement = "tab", repeatable = false },
-	{ key = "h", replacement = "delete", repeatable = true },
+	{ hotkey = { "ctrl" }, key = "m", replacement = "return", repeatable = false },
+	{ hotkey = { "ctrl" }, key = "i", replacement = "tab", repeatable = false },
+	{ hotkey = { "ctrl" }, key = "h", replacement = "delete", repeatable = true },
 }
 
 -- Implementation
@@ -24,14 +24,14 @@ local function createHotkeys()
 	clearHotkeys()
 	for _, mapping in ipairs(keyMappings) do
 		local hotkey = mapping.repeatable
-				and hs.hotkey.bind({ "ctrl" }, mapping.key, function()
+				and hs.hotkey.bind(mapping.hotkey, mapping.key, function()
 					hs.eventtap.event.newKeyEvent({}, mapping.replacement, true):post()
 				end, function()
 					hs.eventtap.event.newKeyEvent({}, mapping.replacement, false):post()
 				end, function()
 					hs.eventtap.event.newKeyEvent({}, mapping.replacement, true):post()
 				end)
-			or hs.hotkey.bind({ "ctrl" }, mapping.key, function()
+			or hs.hotkey.bind(mapping.hotkey, mapping.key, function()
 				hs.eventtap.keyStroke({}, mapping.replacement)
 			end)
 		table.insert(activeHotkeys, hotkey)
