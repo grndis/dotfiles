@@ -100,6 +100,13 @@ keybinds clear-defaults=true {
         bind "k" { Resize "Increase Up"; }
         bind "j" { Resize "Increase Down"; }
 
+        // Move Pane
+        bind "H" { MovePane "Left"; }
+        bind "L" { MovePane "Right"; }
+        bind "K" { MovePane "Up"; }
+        bind "J" { MovePane "Down"; }
+
+
         // bind "o" { FocusNextPane; }
 
         bind "d" { Detach; }
