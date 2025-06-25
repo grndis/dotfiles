@@ -33,14 +33,14 @@ source "${ZINIT_HOME}/zinit.zsh"
 ################################################################
 # Zinit Plugins
 ################################################################
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 zinit ice lucid wait
 zinit snippet OMZP::fzf
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
 
 
 ################################################################
@@ -198,8 +198,11 @@ function get_api_key() {
 # Export the API key
 export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
 export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
+export OPENAI_API_BASE=https://api.githubcopilot.com
+export OPENAI_API_KEY=$(get_api_key "COPILOT_TOKEN")
+
+# Aider config
+export AIDER_DARK_MODE=true
 
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/grandis/.cache/lm-studio/bin"
-eval "$(zellij setup --generate-auto-start zsh)"
+skip_global_compinit=1
