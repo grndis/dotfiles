@@ -38,8 +38,11 @@ zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 zinit ice lucid wait
 zinit snippet OMZP::fzf
+zinit ice lucid
 zinit light zsh-users/zsh-syntax-highlighting
+zinit ice lucid
 zinit light zsh-users/zsh-completions
+zinit ice lucid
 zinit light zsh-users/zsh-autosuggestions
 
 
@@ -69,7 +72,13 @@ ZVM_VI_EDITOR='nvim'
 ################################################################
 # Load completions
 ################################################################
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+_compdump_path="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ ! -f "$_compdump_path" || "$HOME/.zshrc" -nt "$_compdump_path" ]]; then
+  compinit -d "$_compdump_path"
+else
+  compinit -C -d "$_compdump_path"
+fi
 zinit cdreplay -q
 
 
@@ -150,8 +159,28 @@ export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config"
 
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy load nvm
+lazynvm() {
+  unset -f nvm node npm
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+
+nvm() {
+  lazynvm
+  nvm "$@"
+}
+
+node() {
+  lazynvm
+  node "$@"
+}
+
+npm() {
+  lazynvm
+  npm "$@"
+}
 
 ################################################################
 ## Pyenv setup
@@ -160,7 +189,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init --no-rehash -)"
 fi
 
 
@@ -200,6 +229,7 @@ export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
 export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
 export OPENAI_API_BASE=https://api.githubcopilot.com
 export OPENAI_API_KEY=$(get_api_key "COPILOT_TOKEN")
+export COPILOT_TOKEN=$(get_api_key "COPILOT_TOKEN")
 
 # Aider config
 export AIDER_DARK_MODE=true
