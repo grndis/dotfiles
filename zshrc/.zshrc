@@ -134,30 +134,35 @@ alias z='zellij'
 ################################################################
 # Shell integrations
 ################################################################
-# eval "$(fzf --zsh)"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(atuin init zsh)"
 
 ################################################################
-# pnpm
-################################################################
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-
-################################################################
 # Export PATH
 ################################################################
+# Function to get API key from Keychain, suppressing errors
+function get_api_key() {
+    security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
+}
+
+export PNPM_HOME="$HOME/Library/pnpm"
 export EDITOR=nvim
 export VISUAL=nvim
+export PYENV_ROOT="$HOME/.pyenv"
+export XDG_CONFIG_HOME="$HOME/.config"
+export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
+export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
+export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
+export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
+export OPENAI_API_BASE=https://api.githubcopilot.com
+export OPENAI_API_KEY=$(get_api_key "COPILOT_TOKEN")
+export COPILOT_TOKEN=$(get_api_key "COPILOT_TOKEN")
+export AIDER_DARK_MODE=true
+export PATH="$PNPM_HOME:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
-export XDG_CONFIG_HOME="$HOME/.config"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 # Lazy load nvm
 lazynvm() {
@@ -185,9 +190,6 @@ npm() {
 ################################################################
 ## Pyenv setup
 ################################################################
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --no-rehash -)"
 fi
@@ -196,43 +198,12 @@ fi
 ################################################################
 ## Yazi setup
 ################################################################
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+y() {
+  local cwd
+  cwd=$(yazi "$@" --cwd-file=-)
+  if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd -- "$cwd"
+  fi
 }
-
-
-################################################################
-## Atuin setup
-################################################################
-# . "$HOME/.atuin/bin/env"
-
-
-################################################################
-## ATAC setup
-################################################################
-export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
-export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
-
-
-# Function to get API key from Keychain, suppressing errors
-function get_api_key() {
-    security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
-}
-
-# Export the API key
-export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
-export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
-export OPENAI_API_BASE=https://api.githubcopilot.com
-export OPENAI_API_KEY=$(get_api_key "COPILOT_TOKEN")
-export COPILOT_TOKEN=$(get_api_key "COPILOT_TOKEN")
-
-# Aider config
-export AIDER_DARK_MODE=true
-
 
 skip_global_compinit=1
