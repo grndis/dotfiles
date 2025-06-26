@@ -209,3 +209,16 @@ y() {
 }
 
 skip_global_compinit=1
+
+################################################################
+# AI CLI Configuration
+################################################################
+if command -v ai &> /dev/null; then
+    if [ ! -f ~/.ai-shell ]; then
+        echo "First time setup: Configuring ai..."
+        ai config set OPENAI_KEY="$OPENAI_KEY"
+        ai config set OPENAI_API_ENDPOINT="$OPENAI_API_ENDPOINT"
+        touch ~/.ai-shell
+        echo "AI configuration completed."
+    fi
+fi
