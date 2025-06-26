@@ -190,9 +190,9 @@ export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 
 
-# Function to get API key from Keychain
+# Function to get API key from Keychain, suppressing errors
 function get_api_key() {
-    security find-generic-password -a ${USER} -s "$1" -w
+    security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
 }
 
 # Export the API key
