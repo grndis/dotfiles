@@ -38,8 +38,11 @@ zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 zinit ice lucid wait
 zinit snippet OMZP::fzf
+zinit ice lucid
 zinit light zsh-users/zsh-syntax-highlighting
+zinit ice lucid
 zinit light zsh-users/zsh-completions
+zinit ice lucid
 zinit light zsh-users/zsh-autosuggestions
 
 
@@ -69,7 +72,13 @@ ZVM_VI_EDITOR='nvim'
 ################################################################
 # Load completions
 ################################################################
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+_compdump_path="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ ! -f "$_compdump_path" || "$HOME/.zshrc" -nt "$_compdump_path" ]]; then
+  compinit -d "$_compdump_path"
+else
+  compinit -C -d "$_compdump_path"
+fi
 zinit cdreplay -q
 
 
@@ -125,84 +134,91 @@ alias z='zellij'
 ################################################################
 # Shell integrations
 ################################################################
-# eval "$(fzf --zsh)"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(atuin init zsh)"
 
 ################################################################
-# pnpm
-################################################################
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-
-################################################################
 # Export PATH
 ################################################################
+# Function to get API key from Keychain, suppressing errors
+function get_api_key() {
+    security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
+}
+
+export PNPM_HOME="$HOME/Library/pnpm"
 export EDITOR=nvim
 export VISUAL=nvim
+export PYENV_ROOT="$HOME/.pyenv"
+export XDG_CONFIG_HOME="$HOME/.config"
+export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
+export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
+export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
+export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
+export OPENAI_API_BASE=https://api.githubcopilot.com
+export OPENAI_API_KEY=$(get_api_key "COPILOT_TOKEN")
+export COPILOT_TOKEN=$(get_api_key "COPILOT_TOKEN")
+export OPENAI_KEY=$(get_api_key "COPILOT_TOKEN")
+export OPENAI_API_ENDPOINT=https://api.githubcopilot.com
+export AIDER_DARK_MODE=true
+export PATH="$PNPM_HOME:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
-export XDG_CONFIG_HOME="$HOME/.config"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Lazy load nvm
+lazynvm() {
+  unset -f nvm node npm
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+
+nvm() {
+  lazynvm
+  nvm "$@"
+}
+
+node() {
+  lazynvm
+  node "$@"
+}
+
+npm() {
+  lazynvm
+  npm "$@"
+}
 
 ################################################################
 ## Pyenv setup
 ################################################################
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init --no-rehash -)"
 fi
 
 
 ################################################################
 ## Yazi setup
 ################################################################
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+y() {
+  local cwd
+  cwd=$(yazi "$@" --cwd-file=-)
+  if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd -- "$cwd"
+  fi
 }
-
-
-################################################################
-## Atuin setup
-################################################################
-# . "$HOME/.atuin/bin/env"
-
-
-################################################################
-## ATAC setup
-################################################################
-export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
-export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
-
-
-# Function to get API key from Keychain, suppressing errors
-function get_api_key() {
-    security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
-}
-
-# Export the API key
-export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
-export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
-export OPENAI_API_BASE=https://api.githubcopilot.com
-export OPENAI_API_KEY=$(get_api_key "COPILOT_TOKEN")
-
-# Aider config
-export AIDER_DARK_MODE=true
-
 
 skip_global_compinit=1
+
+################################################################
+# AI CLI Configuration
+################################################################
+if command -v ai &> /dev/null; then
+    if [ ! -f ~/.ai-shell ]; then
+        echo "First time setup: Configuring ai..."
+        ai config set OPENAI_KEY="$OPENAI_KEY"
+        ai config set OPENAI_API_ENDPOINT="$OPENAI_API_ENDPOINT"
+        touch ~/.ai-shell
+        echo "AI configuration completed."
+    fi
+fi
