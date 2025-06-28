@@ -7,10 +7,10 @@ setopt globdots  #include hidden files in globbing
 ################################################################
 # MacOS Homebrew
 ################################################################
-if [[ -f "/opt/homebrew/bin/brew" ]] then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
+# if [[ -f "/opt/homebrew/bin/brew" ]] then
+#   eval "$(/opt/homebrew/bin/brew shellenv)"
+# fi
+#
 ################################################################
 # Starship
 ################################################################
@@ -80,7 +80,7 @@ else
   compinit -C -d "$_compdump_path"
 fi
 zinit cdreplay -q
-
+#
 
 ################################################################
 # Keybindings
@@ -130,7 +130,6 @@ alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 alias a='atac'
 alias z='zellij'
 
-
 ################################################################
 # Shell integrations
 ################################################################
@@ -141,9 +140,9 @@ eval "$(atuin init zsh)"
 # Export PATH
 ################################################################
 # Function to get API key from Keychain, suppressing errors
-function get_api_key() {
-    security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
-}
+# function get_api_key() {
+#     security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
+# }
 
 export PNPM_HOME="$HOME/Library/pnpm"
 export EDITOR=nvim
@@ -152,12 +151,12 @@ export PYENV_ROOT="$HOME/.pyenv"
 export XDG_CONFIG_HOME="$HOME/.config"
 export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
-export GEMINI_API_KEY=$(get_api_key "GEMINI_API_KEY")
-export LLM_KEY=$(get_api_key "GITHUB_TOKEN")
+export GEMINI_API_KEY=$(pass show Development/Gemini/GEMINI_API_KEY)
+export LLM_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
 export OPENAI_API_BASE=https://api.githubcopilot.com
-export OPENAI_API_KEY=$(get_api_key "COPILOT_TOKEN")
-export COPILOT_TOKEN=$(get_api_key "COPILOT_TOKEN")
-export OPENAI_KEY=$(get_api_key "COPILOT_TOKEN")
+export OPENAI_API_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
+export COPILOT_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
+export OPENAI_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
 export OPENAI_API_ENDPOINT=https://api.githubcopilot.com
 export AIDER_DARK_MODE=true
 export PATH="$PNPM_HOME:$PATH"
@@ -208,7 +207,7 @@ y() {
   fi
 }
 
-skip_global_compinit=1
+
 
 ################################################################
 # AI CLI Configuration
