@@ -222,3 +222,6 @@ if command -v ai &> /dev/null; then
         echo "AI configuration completed."
     fi
 fi
+
+# opencode
+export PATH=/Users/grandis/.opencode/bin:$PATH
