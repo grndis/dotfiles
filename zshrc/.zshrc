@@ -72,6 +72,18 @@ ZVM_VI_EDITOR='nvim'
 ################################################################
 # Load completions
 ################################################################
+# Zellij Completion Function
+_zellij() {
+    local -a sessions
+    if (( CURRENT == 3 && (words[2] == "a" || words[2] == "attach" || words[2] == "kill-session") )); then
+        # Get session names: strip color codes, then take the first column.
+        sessions=(${(f)"$(zellij ls 2>/dev/null | sed 's/\x1b\[[0-9;]*[mG]//g' | awk '{print $1}')"})
+        compadd -a sessions
+    elif (( CURRENT == 2 )); then
+        compadd "a" "attach" "ls" "list-sessions" "kill-session" "kill-all-sessions" "options"
+    fi
+}
+
 autoload -Uz compinit
 _compdump_path="${ZDOTDIR:-$HOME}/.zcompdump"
 if [[ ! -f "$_compdump_path" || "$HOME/.zshrc" -nt "$_compdump_path" ]]; then
@@ -80,6 +92,9 @@ else
   compinit -C -d "$_compdump_path"
 fi
 zinit cdreplay -q
+
+# Apply Zellij Completion
+compdef _zellij zellij z
 #
 
 ################################################################
@@ -224,4 +239,6 @@ if command -v ai &> /dev/null; then
 fi
 
 # opencode
-export PATH=/Users/grandis/.opencode/bin:$PATH
+export PATH=$HOME/.opencode/bin:$PATH
+
+
