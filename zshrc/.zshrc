@@ -14,7 +14,11 @@ setopt globdots  #include hidden files in globbing
 ################################################################
 # Starship
 ################################################################
-eval "$(starship init zsh)"
+# Initialize Starship only once per session
+if [[ -z "$_STARSHIP_INIT" ]]; then
+  eval "$(starship init zsh)"
+  _STARSHIP_INIT=1
+fi
 
 
 ################################################################
@@ -100,7 +104,7 @@ compdef _zellij zellij z
 ################################################################
 # Keybindings
 ################################################################
-bindkey -e
+# bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
