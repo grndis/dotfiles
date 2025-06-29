@@ -9,7 +9,7 @@ return {
       local tools = require "llm.common.tools"
       require("llm").setup {
         -- [[ Github Models ]]
-        url = "https://models.inference.ai.azure.com/chat/completions",
+        url = "https://api.githubcopilot.com/chat/completions",
         model = "gpt-4o-mini",
         api_type = "openai",
         temperature = 0.3,
