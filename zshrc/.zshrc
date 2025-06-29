@@ -153,11 +153,12 @@ export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 export GEMINI_API_KEY=$(pass show Development/Gemini/GEMINI_API_KEY)
 export LLM_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
-export OPENAI_API_BASE=https://api.githubcopilot.com
+export OPENAI_API_BASE=$(pass show url/openai_workers)
 export OPENAI_API_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
 export COPILOT_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
 export OPENAI_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
-export OPENAI_API_ENDPOINT=https://api.githubcopilot.com
+export COPILOT_API_ENDPOINT=$(pass show url/copilot_endpoint)
+export OPENAI_API_ENDPOINT=$(pass show url/openai_workers)
 export AIDER_DARK_MODE=true
 export PATH="$PNPM_HOME:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
@@ -215,8 +216,8 @@ y() {
 if command -v ai &> /dev/null; then
     if [ ! -f ~/.ai-shell ]; then
         echo "First time setup: Configuring ai..."
-        ai config set OPENAI_KEY="$OPENAI_KEY"
-        ai config set OPENAI_API_ENDPOINT="$OPENAI_API_ENDPOINT"
+        ai config set OPENAI_KEY="$COPILOT_TOKEN"
+        ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
         touch ~/.ai-shell
         echo "AI configuration completed."
     fi
