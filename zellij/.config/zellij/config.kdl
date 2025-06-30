@@ -83,7 +83,7 @@ keybinds clear-defaults=true {
         }; SwitchToMode "Locked";
         }
 
-        bind "S" "$" ";" {
+        bind "S" "$" "space" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
                 move_to_focused_tab true
@@ -128,7 +128,7 @@ keybinds clear-defaults=true {
 
         bind "d" { Detach; }
 
-        bind "Space" { NextSwapLayout; }
+        // bind "Space" { NextSwapLayout; }
 
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
     }
