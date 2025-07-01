@@ -10,7 +10,7 @@ return {
       require("llm").setup {
         -- [[ Github Models ]]
         url = "https://api.githubcopilot.com/chat/completions",
-        model = "gpt-4o-mini",
+        model = "gemini-2.5-pro",
         api_type = "openai",
         temperature = 0.3,
         top_p = 0.7,
