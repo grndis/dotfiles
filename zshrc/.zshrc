@@ -184,29 +184,32 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
 export PATH="$PYENV_ROOT/bin:$PATH"
-
+#
+# export NVM_DIR="$HOME/.config/nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
 # Lazy load nvm
-lazynvm() {
-  unset -f nvm node npm
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-}
-
-nvm() {
-  lazynvm
-  nvm "$@"
-}
-
-node() {
-  lazynvm
-  node "$@"
-}
-
-npm() {
-  lazynvm
-  npm "$@"
-}
+# lazynvm() {
+#   unset -f nvm node npm
+#   export NVM_DIR="$HOME/.nvm"
+#   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+#   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# }
+#
+# nvm() {
+#   lazynvm
+#   nvm "$@"
+# }
+#
+# node() {
+#   lazynvm
+#   node "$@"
+# }
+#
+# npm() {
+#   lazynvm
+#   npm "$@"
+# }
 
 ################################################################
 ## Pyenv setup
@@ -241,8 +244,5 @@ if command -v ai &> /dev/null; then
         echo "AI configuration completed."
     fi
 fi
-
-# opencode
-export PATH=$HOME/.opencode/bin:$PATH
 
 
