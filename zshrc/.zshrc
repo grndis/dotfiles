@@ -179,6 +179,7 @@ export OPENAI_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
 export COPILOT_API_ENDPOINT=$(pass show url/copilot_endpoint)
 export OPENAI_API_ENDPOINT=$(pass show url/openai_workers)
 export AIDER_DARK_MODE=true
+export AIDER_MODEL=gemini-2.5-pro
 export PATH="$PNPM_HOME:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
