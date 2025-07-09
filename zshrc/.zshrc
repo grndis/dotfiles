@@ -148,6 +148,7 @@ alias ls="eza --color=always --git --icons=always"
 alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 alias a='atac'
 alias z='zellij'
+alias code='ccr code'
 
 ################################################################
 # Shell integrations
@@ -178,6 +179,7 @@ export COPILOT_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
 export OPENAI_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
 export COPILOT_API_ENDPOINT=$(pass show url/copilot_endpoint)
 export OPENAI_API_ENDPOINT=$(pass show url/openai_workers)
+export ANTHROPIC_AUTH_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
 export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
 export PATH="$PNPM_HOME:$PATH"
@@ -244,6 +246,61 @@ if command -v ai &> /dev/null; then
         touch ~/.ai-shell
         echo "AI configuration completed."
     fi
+fi
+
+
+################################################################
+# Claude Code Router Configuration
+################################################################
+CLAUDE_CODE_ROUTER_CONFIG_DIR="$HOME/.claude-code-router"
+CLAUDE_CODE_ROUTER_CONFIG_FILE="$CLAUDE_CODE_ROUTER_CONFIG_DIR/config.json"
+
+if [ ! -f "$CLAUDE_CODE_ROUTER_CONFIG_FILE" ]; then
+  echo "Creating Claude Code Router config at $CLAUDE_CODE_ROUTER_CONFIG_FILE"
+  mkdir -p "$CLAUDE_CODE_ROUTER_CONFIG_DIR"
+  cat > "$CLAUDE_CODE_ROUTER_CONFIG_FILE" << EOF
+{
+  "LOG": false,
+  "OPENAI_API_KEY": "",
+  "OPENAI_BASE_URL": "",
+  "OPENAI_MODEL": "",
+  "Providers": [
+    {
+      "name": "gemini",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
+      "api_key": "$GEMINI_API_KEY",
+      "models": [
+        "gemini-2.5-pro",
+        "gemini-2.5-flash"
+      ],
+      "transformer": {
+        "use": ["gemini"]
+      }
+    },
+    {
+      "name": "copilot",
+      "api_base_url": "https://api.githubcopilot.com/chat/completions",
+      "api_key": "$COPILOT_TOKEN",
+      "models": [
+        "gemini-2.5-pro",
+        "claude-sonnet-4",
+        "gpt-4.1",
+        "gpt-4o",
+        "gpt-4o-mini"
+      ],
+      "transformer": {
+        "use": ["copilot"]
+      }
+    }
+  ],
+  "Router": {
+    "default": "gemini,gemini-2.5-flash",
+    "background": "gemini,gemini-2.5-flash",
+    "think": "gemini,gemini-2.5-pro",
+    "longContext": "gemini,gemini-2.5-pro"
+  }
+}
+EOF
 fi
 
 
