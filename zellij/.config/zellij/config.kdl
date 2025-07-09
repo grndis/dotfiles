@@ -217,7 +217,7 @@ keybinds clear-defaults=true {
 
         bind "Ctrl h" {
             MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus_or_tab";
+                name "move_focus";
                 payload "left";
 
                 // Plugin Configuration
@@ -245,7 +245,7 @@ keybinds clear-defaults=true {
 
         bind "Ctrl l" {
             MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus_or_tab";
+                name "move_focus";
                 payload "right";
 
                 move_mod "ctrl";
