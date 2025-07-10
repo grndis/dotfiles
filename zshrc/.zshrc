@@ -3,6 +3,14 @@
 ################################################################
 setopt globdots  #include hidden files in globbing
 
+# Increase function nesting limit to prevent starship/zvm conflicts
+FUNCNEST=1000
+
+################################################################
+# Early Performance Setup
+################################################################
+# Skip global compinit for faster startup
+skip_global_compinit=1
 
 ################################################################
 # MacOS Homebrew
@@ -10,16 +18,53 @@ setopt globdots  #include hidden files in globbing
 # if [[ -f "/opt/homebrew/bin/brew" ]] then
 #   eval "$(/opt/homebrew/bin/brew shellenv)"
 # fi
-#
-################################################################
-# Starship
-################################################################
-# Initialize Starship only once per session
-if [[ -z "$_STARSHIP_INIT" ]]; then
-  eval "$(starship init zsh)"
-  _STARSHIP_INIT=1
-fi
 
+################################################################
+# Environment Variables Cache
+################################################################
+# Cache expensive pass operations to avoid multiple external calls
+if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
+    echo "# Cached environment variables - regenerated when .zshrc changes" > ~/.zsh_env_cache
+    echo "export GEMINI_API_KEY=\"$(pass show Development/Gemini/GEMINI_API_KEY 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export LLM_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export OPENAI_API_BASE=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export OPENAI_API_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export API_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export COPILOT_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export OPENAI_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export OPENROUTER_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export LUMEN_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export COPILOT_API_ENDPOINT=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+fi
+source ~/.zsh_env_cache
+
+################################################################
+# Basic Environment Variables
+################################################################
+export PNPM_HOME="$HOME/Library/pnpm"
+export EDITOR=nvim
+export VISUAL=nvim
+export PYENV_ROOT="$HOME/.pyenv"
+export XDG_CONFIG_HOME="$HOME/.config"
+export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
+export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
+export AIDER_DARK_MODE=true
+export AIDER_MODEL=gemini-2.5-pro
+
+################################################################
+# PATH Setup
+################################################################
+path=(
+    "$PNPM_HOME"
+    "$HOME/.local/bin"
+    "$HOME/.composer/vendor/bin"
+    "/usr/local/elasticsearch/bin"
+    "$PYENV_ROOT/bin"
+    $path
+)
+export PATH
 
 ################################################################
 # Zinit
@@ -33,22 +78,28 @@ fi
 
 source "${ZINIT_HOME}/zinit.zsh"
 
-
 ################################################################
-# Zinit Plugins
+# Zinit Plugins - Optimized Loading Order
 ################################################################
-zinit light Aloxaf/fzf-tab
+# Load essential plugins immediately
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
-zinit ice lucid wait
-zinit snippet OMZP::fzf
-zinit ice lucid
-zinit light zsh-users/zsh-syntax-highlighting
-zinit ice lucid
-zinit light zsh-users/zsh-completions
-zinit ice lucid
-zinit light zsh-users/zsh-autosuggestions
 
+# Load interactive plugins with wait for faster startup
+zinit ice lucid wait'0a'
+zinit light Aloxaf/fzf-tab
+
+zinit ice lucid wait'0b'
+zinit snippet OMZP::fzf
+
+zinit ice lucid wait'0c'
+zinit light zsh-users/zsh-syntax-highlighting
+
+zinit ice lucid wait'0d'
+zinit light zsh-users/zsh-completions
+
+zinit ice lucid wait'0e' atload'_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
 
 ################################################################
 # ZVM Custom Config
@@ -57,6 +108,10 @@ ZVM_VI_ESCAPE_BINDKEY=^[
 ZVM_VI_SURROUND_BINDKEY='classic'
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
+
+# Starship integration - load after ZVM initialization
+zvm_after_init_commands+=('if command -v starship >/dev/null 2>&1; then eval "$(starship init zsh)"; fi')
+
 if [[ "$TERM" != "xterm-kitty" ]]; then
   local icur=$(zvm_cursor_style $ZVM_INSERT_MODE_CURSOR)
   local ncur=$(zvm_cursor_style $ZVM_NORMAL_MODE_CURSOR)
@@ -74,41 +129,69 @@ ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
 
 ################################################################
-# Load completions
+# Lazy Loading Functions
 ################################################################
-# Zellij Completion Function
-_zellij() {
-    local -a sessions
-    if (( CURRENT == 3 && (words[2] == "a" || words[2] == "attach" || words[2] == "kill-session") )); then
-        # Get session names: strip color codes, then take the first column.
-        sessions=(${(f)"$(zellij ls 2>/dev/null | sed 's/\x1b\[[0-9;]*[mG]//g' | awk '{print $1}')"})
-        compadd -a sessions
-    elif (( CURRENT == 2 )); then
-        compadd "a" "attach" "ls" "list-sessions" "kill-session" "kill-all-sessions" "options"
+# Starship is now loaded immediately, but keeping function for compatibility
+_load_starship() {
+    # Starship is already loaded during initialization
+    return 0
+}
+
+# Lazy load zoxide
+_load_zoxide() {
+    if [[ -z "$_ZOXIDE_INIT" ]]; then
+        eval "$(zoxide init --cmd cd zsh)"
+        _ZOXIDE_INIT=1
     fi
 }
 
-autoload -Uz compinit
-_compdump_path="${ZDOTDIR:-$HOME}/.zcompdump"
-if [[ ! -f "$_compdump_path" || "$HOME/.zshrc" -nt "$_compdump_path" ]]; then
-  compinit -d "$_compdump_path"
-else
-  compinit -C -d "$_compdump_path"
-fi
-zinit cdreplay -q
+# Lazy load atuin
+_load_atuin() {
+    if [[ -z "$_ATUIN_INIT" ]]; then
+        eval "$(atuin init zsh)"
+        _ATUIN_INIT=1
+    fi
+}
 
-# Apply Zellij Completion
-compdef _zellij zellij z
-#
+# Lazy load pyenv
+_load_pyenv() {
+    if [[ -z "$_PYENV_INIT" ]] && command -v pyenv >/dev/null 2>&1; then
+        eval "$(pyenv init --no-rehash -)"
+        _PYENV_INIT=1
+    fi
+}
 
-################################################################
-# Keybindings
-################################################################
-# bindkey -e
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
-bindkey '^[w' kill-region
+# Override cd to load zoxide on first use
+cd() {
+    _load_zoxide
+    cd "$@"
+}
 
+# Override python/pip/pyenv commands to load pyenv on first use
+python() {
+    _load_pyenv
+    python "$@"
+}
+
+python3() {
+    _load_pyenv
+    python3 "$@"
+}
+
+pip() {
+    _load_pyenv
+    pip "$@"
+}
+
+pip3() {
+    _load_pyenv
+    pip3 "$@"
+}
+
+pyenv() {
+    _load_pyenv
+    pyenv "$@"
+}
 
 ################################################################
 # History
@@ -125,6 +208,42 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+################################################################
+# Keybindings
+################################################################
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
+
+################################################################
+# Completions - Optimized
+################################################################
+# Zellij Completion Function
+_zellij() {
+    local -a sessions
+    if (( CURRENT == 3 && (words[2] == "a" || words[2] == "attach" || words[2] == "kill-session") )); then
+        # Get session names: strip color codes, then take the first column.
+        sessions=(${(f)"$(zellij ls 2>/dev/null | sed 's/\x1b\[[0-9;]*[mG]//g' | awk '{print $1}')"})
+        compadd -a sessions
+    elif (( CURRENT == 2 )); then
+        compadd "a" "attach" "ls" "list-sessions" "kill-session" "kill-all-sessions" "options"
+    fi
+}
+
+# Optimized compinit with better caching
+_compdump_path="${ZDOTDIR:-$HOME}/.zcompdump"
+if [[ ! -f "$_compdump_path" || "$HOME/.zshrc" -nt "$_compdump_path" ]]; then
+    autoload -Uz compinit
+    compinit -d "$_compdump_path"
+    # Rebuild zinit completion cache
+    zinit cdreplay -q
+else
+    autoload -Uz compinit
+    compinit -C -d "$_compdump_path"
+fi
+
+# Apply completions
+compdef _zellij zellij z
 
 ################################################################
 # Completion styling
@@ -134,48 +253,6 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
-
-################################################################
-# Shell integrations
-################################################################
-eval "$(zoxide init --cmd cd zsh)"
-eval "$(atuin init zsh)"
-
-################################################################
-# Export PATH
-################################################################
-# Function to get API key from Keychain, suppressing errors
-# function get_api_key() {
-#     security find-generic-password -a ${USER} -s "$1" -w 2>/dev/null
-# }
-
-export PNPM_HOME="$HOME/Library/pnpm"
-export EDITOR=nvim
-export VISUAL=nvim
-export PYENV_ROOT="$HOME/.pyenv"
-export XDG_CONFIG_HOME="$HOME/.config"
-export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
-export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
-export GEMINI_API_KEY=$(pass show Development/Gemini/GEMINI_API_KEY)
-export LLM_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
-export OPENAI_API_BASE=$(pass show url/copilot_endpoint)
-export OPENAI_API_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
-export API_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
-export COPILOT_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
-export OPENAI_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
-export OPENROUTER_KEY=$(pass show Development/OpenRouter/OPENROUTER_TOKEN)
-export LUMEN_API_KEY=$(pass show Development/OpenRouter/OPENROUTER_TOKEN)
-export COPILOT_API_ENDPOINT=$(pass show url/copilot_endpoint)
-export OPENAI_API_ENDPOINT=$(pass show url/openai_workers)
-export ANTHROPIC_AUTH_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
-export AIDER_DARK_MODE=true
-export AIDER_MODEL=gemini-2.5-pro
-export PATH="$PNPM_HOME:$PATH"
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.composer/vendor/bin"
-export PATH="/usr/local/elasticsearch/bin:$PATH"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
 
 ################################################################
 # Aliases
@@ -190,80 +267,54 @@ alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 alias a='atac'
 alias z='zellij'
 alias code='ccr code'
-# alias lumen='lumen -p openrouter -k "$LUMEN_API_KEY" -m "google/gemini-2.5-flash-lite-preview-06-17"'
-
-#
-# export NVM_DIR="$HOME/.config/nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
-# Lazy load nvm
-# lazynvm() {
-#   unset -f nvm node npm
-#   export NVM_DIR="$HOME/.nvm"
-#   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-#   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-# }
-#
-# nvm() {
-#   lazynvm
-#   nvm "$@"
-# }
-#
-# node() {
-#   lazynvm
-#   node "$@"
-# }
-#
-# npm() {
-#   lazynvm
-#   npm "$@"
-# }
 
 ################################################################
-## Pyenv setup
-################################################################
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --no-rehash -)"
-fi
-
-
-################################################################
-## Yazi setup
+# Yazi setup with cd integration
 ################################################################
 y() {
-  local cwd
-  cwd=$(yazi "$@" --cwd-file=-)
-  if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    cd -- "$cwd"
-  fi
+    local cwd
+    cwd=$(yazi "$@" --cwd-file=-)
+    if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        cd -- "$cwd"
+    fi
 }
 
-
+################################################################
+# Starship Integration with zsh-vi-mode
+################################################################
+# Starship is configured in ZVM section to prevent conflicts
 
 ################################################################
-# AI CLI Configuration
+# Deferred Initialization (runs after prompt)
 ################################################################
-if command -v ai &> /dev/null; then
-    if [ ! -f ~/.ai-shell ]; then
-        echo "First time setup: Configuring ai..."
-        ai config set OPENAI_KEY="$COPILOT_TOKEN"
-        ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
-        touch ~/.ai-shell
-        echo "AI configuration completed."
+_deferred_init() {
+    # Load atuin for history search
+    _load_atuin
+    
+    # Initialize AI tools if needed
+    if command -v ai &> /dev/null; then
+        if [ ! -f ~/.ai-shell ]; then
+            echo "First time setup: Configuring ai..."
+            ai config set OPENAI_KEY="$COPILOT_TOKEN"
+            ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
+            touch ~/.ai-shell
+            echo "AI configuration completed."
+        fi
     fi
-fi
+}
 
+# Schedule deferred initialization
+zmodload zsh/sched
+sched +1 _deferred_init
 
 ################################################################
-# Claude Code Router Configuration
+# Config File Management (moved to separate script)
 ################################################################
-CLAUDE_CODE_ROUTER_CONFIG_DIR="$HOME/.claude-code-router"
-CLAUDE_CODE_ROUTER_CONFIG_FILE="$CLAUDE_CODE_ROUTER_CONFIG_DIR/config.json"
-
-if [ ! -f "$CLAUDE_CODE_ROUTER_CONFIG_FILE" ]; then
-  echo "Creating Claude Code Router config at $CLAUDE_CODE_ROUTER_CONFIG_FILE"
-  mkdir -p "$CLAUDE_CODE_ROUTER_CONFIG_DIR"
-  cat > "$CLAUDE_CODE_ROUTER_CONFIG_FILE" << EOF
+# Create configs only when tools are first used
+_create_claude_config() {
+    if [[ ! -f "$HOME/.claude-code-router/config.json" ]]; then
+        mkdir -p "$HOME/.claude-code-router"
+        cat > "$HOME/.claude-code-router/config.json" << EOF
 {
   "LOG": false,
   "OPENAI_API_KEY": "",
@@ -306,19 +357,13 @@ if [ ! -f "$CLAUDE_CODE_ROUTER_CONFIG_FILE" ]; then
   }
 }
 EOF
-fi
+    fi
+}
 
-
-################################################################
-# Lumen Configuration
-################################################################
-LUMEN_CONFIG_DIR="$HOME/.config/lumen"
-LUMEN_CONFIG_FILE="$LUMEN_CONFIG_DIR/lumen.config.json"
-
-if [ ! -f "$LUMEN_CONFIG_FILE" ]; then
-  echo "Creating Lumen config at $LUMEN_CONFIG_FILE"
-  mkdir -p "$LUMEN_CONFIG_DIR"
-  cat > "$LUMEN_CONFIG_FILE" << EOF
+_create_lumen_config() {
+    if [[ ! -f "$HOME/.config/lumen/lumen.config.json" ]]; then
+        mkdir -p "$HOME/.config/lumen"
+        cat > "$HOME/.config/lumen/lumen.config.json" << EOF
 {
   "provider": "openrouter",
   "model": "openrouter/cypher-alpha:free",
@@ -340,4 +385,18 @@ if [ ! -f "$LUMEN_CONFIG_FILE" ]; then
   }
 }
 EOF
-fi
+    fi
+}
+
+# Override commands to create configs on first use
+ccr() {
+    _create_claude_config
+    command ccr "$@"
+}
+
+# Unset any existing lumen alias before defining function
+unalias lumen 2>/dev/null
+lumen() {
+    _create_lumen_config
+    command lumen "$@"
+}
