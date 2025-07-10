@@ -131,15 +131,16 @@ ZVM_VI_EDITOR='nvim'
 ################################################################
 # Lazy Loading Functions
 ################################################################
-# Starship is now loaded immediately, but keeping function for compatibility
+# Starship loads with zsh-vi-mode, keeping function for compatibility
 _load_starship() {
-    # Starship is already loaded during initialization
+    # Starship is already loaded during ZVM initialization
     return 0
 }
 
 # Lazy load zoxide
 _load_zoxide() {
     if [[ -z "$_ZOXIDE_INIT" ]]; then
+        # Initialize zoxide and let it override cd
         eval "$(zoxide init --cmd cd zsh)"
         _ZOXIDE_INIT=1
     fi
@@ -153,7 +154,7 @@ _load_atuin() {
     fi
 }
 
-# Lazy load pyenv
+# Lazy load pyenv (used in deferred initialization)
 _load_pyenv() {
     if [[ -z "$_PYENV_INIT" ]] && command -v pyenv >/dev/null 2>&1; then
         eval "$(pyenv init --no-rehash -)"
@@ -161,36 +162,17 @@ _load_pyenv() {
     fi
 }
 
-# Override cd to load zoxide on first use
+# Smart cd function that loads zoxide on first use
 cd() {
-    _load_zoxide
-    cd "$@"
-}
-
-# Override python/pip/pyenv commands to load pyenv on first use
-python() {
-    _load_pyenv
-    python "$@"
-}
-
-python3() {
-    _load_pyenv
-    python3 "$@"
-}
-
-pip() {
-    _load_pyenv
-    pip "$@"
-}
-
-pip3() {
-    _load_pyenv
-    pip3 "$@"
-}
-
-pyenv() {
-    _load_pyenv
-    pyenv "$@"
+    # Load zoxide if not already loaded
+    if [[ -z "$_ZOXIDE_INIT" ]]; then
+        _load_zoxide
+        # Now call the new cd function that zoxide installed
+        cd "$@"
+    else
+        # If we somehow get here after zoxide is loaded, use __zoxide_z
+        __zoxide_z "$@"
+    fi
 }
 
 ################################################################
@@ -275,7 +257,12 @@ y() {
     local cwd
     cwd=$(yazi "$@" --cwd-file=-)
     if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-        cd -- "$cwd"
+        # Use proper cd (either lazy-loaded zoxide or builtin)
+        if command -v __zoxide_z >/dev/null 2>&1; then
+            __zoxide_z "$cwd"
+        else
+            cd -- "$cwd"
+        fi
     fi
 }
 
@@ -290,6 +277,9 @@ y() {
 _deferred_init() {
     # Load atuin for history search
     _load_atuin
+    
+    # Load pyenv (safer to load in background than lazy load)
+    _load_pyenv
     
     # Initialize AI tools if needed
     if command -v ai &> /dev/null; then
