@@ -3,5 +3,5 @@ customCommands:
     context: 'files'
     command: 'lumen draft | git commit -F -'
     loadingText: 'Generating message...'
-    outputTitle: 'Auto Commit'
+    outputTitle: ''
     output: popup
