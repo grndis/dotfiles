@@ -135,21 +135,6 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-
-################################################################
-# Aliases
-################################################################
-alias vim='nvim'
-alias v='nvim'
-alias vi='nvim'
-alias c='clear'
-alias f='yazi'
-alias ls="eza --color=always --git --icons=always"
-alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
-alias a='atac'
-alias z='zellij'
-alias code='ccr code'
-
 ################################################################
 # Shell integrations
 ################################################################
@@ -178,6 +163,8 @@ export OPENAI_API_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
 export API_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
 export COPILOT_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
 export OPENAI_KEY=$(pass show Development/GitHub/COPILOT_TOKEN)
+export OPENROUTER_KEY=$(pass show Development/OpenRouter/OPENROUTER_TOKEN)
+export LUMEN_API_KEY=$(pass show Development/OpenRouter/OPENROUTER_TOKEN)
 export COPILOT_API_ENDPOINT=$(pass show url/copilot_endpoint)
 export OPENAI_API_ENDPOINT=$(pass show url/openai_workers)
 export ANTHROPIC_AUTH_TOKEN=$(pass show Development/GitHub/COPILOT_TOKEN)
@@ -188,6 +175,23 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="/usr/local/elasticsearch/bin:$PATH"
 export PATH="$PYENV_ROOT/bin:$PATH"
+
+
+################################################################
+# Aliases
+################################################################
+alias vim='nvim'
+alias v='nvim'
+alias vi='nvim'
+alias c='clear'
+alias f='yazi'
+alias ls='eza --color=always --git --icons=always'
+alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
+alias a='atac'
+alias z='zellij'
+alias code='ccr code'
+# alias lumen='lumen -p openrouter -k "$LUMEN_API_KEY" -m "google/gemini-2.5-flash-lite-preview-06-17"'
+
 #
 # export NVM_DIR="$HOME/.config/nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" 
@@ -305,3 +309,35 @@ EOF
 fi
 
 
+################################################################
+# Lumen Configuration
+################################################################
+LUMEN_CONFIG_DIR="$HOME/.config/lumen"
+LUMEN_CONFIG_FILE="$LUMEN_CONFIG_DIR/lumen.config.json"
+
+if [ ! -f "$LUMEN_CONFIG_FILE" ]; then
+  echo "Creating Lumen config at $LUMEN_CONFIG_FILE"
+  mkdir -p "$LUMEN_CONFIG_DIR"
+  cat > "$LUMEN_CONFIG_FILE" << EOF
+{
+  "provider": "openrouter",
+  "model": "openrouter/cypher-alpha:free",
+  "api_key": "$LUMEN_API_KEY",
+  "draft": {
+    "commit_types": {
+      "docs": "Documentation only changes",
+      "style": "Changes that do not affect the meaning of the code",
+      "refactor": "A code change that neither fixes a bug nor adds a feature",
+      "perf": "A code change that improves performance",
+      "test": "Adding missing tests or correcting existing tests",
+      "build": "Changes that affect the build system or external dependencies",
+      "ci": "Changes to our CI configuration files and scripts",
+      "chore": "Other changes that don't modify src or test files",
+      "revert": "Reverts a previous commit",
+      "feat": "A new feature",
+      "fix": "A bug fix"
+    }
+  }
+}
+EOF
+fi
