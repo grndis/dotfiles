@@ -1,15 +1,15 @@
 customCommands:
-  - key: "<c-l>"
-    context: "files"
-    command: "lumen draft | tee >(pbcopy)"
-    loadingText: "Generating message..."
+  - key: 'C'
+    context: 'files'
+    command: 'lumen draft | tee >(pbcopy)'
+    loadingText: 'Generating message...'
     output: popup
-  - key: "<c-k>"
-    context: "files"
-    command: "lumen draft -c {{.Form.Context | quote}} | tee >(pbcopy)"
-    loadingText: "Generating message..."
+  - key: 'L'
+    context: 'files'
+    command: 'lumen draft -c {{.Form.Context | quote}} | tee >(pbcopy)'
+    loadingText: 'Generating message...'
     prompts:
-      - type: "input"
-        title: "Context"
-        key: "Context"
+      - type: 'input'
+        title: 'Context'
+        key: 'Context'
     output: popup
