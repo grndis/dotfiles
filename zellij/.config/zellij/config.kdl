@@ -109,7 +109,19 @@ keybinds clear-defaults=true {
         // bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "\\" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "=" { ToggleFloatingPanes; SwitchToMode "Normal"; }
+        // bind "=" { ToggleFloatingPanes; SwitchToMode "Normal"; }
+        bind "=" {
+            Run "zsh"  {
+                close_on_exit true
+                move_to_focused_tab true
+                floating true
+                width "70%"
+                height "70%"
+                x "15%"
+                y "15%"
+            };
+            SwitchToMode "locked";
+        }
 
         // Moving between tabs
         bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
