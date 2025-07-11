@@ -129,51 +129,22 @@ ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
 
 ################################################################
-# Lazy Loading Functions
+# Shell Integrations - Simple and Reliable
 ################################################################
-# Starship loads with zsh-vi-mode, keeping function for compatibility
-_load_starship() {
-    # Starship is already loaded during ZVM initialization
-    return 0
-}
+# Load zoxide immediately for consistent performance
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init --cmd cd zsh)"
+fi
 
-# Lazy load zoxide
-_load_zoxide() {
-    if [[ -z "$_ZOXIDE_INIT" ]]; then
-        # Initialize zoxide and let it override cd
-        eval "$(zoxide init --cmd cd zsh)"
-        _ZOXIDE_INIT=1
-    fi
-}
+# Load atuin immediately
+if command -v atuin >/dev/null 2>&1; then
+    eval "$(atuin init zsh)"
+fi
 
-# Lazy load atuin
-_load_atuin() {
-    if [[ -z "$_ATUIN_INIT" ]]; then
-        eval "$(atuin init zsh)"
-        _ATUIN_INIT=1
-    fi
-}
-
-# Lazy load pyenv (used in deferred initialization)
-_load_pyenv() {
-    if [[ -z "$_PYENV_INIT" ]] && command -v pyenv >/dev/null 2>&1; then
-        eval "$(pyenv init --no-rehash -)"
-        _PYENV_INIT=1
-    fi
-}
-
-# Smart cd function that loads zoxide on first use
-cd() {
-    # Load zoxide if not already loaded
-    if [[ -z "$_ZOXIDE_INIT" ]]; then
-        _load_zoxide
-        # Now call the new cd function that zoxide installed
-        cd "$@"
-    else
-        # If we somehow get here after zoxide is loaded, use __zoxide_z
-        __zoxide_z "$@"
-    fi
-}
+# Load pyenv immediately if available
+if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init --no-rehash -)"
+fi
 
 ################################################################
 # History
@@ -245,7 +216,7 @@ alias vi='nvim'
 alias c='clear'
 alias f='yazi'
 alias ls='eza --color=always --git --icons=always'
-# alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
+alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 alias a='atac'
 alias z='zellij'
 alias code='ccr code'
@@ -257,12 +228,7 @@ y() {
     local cwd
     cwd=$(yazi "$@" --cwd-file=-)
     if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-        # Use proper cd (either lazy-loaded zoxide or builtin)
-        if command -v __zoxide_z >/dev/null 2>&1; then
-            __zoxide_z "$cwd"
-        else
-            cd -- "$cwd"
-        fi
+        cd -- "$cwd"
     fi
 }
 
@@ -272,30 +238,18 @@ y() {
 # Starship is configured in ZVM section to prevent conflicts
 
 ################################################################
-# Deferred Initialization (runs after prompt)
+# AI CLI Setup
 ################################################################
-_deferred_init() {
-    # Load atuin for history search
-    _load_atuin
-    
-    # Load pyenv (safer to load in background than lazy load)
-    _load_pyenv
-    
-    # Initialize AI tools if needed
-    if command -v ai &> /dev/null; then
-        if [ ! -f ~/.ai-shell ]; then
-            echo "First time setup: Configuring ai..."
-            ai config set OPENAI_KEY="$COPILOT_TOKEN"
-            ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
-            touch ~/.ai-shell
-            echo "AI configuration completed."
-        fi
+# Initialize AI tools if needed
+if command -v ai &> /dev/null; then
+    if [ ! -f ~/.ai-shell ]; then
+        echo "First time setup: Configuring ai..."
+        ai config set OPENAI_KEY="$COPILOT_TOKEN"
+        ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
+        touch ~/.ai-shell
+        echo "AI configuration completed."
     fi
-}
-
-# Schedule deferred initialization
-zmodload zsh/sched
-sched +1 _deferred_init
+fi
 
 ################################################################
 # Config File Management (moved to separate script)
