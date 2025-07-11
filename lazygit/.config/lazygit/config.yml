@@ -1,7 +1,7 @@
 customCommands:
   - key: 'C'
     context: 'files'
-    command: 'lumen -p openrouter -m "google/gemini-2.5-flash-lite-preview-06-17" draft | git commit -F -'
+    command: 'lumen -p openrouter -m "openrouter/cypher-alpha:free" draft | git commit -F -'
     loadingText: 'Generating message...'
     outputTitle: 'Auto Commit'
     output: popup
