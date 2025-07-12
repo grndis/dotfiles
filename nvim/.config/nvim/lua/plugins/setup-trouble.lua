@@ -59,7 +59,6 @@ return {
     {
       "catppuccin",
       optional = true,
-      ---@type CatppuccinOptions
       opts = { integrations = { lsp_trouble = true } },
     },
   },
