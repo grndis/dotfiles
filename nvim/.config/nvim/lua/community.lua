@@ -39,7 +39,7 @@ return {
   -- { import = "astrocommunity.scrolling.vim-smoothie" },
   { import = "astrocommunity.scrolling.nvim-scrollbar" },
   -- { import = "astrocommunity.scrolling.mini-animate" },
-  { import = "astrocommunity.diagnostics.trouble-nvim" },
+  -- { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   -- { import = "astrocommunity.motion.leap-nvim" },
   { import = "astrocommunity.motion.flash-nvim" },
