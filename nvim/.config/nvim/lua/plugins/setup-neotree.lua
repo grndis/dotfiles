@@ -7,6 +7,7 @@ return {
     "3rd/image.nvim",
   },
   opts = {
+    enable_diagnostics = false,
     filesystem = {
       filtered_items = {
         visible = true,
