@@ -261,9 +261,6 @@ _create_claude_config() {
         cat > "$HOME/.claude-code-router/config.json" << EOF
 {
   "LOG": false,
-  "OPENAI_API_KEY": "",
-  "OPENAI_BASE_URL": "",
-  "OPENAI_MODEL": "",
   "Providers": [
     {
       "name": "gemini",
