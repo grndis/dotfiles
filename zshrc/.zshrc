@@ -36,6 +36,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export LUMEN_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export COPILOT_API_ENDPOINT=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
@@ -263,15 +264,30 @@ _create_claude_config() {
   "LOG": false,
   "Providers": [
     {
-      "name": "gemini",
+      "name": "google",
       "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
       "api_key": "$GEMINI_API_KEY",
-      "models": [
-        "gemini-2.5-pro",
-        "gemini-2.5-flash"
-      ],
+      "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
+      "transformer": {
+        "use": ["google"]
+      }
+    },
+    {
+      "name": "gemini",
+      "api_base_url": "$GEMINI_ENDPOINT/v1/chat/completions",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
       "transformer": {
         "use": ["gemini"]
+      }
+    },
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+      "api_key": "$OPENROUTER_KEY",
+      "models": ["anthropic/claude-sonnet-4", "anthropic/claude-opus-4"],
+      "transformer": {
+        "use": ["openrouter"]
       }
     },
     {
@@ -289,12 +305,13 @@ _create_claude_config() {
         "use": ["copilot"]
       }
     }
+
   ],
   "Router": {
-    "default": "gemini,gemini-2.5-flash",
-    "background": "gemini,gemini-2.5-flash",
-    "think": "gemini,gemini-2.5-pro",
-    "longContext": "gemini,gemini-2.5-pro"
+    "default": "google,gemini-2.5-flash",
+    "background": "openrouter,anthropic/claude-sonnet-4",
+    "think": "google,gemini-2.5-pro",
+    "longContext": "google,gemini-2.5-flash"
   }
 }
 EOF
