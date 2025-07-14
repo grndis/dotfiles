@@ -1,9 +1,9 @@
 customCommands:
-  - key: 'C'
-    context: 'files'
-    command: 'lumen -p openrouter -m "openrouter/cypher-alpha:free" draft | git commit -F -'
-    loadingText: 'Generating message...'
-    outputTitle: 'Auto Commit'
+  - key: "C"
+    context: "files"
+    command: "lumen draft | git commit -F -"
+    loadingText: "Generating message..."
+    outputTitle: "Auto Commit"
     output: popup
 
 gui:
@@ -34,4 +34,3 @@ gui:
       - "#db4b4b"
     defaultFgColor:
       - "#c0caf5"
-
