@@ -38,6 +38,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -262,19 +263,18 @@ _create_claude_config() {
         cat > "$HOME/.claude-code-router/config.json" << EOF
 {
   "LOG": false,
+  "transformers": [
+    {
+      "path": "$HOME/.claude-code-router/plugins/gemini-cli.js",
+      "options": {
+        "project": "$GCLOUD_GEMINI"
+      }
+    }
+  ],
   "Providers": [
     {
-      "name": "google",
-      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
-      "api_key": "$GEMINI_API_KEY",
-      "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
-      "transformer": {
-        "use": ["google"]
-      }
-    },
-    {
       "name": "gemini",
-      "api_base_url": "$GEMINI_ENDPOINT/v1/chat/completions",
+      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
       "api_key": "$GEMINI_API_KEY",
       "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
       "transformer": {
@@ -282,10 +282,24 @@ _create_claude_config() {
       }
     },
     {
+      "name": "gemini-cli",
+      "api_base_url": "https://cloudcode-pa.googleapis.com/v1internal",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gemini-2.5-flash", "gemini-2.5-pro"],
+      "transformer": {
+        "use": ["gemini-cli"]
+      }
+    },
+    {
       "name": "openrouter",
       "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
       "api_key": "$OPENROUTER_KEY",
-      "models": ["anthropic/claude-sonnet-4", "anthropic/claude-opus-4"],
+      "models": [
+        "anthropic/claude-sonnet-4",
+        "anthropic/claude-opus-4",
+        "google/gemini-2.5-flash",
+        "google/gemini-2.5-pro"
+      ],
       "transformer": {
         "use": ["openrouter"]
       }
@@ -308,10 +322,10 @@ _create_claude_config() {
 
   ],
   "Router": {
-    "default": "google,gemini-2.5-flash",
-    "background": "openrouter,anthropic/claude-sonnet-4",
-    "think": "google,gemini-2.5-pro",
-    "longContext": "google,gemini-2.5-flash"
+    "default": "gemini-cli,gemini-2.5-flash",
+    "background": "gemini-cli,gemini-2.5-pro",
+    "think": "gemini-cli,gemini-2.5-pro",
+    "longContext": "gemini-cli,gemini-2.5-pro"
   }
 }
 EOF
@@ -324,7 +338,7 @@ _create_lumen_config() {
         cat > "$HOME/.config/lumen/lumen.config.json" << EOF
 {
   "provider": "openrouter",
-  "model": "openrouter/cypher-alpha:free",
+  "model": "moonshotai/kimi-k2:free",
   "api_key": "$LUMEN_API_KEY",
   "draft": {
     "commit_types": {
@@ -358,3 +372,9 @@ lumen() {
     _create_lumen_config
     command lumen "$@"
 }
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/grandis/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/grandis/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/completion.zsh.inc'; fi
