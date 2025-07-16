@@ -9,16 +9,14 @@ class GeminiCLITransformer {
 
   constructor(options) {
     this.options = options;
+    try {
+      this.oauth_creds = require(OAUTH_FILE);
+    } catch {}
   }
 
   async transformRequestIn(request, provider) {
-    let oauth_creds;
-    oauth_creds = JSON.parse(await fs.readFile(OAUTH_FILE, "utf8"));
-    if (oauth_creds.expiry_date < +new Date()) {
-      await this.refreshToken(oauth_creds.refresh_token);
-      // Clear the require cache and reload the credentials
-      delete require.cache[require.resolve(OAUTH_FILE)];
-      oauth_creds = JSON.parse(await fs.readFile(OAUTH_FILE, "utf8"));
+    if (this.oauth_creds && this.oauth_creds.expiry_date < +new Date()) {
+      await this.refreshToken(this.oauth_creds.refresh_token);
     }
     return {
       body: {
@@ -130,7 +128,7 @@ class GeminiCLITransformer {
           }`,
         ),
         headers: {
-          Authorization: `Bearer ${oauth_creds.access_token}`,
+          Authorization: `Bearer ${this.oauth_creds.access_token}`,
         },
       },
     };
@@ -281,12 +279,13 @@ class GeminiCLITransformer {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         data.expiry_date =
           new Date().getTime() + data.expires_in * 1000 - 1000 * 60;
         data.refresh_token = refresh_token;
         delete data.expires_in;
-        return fs.writeFile(OAUTH_FILE, JSON.stringify(data, null, 2));
+        this.oauth_creds = data;
+        await fs.writeFile(OAUTH_FILE, JSON.stringify(data, null, 2));
       });
   }
 }
