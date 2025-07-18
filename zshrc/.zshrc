@@ -222,6 +222,7 @@ alias lazygit='lazygit --use-config-file=$HOME/.config/lazygit/theme.yml'
 alias a='atac'
 alias z='zellij'
 alias code='ccr code'
+alias rovo='acli rovodev run'
 
 ################################################################
 # Yazi setup with cd integration

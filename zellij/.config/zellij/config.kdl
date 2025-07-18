@@ -124,8 +124,8 @@ keybinds clear-defaults=true {
         }
 
         // Moving between tabs
-        bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
-        bind "n" { GoToNextTab; SwitchToMode "Normal"; }
+        bind "p" { GoToPreviousTab; }
+        bind "n" { GoToNextTab; }
         // Renaming tabs
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
 

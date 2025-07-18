@@ -3,36 +3,23 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-
 [user]
 	name = Grandis SYF
 	email = gra@dr.com
-
 [core]
-    pager = delta
-
+	pager = delta
+	excludesfile = /Users/grandis/.gitignore_global
 [interactive]
-    diffFilter = delta --color-only
-
+	diffFilter = delta --color-only
 [delta]
-    navigate = true    # use n and N to move between diff sections
-    side-by-side = true
-
-
-    # delta detects terminal colors automatically; set one of these to disable auto-detection
-    # dark = true
-    # light = true
-
+	navigate = true    # use n and N to move between diff sections
+	side-by-side = true
 [merge]
-  tool = diffview
-
+	tool = diffview
 [mergetool]
-  prompt = false
-  keepBackup = false
-
+	prompt = false
+	keepBackup = false
 [mergetool "diffview"]
-  cmd = nvim -n -c "DiffviewOpen" "$MERGE"
-
+	cmd = nvim -n -c "DiffviewOpen" "$MERGE"
 [diff]
-    colorMoved = default
-
+	colorMoved = default
