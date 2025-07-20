@@ -34,11 +34,13 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export OPENAI_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENROUTER_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export LUMEN_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export SUC_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export COPILOT_API_ENDPOINT=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export SUC_GEMINI_PROJECT=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -54,6 +56,8 @@ export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
+export SUC_AI_PROVIDER="gemini"
+export SUC_AI_MODEL="gemini-2.5-flash"
 
 ################################################################
 # PATH Setup
