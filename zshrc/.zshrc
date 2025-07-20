@@ -339,7 +339,7 @@ _create_lumen_config() {
         cat > "$HOME/.config/lumen/lumen.config.json" << EOF
 {
   "provider": "openrouter",
-  "model": "moonshotai/kimi-k2:free",
+  "model": "google/gemini-2.5-flash-lite-preview-06-17",
   "api_key": "$LUMEN_API_KEY",
   "draft": {
     "commit_types": {
