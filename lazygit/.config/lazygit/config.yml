@@ -1,7 +1,7 @@
 customCommands:
   - key: "C"
     context: "files"
-    command: "lumen draft | git commit -F -"
+    command: "suc draft | git commit -F -"
     loadingText: "Generating message..."
     outputTitle: "Auto Commit"
     output: popup
