@@ -56,8 +56,8 @@ export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
-export SUC_AI_PROVIDER="gemini"
 export SUC_AI_MODEL="gemini-2.5-flash"
+export SUC_AI_PROVIDER="gemini"
 
 ################################################################
 # PATH Setup
