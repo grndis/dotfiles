@@ -1,9 +1,19 @@
 customCommands:
   - key: "C"
     context: "files"
-    command: "lc draft | git commit -F -"
+    command: |
+      bash -c '
+      msg=$(lc draft)
+      echo "Generated commit message:"
+      echo "========================"
+      echo "$msg"
+      echo "========================"
+      echo
+      echo "$msg" | git commit -F -
+      '
+    confirm: true
     loadingText: "Generating message..."
-    outputTitle: "Auto Commit"
+    outputTitle: "Auto Commit with Preview"
     output: popup
 
 gui:
