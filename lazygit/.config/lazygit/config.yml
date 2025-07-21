@@ -3,8 +3,8 @@ customCommands:
     context: "files"
     command: "pbpaste | git commit -F -"
     prompts:
-      - type: 'confirm'
-        title: 'Commit with this message?'
+      - type: "confirm"
+        title: "Commit with this message?"
         body: '{{ runCommand "sh -c \"lc draft | pbcopy && pbpaste\"" }}'
 
 gui:
