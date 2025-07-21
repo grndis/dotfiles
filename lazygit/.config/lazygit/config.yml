@@ -2,6 +2,7 @@ customCommands:
   - key: "C"
     context: "files"
     command: "lc draft | git commit -F -"
+    confirm: true
     loadingText: "Generating message..."
     outputTitle: "Auto Commit"
 
