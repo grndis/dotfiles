@@ -1,10 +1,29 @@
 customCommands:
   - key: "C"
     context: "files"
-    command: "lc draft | git commit -F -"
-    confirm: true
+    command: |
+      bash -c '
+      msg=$(lc draft)
+      echo "Commit message:"
+      echo "==============="
+      echo "$msg"
+      echo "==============="
+      echo
+      echo "Press ENTER to commit, ESC to cancel"
+      read -n 1 -s key
+      if [ "$key" = "" ]; then
+        echo
+        echo "Committing..."
+        echo "$msg" | git commit -F -
+        echo "Done!"
+      else
+        echo
+        echo "Cancelled"
+        exit 1
+      fi
+      '
     loadingText: "Generating message..."
-    outputTitle: "Auto Commit"
+    outputTitle: "Commit with Confirmation"
     output: popup
 
 gui:
