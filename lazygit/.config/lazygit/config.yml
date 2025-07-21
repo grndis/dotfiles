@@ -2,10 +2,8 @@ customCommands:
   - key: "C"
     context: "files"
     command: "lc draft | git commit -F -"
-    prompts:
-      - type: 'confirm'
-        title: 'Commit with this message?'
-        body: '{{ runCommand "lc draft" }}'
+    loadingText: "Generating message..."
+    outputTitle: "Auto Commit"
 
 gui:
   showBottomLine: false
