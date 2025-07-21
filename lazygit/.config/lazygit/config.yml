@@ -1,11 +1,17 @@
 customCommands:
   - key: "C"
     context: "files"
+    command: "lc draft | pbcopy && pbpaste"
+    loadingText: "Generating commit message..."
+    outputTitle: "Message Generated"
+    output: popup
+  - key: "M"
+    context: "files"
+    command: "pbpaste | git commit -F -"
     prompts:
       - type: "confirm"
         title: "Commit with this message?"
-        body: '{{ runCommand "sh -c \"lc draft | pbcopy && pbpaste\"" }}'
-    command: "pbpaste | git commit -F -"
+        body: '{{ runCommand "pbpaste" }}'
 
 gui:
   showBottomLine: false
