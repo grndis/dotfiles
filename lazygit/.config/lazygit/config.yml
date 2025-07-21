@@ -2,10 +2,10 @@ customCommands:
   - key: "C"
     context: "files"
     prompts:
-      - type: 'confirm'
-        title: 'Commit Message Preview'
+      - type: "confirm"
+        title: "Commit Message Preview"
         body: '{{ runCommand "lc draft" }}'
-        key: 'Confirm'
+        key: "Confirm"
     command: "lc draft | git commit -F -"
     loadingText: "Committing..."
     description: "Commit with message preview and confirmation"
