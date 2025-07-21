@@ -2,10 +2,11 @@ customCommands:
   - key: "C"
     context: "files"
     prompts:
-      - type: "confirm"
-        title: "Commit with this message?"
-        body: '{{ runCommand "sh -c \"lc draft | pbcopy && pbpaste\"" }}'
-    command: "pbpaste | git commit -F -"
+      - type: "input"
+        key: "Msg"
+        title: "Commit message:"
+        initialValue: '{{ runCommand "sh -c \"lc draft\"" }}'
+    command: 'git commit -m "{{.Form.Msg}}"'
 
 gui:
   showBottomLine: false
