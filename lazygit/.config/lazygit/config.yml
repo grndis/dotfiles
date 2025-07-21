@@ -1,30 +1,14 @@
 customCommands:
   - key: "C"
     context: "files"
-    command: |
-      bash -c '
-      msg=$(lc draft)
-      echo "Commit message:"
-      echo "==============="
-      echo "$msg"
-      echo "==============="
-      echo
-      echo "Press ENTER to commit, ESC to cancel"
-      read -n 1 -s key
-      if [ "$key" = "" ]; then
-        echo
-        echo "Committing..."
-        echo "$msg" | git commit -F -
-        echo "Done!"
-      else
-        echo
-        echo "Cancelled"
-        exit 1
-      fi
-      '
-    loadingText: "Generating message..."
-    outputTitle: "Commit with Confirmation"
-    output: popup
+    prompts:
+      - type: 'confirm'
+        title: 'Commit Message Preview'
+        body: '{{ runCommand "lc draft" }}'
+        key: 'Confirm'
+    command: "lc draft | git commit -F -"
+    loadingText: "Committing..."
+    description: "Commit with message preview and confirmation"
 
 gui:
   showBottomLine: false
