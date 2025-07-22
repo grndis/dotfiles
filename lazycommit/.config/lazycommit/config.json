@@ -1,6 +1,6 @@
 {
   "provider": "openrouter",
-  "model": "google/gemini-2.5-flash-lite-preview-06-17",
+  "model": "google/gemini-2.5-flash-lite",
   "api_key": "$OPENROUTER_KEY",
   "draft": {
     "commit_types": {
