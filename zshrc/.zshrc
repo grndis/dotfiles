@@ -34,13 +34,11 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export OPENAI_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENROUTER_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export LUMEN_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export SUC_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export COPILOT_API_ENDPOINT=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export SUC_GEMINI_PROJECT=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -56,8 +54,6 @@ export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
-export SUC_AI_MODEL="gemini-2.5-flash"
-export SUC_AI_PROVIDER="gemini"
 
 ################################################################
 # PATH Setup
@@ -337,33 +333,33 @@ EOF
     fi
 }
 
-_create_lumen_config() {
-    if [[ ! -f "$HOME/.config/lumen/lumen.config.json" ]]; then
-        mkdir -p "$HOME/.config/lumen"
-        cat > "$HOME/.config/lumen/lumen.config.json" << EOF
-{
-  "provider": "openrouter",
-  "model": "google/gemini-2.5-flash-lite-preview-06-17",
-  "api_key": "$LUMEN_API_KEY",
-  "draft": {
-    "commit_types": {
-      "docs": "Documentation only changes",
-      "style": "Changes that do not affect the meaning of the code",
-      "refactor": "A code change that neither fixes a bug nor adds a feature",
-      "perf": "A code change that improves performance",
-      "test": "Adding missing tests or correcting existing tests",
-      "build": "Changes that affect the build system or external dependencies",
-      "ci": "Changes to our CI configuration files and scripts",
-      "chore": "Other changes that don't modify src or test files",
-      "revert": "Reverts a previous commit",
-      "feat": "A new feature",
-      "fix": "A bug fix"
-    }
-  }
-}
-EOF
-    fi
-}
+# _create_lumen_config() {
+#     if [[ ! -f "$HOME/.config/lumen/lumen.config.json" ]]; then
+#         mkdir -p "$HOME/.config/lumen"
+#         cat > "$HOME/.config/lumen/lumen.config.json" << EOF
+# {
+#   "provider": "openrouter",
+#   "model": "google/gemini-2.5-flash-lite-preview-06-17",
+#   "api_key": "$LUMEN_API_KEY",
+#   "draft": {
+#     "commit_types": {
+#       "docs": "Documentation only changes",
+#       "style": "Changes that do not affect the meaning of the code",
+#       "refactor": "A code change that neither fixes a bug nor adds a feature",
+#       "perf": "A code change that improves performance",
+#       "test": "Adding missing tests or correcting existing tests",
+#       "build": "Changes that affect the build system or external dependencies",
+#       "ci": "Changes to our CI configuration files and scripts",
+#       "chore": "Other changes that don't modify src or test files",
+#       "revert": "Reverts a previous commit",
+#       "feat": "A new feature",
+#       "fix": "A bug fix"
+#     }
+#   }
+# }
+# EOF
+#     fi
+# }
 
 # Override commands to create configs on first use
 ccr() {
@@ -372,14 +368,14 @@ ccr() {
 }
 
 # Unset any existing lumen alias before defining function
-unalias lumen 2>/dev/null
-lumen() {
-    _create_lumen_config
-    command lumen "$@"
-}
-
+# unalias lumen 2>/dev/null
+# lumen() {
+#     _create_lumen_config
+#     command lumen "$@"
+# }
+#
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/grandis/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/path.zsh.inc'; fi
+# if [ -f '/Users/grandis/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/grandis/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/completion.zsh.inc'; fi
+# if [ -f '/Users/grandis/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/completion.zsh.inc'; fi
