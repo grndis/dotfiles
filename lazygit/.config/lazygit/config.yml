@@ -5,7 +5,7 @@ customCommands:
       - type: "input"
         key: "Msg"
         title: "Commit message:"
-        initialValue: '{{ runCommand "sh -c \"output=$(gcommit -f 2>&1); if echo \\\"$output\\\" | grep -q \\\"error:\\\"; then echo \\\"\\\"; else echo \\\"$output\\\"; fi\"" }}'
+        initialValue: '{{ runCommand "sh -c \"output=$(gcommit 2>&1); if echo \\\"$output\\\" | grep -q \\\"error:\\\"; then echo \\\"\\\"; else echo \\\"$output\\\"; fi\"" }}'
     command: 'if git diff --cached --quiet; then echo "No staged changes to commit"; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
 
 gui:
