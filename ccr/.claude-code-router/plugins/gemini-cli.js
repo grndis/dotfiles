@@ -1,8 +1,35 @@
 const os = require("os");
 const path = require("path");
 const fs = require("fs/promises");
+const { log } = require("claude-code-router");
 
 const OAUTH_FILE = path.join(os.homedir(), ".gemini", "oauth_creds.json");
+
+function cleanupParameters(obj) {
+  if (!obj || typeof obj !== "object") {
+    return;
+  }
+
+  if (Array.isArray(obj)) {
+    obj.forEach(cleanupParameters);
+    return;
+  }
+
+  delete obj.$schema;
+  delete obj.additionalProperties;
+
+  if (
+    obj.type === "string" &&
+    obj.format &&
+    !["enum", "date-time"].includes(obj.format)
+  ) {
+    delete obj.format;
+  }
+
+  Object.keys(obj).forEach((key) => {
+    cleanupParameters(obj[key]);
+  });
+}
 
 class GeminiCLITransformer {
   name = "gemini-cli";
@@ -17,6 +44,32 @@ class GeminiCLITransformer {
   async transformRequestIn(request, provider) {
     if (this.oauth_creds && this.oauth_creds.expiry_date < +new Date()) {
       await this.refreshToken(this.oauth_creds.refresh_token);
+    }
+    const tools = [];
+    const functionDeclarations = request.tools
+      ?.filter((tool) => tool.function.name !== "web_search")
+      ?.map((tool) => {
+        if (tool.function.parameters) {
+          cleanupParameters(tool.function.parameters);
+        }
+        return {
+          name: tool.function.name,
+          description: tool.function.description,
+          parameters: tool.function.parameters,
+        };
+      });
+    if (functionDeclarations?.length) {
+      tools.push({
+        functionDeclarations,
+      });
+    }
+    const webSearch = request.tools?.find(
+      (tool) => tool.function.name === "web_search",
+    );
+    if (webSearch) {
+      tools.push({
+        google_search: {},
+      });
     }
     return {
       body: {
@@ -43,6 +96,23 @@ class GeminiCLITransformer {
                       text: content.text || "",
                     };
                   }
+                  if (content.type === "image_url") {
+                    if (content.image_url.url.startsWith("http")) {
+                      return {
+                        file_data: {
+                          mime_type: content.media_type,
+                          file_uri: content.image_url.url,
+                        },
+                      };
+                    } else {
+                      return {
+                        inlineData: {
+                          mime_type: content.media_type,
+                          data: content.image_url.url,
+                        },
+                      };
+                    }
+                  }
                 }),
               );
             }
@@ -67,56 +137,7 @@ class GeminiCLITransformer {
               parts,
             };
           }),
-          tools: request.tools?.length
-            ? [
-                {
-                  functionDeclarations:
-                    request.tools?.map((tool) => {
-                      delete tool.function.parameters?.$schema;
-                      delete tool.function.parameters?.additionalProperties;
-                      if (tool.function.parameters?.properties) {
-                        Object.keys(
-                          tool.function.parameters.properties,
-                        ).forEach((key) => {
-                          delete tool.function.parameters.properties[key]
-                            .$schema;
-                          delete tool.function.parameters.properties[key]
-                            .additionalProperties;
-                          if (
-                            tool.function.parameters.properties[key].items &&
-                            typeof tool.function.parameters.properties[key]
-                              .items === "object"
-                          ) {
-                            delete tool.function.parameters.properties[key]
-                              .items.$schema;
-                            delete tool.function.parameters.properties[key]
-                              .items.additionalProperties;
-                          }
-
-                          if (
-                            tool.function.parameters.properties[key].type ===
-                            "string"
-                          ) {
-                            if (
-                              !["enum", "date-time"].includes(
-                                tool.function.parameters.properties[key].format,
-                              )
-                            ) {
-                              delete tool.function.parameters.properties[key]
-                                .format;
-                            }
-                          }
-                        });
-                      }
-                      return {
-                        name: tool.function.name,
-                        description: tool.function.description,
-                        parameters: tool.function.parameters,
-                      };
-                    }) || [],
-                },
-              ]
-            : undefined,
+          tools: tools.length ? tools : undefined,
         },
         model: request.model,
         project: this.options?.project,
@@ -139,8 +160,8 @@ class GeminiCLITransformer {
       let jsonResponse = await response.json();
       jsonResponse = jsonResponse.response;
       const tool_calls = jsonResponse.candidates[0].content.parts
-        .filter((part) => part.functionCall)
-        .map((part) => ({
+        ?.filter((part) => part.functionCall)
+        ?.map((part) => ({
           id:
             part.functionCall?.id ||
             `tool_${Math.random().toString(36).substring(2, 15)}`,
@@ -188,25 +209,18 @@ class GeminiCLITransformer {
 
       const decoder = new TextDecoder();
       const encoder = new TextEncoder();
-      const stream = new ReadableStream({
-        async start(controller) {
-          const reader = response.body.getReader();
-          try {
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
 
-              let chunk = decoder.decode(value, { stream: true });
-              if (chunk.startsWith("data: ")) {
-                chunk = chunk.slice(6).trim();
-              } else {
-                break;
-              }
-              chunk = JSON.parse(chunk);
+      const processLine = (line, controller) => {
+        if (line.startsWith("data: ")) {
+          const chunkStr = line.slice(6).trim();
+          if (chunkStr) {
+            log("gemini-cli chunk:", chunkStr);
+            try {
+              let chunk = JSON.parse(chunkStr);
               chunk = chunk.response;
               const tool_calls = chunk.candidates[0].content.parts
-                .filter((part) => part.functionCall)
-                .map((part) => ({
+                ?.filter((part) => part.functionCall)
+                ?.map((part) => ({
                   id:
                     part.functionCall?.id ||
                     `tool_${Math.random().toString(36).substring(2, 15)}`,
@@ -222,9 +236,9 @@ class GeminiCLITransformer {
                     delta: {
                       role: "assistant",
                       content: chunk.candidates[0].content.parts
-                        .filter((part) => part.text)
-                        .map((part) => part.text)
-                        .join("\n"),
+                        ?.filter((part) => part.text)
+                        ?.map((part) => part.text)
+                        ?.join("\n"),
                       tool_calls:
                         tool_calls.length > 0 ? tool_calls : undefined,
                     },
@@ -242,10 +256,67 @@ class GeminiCLITransformer {
                 model: chunk.modelVersion || "",
                 object: "chat.completion.chunk",
                 system_fingerprint: "fp_a49d71b8a1",
+                usage: {
+                  completion_tokens: chunk.usageMetadata.candidatesTokenCount,
+                  prompt_tokens: chunk.usageMetadata.promptTokenCount,
+                  total_tokens: chunk.usageMetadata.totalTokenCount,
+                },
               };
+              if (
+                chunk.candidates[0]?.groundingMetadata?.groundingChunks?.length
+              ) {
+                res.choices[0].delta.annotations =
+                  chunk.candidates[0].groundingMetadata.groundingChunks.map(
+                    (groundingChunk, index) => {
+                      const support =
+                        chunk.candidates[0]?.groundingMetadata?.groundingSupports?.filter(
+                          (item) => item.groundingChunkIndices.includes(index),
+                        );
+                      return {
+                        type: "url_citation",
+                        url_citation: {
+                          url: groundingChunk.web.uri,
+                          title: groundingChunk.web.title,
+                          content: support?.[0].segment.text,
+                          start_index: support?.[0].segment.startIndex,
+                          end_index: support?.[0].segment.endIndex,
+                        },
+                      };
+                    },
+                  );
+              }
               controller.enqueue(
                 encoder.encode(`data: ${JSON.stringify(res)}\n\n`),
               );
+            } catch (error) {
+              log("Error parsing Gemini stream chunk", chunkStr, error.message);
+            }
+          }
+        }
+      };
+
+      const stream = new ReadableStream({
+        async start(controller) {
+          const reader = response.body.getReader();
+          let buffer = "";
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) {
+                if (buffer) {
+                  processLine(buffer, controller);
+                }
+                break;
+              }
+
+              buffer += decoder.decode(value, { stream: true });
+              const lines = buffer.split("\n");
+
+              buffer = lines.pop() || "";
+
+              for (const line of lines) {
+                processLine(line, controller);
+              }
             }
           } catch (error) {
             controller.error(error);
