@@ -28,7 +28,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export GEMINI_API_KEY=\"$(pass show Development/Gemini/GEMINI_API_KEY 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export LLM_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENAI_API_BASE=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export OPENAI_API_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export OPENAI_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export API_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export COPILOT_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENAI_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
@@ -54,6 +54,8 @@ export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
+export OPENAI_BASE_URL=https://openrouter.ai/api/v1
+export OPENAI_MODEL="qwen/qwen3-coder"
 
 ################################################################
 # PATH Setup
