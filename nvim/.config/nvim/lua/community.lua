@@ -43,7 +43,7 @@ return {
   { import = "astrocommunity.colorscheme.tokyonight-nvim" },
   -- { import = "astrocommunity.motion.leap-nvim" },
   { import = "astrocommunity.motion.flash-nvim" },
-  { import = "astrocommunity.motion.nvim-spider" },
+  -- { import = "astrocommunity.motion.nvim-spider" },
   { import = "astrocommunity.motion.nvim-tree-pairs" },
   { import = "astrocommunity.motion.vim-matchup" },
   { import = "astrocommunity.markdown-and-latex.render-markdown-nvim" },
