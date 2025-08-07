@@ -224,6 +224,7 @@ alias a='atac'
 alias z='zellij'
 alias code='ccr code'
 alias rovo='acli rovodev run'
+alias crush='crush --yolo'
 
 ################################################################
 # Yazi setup with cd integration
@@ -380,3 +381,4 @@ ccr() {
 
 # The next line enables shell command completion for gcloud.
 # if [ -f '/Users/grandis/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/completion.zsh.inc'; fi
+. "/Users/grandis/.acme.sh/acme.sh.env"

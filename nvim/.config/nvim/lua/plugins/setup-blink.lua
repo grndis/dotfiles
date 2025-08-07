@@ -65,7 +65,7 @@ return {
       },
     },
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "copilot" },
+      default = { "lsp", "path", "snippets", "buffer" },
       -- default = { "lsp", "path", "snippets", "buffer" },
       providers = {
         -- codeium = {
@@ -100,28 +100,28 @@ return {
         --     return items
         --   end,
         -- },
-        copilot = {
-          name = "copilot",
-          module = "blink-cmp-copilot",
-          score_offset = -100,
-          async = true,
-          min_keyword_length = 0,
-          transform_items = function(_, items)
-            local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-            local kind_idx = #CompletionItemKind + 1
-            CompletionItemKind[kind_idx] = "Copilot"
-            for _, item in ipairs(items) do
-              item.kind = kind_idx
-            end
-            return items
-          end,
-        },
+        -- copilot = {
+        --   name = "copilot",
+        --   module = "blink-cmp-copilot",
+        --   score_offset = -100,
+        --   async = true,
+        --   min_keyword_length = 0,
+        --   transform_items = function(_, items)
+        --     local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+        --     local kind_idx = #CompletionItemKind + 1
+        --     CompletionItemKind[kind_idx] = "Copilot"
+        --     for _, item in ipairs(items) do
+        --       item.kind = kind_idx
+        --     end
+        --     return items
+        --   end,
+        -- },
       },
     },
     keymap = {
-      ["<A-y>"] = {
-        function(cmp) cmp.show { providers = { "minuet" } } end,
-      },
+      -- ["<A-y>"] = {
+      --   function(cmp) cmp.show { providers = { "minuet" } } end,
+      -- },
       ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
       ["<Up>"] = { "select_prev", "fallback" },
       ["<Down>"] = { "select_next", "fallback" },
