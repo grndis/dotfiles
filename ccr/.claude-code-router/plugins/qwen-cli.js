@@ -7,8 +7,14 @@ const fs = require("fs/promises");
 
 const OAUTH_FILE = path.join(os.homedir(), ".qwen", "oauth_creds.json");
 
-const QWEN_TOKEN_ENDPOINT = "https://portal.qwen.ai/api/v1/token/refresh";
-const QWEN_CLIENT_ID = "gemini-web-app";
+const QWEN_TOKEN_ENDPOINT = "https://chat.qwen.ai/api/v1/oauth2/token";
+const QWEN_CLIENT_ID = "f0304373b74a44d2b584a3fb70ca9e56";
+
+function objectToUrlEncoded(data) {
+  return Object.keys(data)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    .join('&');
+}
 
 class QwenCLITransformer {
   name = "qwen-cli";
@@ -230,7 +236,7 @@ class QwenCLITransformer {
     const now = Date.now();
     const expiryBuffer = 5 * 60 * 1000; // 5 minutes
     
-    if (this.oauth_creds.expiry_date < now + expiryBuffer) {
+    if (!this.oauth_creds.expiry_date || this.oauth_creds.expiry_date < now + expiryBuffer) {
       await this.getValidToken();
     }
   }
@@ -334,54 +340,61 @@ class QwenCLITransformer {
   async refreshToken(refresh_token) {
     log("Refreshing Qwen token");
     try {
+      const bodyData = {
+        grant_type: 'refresh_token',
+        refresh_token: refresh_token,
+        client_id: QWEN_CLIENT_ID,
+      };
+
       const response = await fetch(QWEN_TOKEN_ENDPOINT, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Accept": "application/json",
         },
-        body: JSON.stringify({
-          client_id: QWEN_CLIENT_ID,
-          refresh_token: refresh_token,
-          grant_type: "refresh_token",
-        }),
+        body: objectToUrlEncoded(bodyData),
       });
 
-      const data = await response.json();
-
+      const responseText = await response.text();
+      
       if (!response.ok) {
-        const errorMsg = data.error_description || data.error || "Failed to refresh token";
-        log("Token refresh failed:", errorMsg);
+        let errorMsg = `Token refresh failed with status: ${response.status}`;
+        try {
+            const errorData = JSON.parse(responseText);
+            errorMsg = errorData.error_description || errorData.error || responseText;
+        } catch (e) {
+            errorMsg = `${errorMsg} - ${responseText}`;
+        }
         
-        // If refresh token is invalid, clear credentials
-        if (data.error === "invalid_grant" || response.status === 400) {
-          log("Refresh token is invalid, clearing credentials");
-          this.oauth_creds = null;
-          try {
-            await fs.unlink(OAUTH_FILE);
-          } catch (e) {
-            // Ignore file deletion errors
-          }
+        log("Token refresh failed:", errorMsg);
+
+        if (response.status === 400) {
+            log("Refresh token is invalid, clearing credentials");
+            this.oauth_creds = null;
+            try {
+                await fs.unlink(OAUTH_FILE);
+            } catch (e) {
+                // Ignore file deletion errors
+            }
         }
         
         throw new Error(errorMsg);
       }
 
-      // Calculate expiry date with a small buffer to account for clock skew
-      data.expiry_date = Date.now() + (data.expires_in * 1000) - (60 * 1000);
-      
-      // Use the new refresh token if provided, otherwise keep the old one
-      data.refresh_token = data.refresh_token || refresh_token;
-      
-      // Store additional metadata if provided
-      if (data.resource_url) {
-        // Resource URL is already in the response
-      }
-      
-      delete data.expires_in;
+      const data = JSON.parse(responseText);
 
-      this.oauth_creds = data;
+      const expiry_date = Date.now() + (data.expires_in * 1000);
       
-      // Ensure directory exists
+      const newCredentials = {
+          access_token: data.access_token,
+          token_type: data.token_type,
+          refresh_token: data.refresh_token || refresh_token,
+          resource_url: data.resource_url,
+          expiry_date: expiry_date,
+      };
+
+      this.oauth_creds = newCredentials;
+      
       const dir = path.dirname(OAUTH_FILE);
       try {
         await fs.mkdir(dir, { recursive: true });
@@ -389,10 +402,10 @@ class QwenCLITransformer {
         // Directory might already exist
       }
       
-      await fs.writeFile(OAUTH_FILE, JSON.stringify(data, null, 2));
+      await fs.writeFile(OAUTH_FILE, JSON.stringify(newCredentials, null, 2));
       log("Qwen token refreshed successfully");
       
-      return data.access_token;
+      return newCredentials.access_token;
     } catch (error) {
       log("Error refreshing Qwen token:", error.message);
       this.refreshPromise = null; // Clear the promise on error
