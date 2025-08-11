@@ -10,6 +10,8 @@ const QWEN_CLIENT_ID = "gemini-web-app";
 
 class QwenCLITransformer {
   name = "qwen-cli";
+  refreshingToken = false;
+  tokenRefreshPromise = null;
 
   constructor(options) {
     this.options = options;
@@ -19,9 +21,13 @@ class QwenCLITransformer {
   }
 
   async transformRequestIn(request, provider) {
-    if (this.oauth_creds && this.oauth_creds.expiry_date < +new Date()) {
-      await this.refreshToken(this.oauth_creds.refresh_token);
+    // Check if we have valid credentials
+    if (!this.oauth_creds) {
+      throw new Error("No Qwen credentials found. Please authenticate first.");
     }
+
+    // Ensure we have a valid token
+    await this.ensureValidToken();
 
     const messages = request.messages.map(message => {
         const { role, content, tool_calls } = message;
@@ -60,6 +66,32 @@ class QwenCLITransformer {
         },
       },
     };
+  }
+
+  async ensureValidToken() {
+    // If there's already a refresh in progress, wait for it
+    if (this.refreshingToken && this.tokenRefreshPromise) {
+      await this.tokenRefreshPromise;
+      return;
+    }
+
+    // Check if we have credentials
+    if (!this.oauth_creds) {
+      throw new Error("No Qwen credentials found. Please authenticate first.");
+    }
+
+    // Check if token is expired and refresh if needed
+    if (this.oauth_creds.expiry_date < +new Date()) {
+      this.refreshingToken = true;
+      this.tokenRefreshPromise = this.refreshToken(this.oauth_creds.refresh_token);
+      
+      try {
+        await this.tokenRefreshPromise;
+      } finally {
+        this.refreshingToken = false;
+        this.tokenRefreshPromise = null;
+      }
+    }
   }
 
   async transformResponseOut(response) {
@@ -161,6 +193,20 @@ class QwenCLITransformer {
     return response;
   }
 
+  isAuthError(response) {
+    // Check if the response indicates an authentication error
+    if (response.status === 401 || response.status === 403) {
+      return true;
+    }
+    
+    // For JSON responses, check for specific error messages
+    if (response.headers.get("Content-Type")?.includes("application/json")) {
+      return false; // We'd need to parse the body to check, but that's async
+    }
+    
+    return false;
+  }
+
   async refreshToken(refresh_token) {
     log("Refreshing Qwen token");
     try {
@@ -182,13 +228,19 @@ class QwenCLITransformer {
             throw new Error(data.error_description || "Failed to refresh token");
         }
 
-        data.expiry_date = new Date().getTime() + data.expires_in * 1000 - 1000 * 60;
+        // Ensure we have all required fields
+        if (!data.access_token) {
+            throw new Error("No access token in refresh response");
+        }
+
+        data.expiry_date = new Date().getTime() + (data.expires_in || 3600) * 1000 - 1000 * 60;
         data.refresh_token = data.refresh_token || refresh_token; // Use the new refresh token if provided
         delete data.expires_in;
 
         this.oauth_creds = data;
         await fs.writeFile(OAUTH_FILE, JSON.stringify(data, null, 2));
         log("Qwen token refreshed successfully");
+        return data.access_token;
     } catch (error) {
         log("Error refreshing Qwen token:", error.message);
         throw error;
