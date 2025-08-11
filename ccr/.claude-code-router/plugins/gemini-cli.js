@@ -38,7 +38,7 @@ class GeminiCLITransformer {
     this.options = options;
     try {
       this.oauth_creds = require(OAUTH_FILE);
-    } catch {}
+    } catch { }
   }
 
   async transformRequestIn(request, provider) {
@@ -144,8 +144,7 @@ class GeminiCLITransformer {
       },
       config: {
         url: new URL(
-          `https://cloudcode-pa.googleapis.com/v1internal:${
-            request.stream ? "streamGenerateContent?alt=sse" : "generateContent"
+          `https://cloudcode-pa.googleapis.com/v1internal:${request.stream ? "streamGenerateContent?alt=sse" : "generateContent"
           }`,
         ),
         headers: {

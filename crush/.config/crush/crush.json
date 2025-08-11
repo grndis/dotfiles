@@ -1,6 +1,102 @@
 {
   "$schema": "https://charm.land/crush.json",
+  "permissions": {
+    "allowed_tools": [
+      "view",
+      "ls",
+      "grep",
+      "edit",
+      "mcp_context7_get-library-doc"
+    ]
+  },
   "providers": {
+    "copilot": {
+      "type": "openai",
+      "base_url": "$COPILOT_API_ENDPOINT",
+      "api_key": "$OPENAI_KEY",
+      "models": [
+        {
+          "id": "claude-sonnet-4",
+          "name": "Claude Sonnet 4",
+          "cost_per_1m_in": 3,
+          "cost_per_1m_out": 15,
+          "cost_per_1m_in_cached": 3.75,
+          "cost_per_1m_out_cached": 0.3,
+          "context_window": 200000,
+          "default_max_tokens": 50000,
+          "can_reason": true,
+          "supports_attachments": true
+        },
+        {
+          "id": "gpt-4.1",
+          "name": "GPT-4.1",
+          "cost_per_1m_in": 2,
+          "cost_per_1m_out": 8,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out_cached": 0.5,
+          "context_window": 1047576,
+          "default_max_tokens": 50000,
+          "can_reason": false,
+          "supports_attachments": true
+        },
+        {
+          "id": "gpt-4o",
+          "name": "GPT-4o",
+          "cost_per_1m_in": 2.5,
+          "cost_per_1m_out": 10,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out_cached": 1.25,
+          "context_window": 128000,
+          "default_max_tokens": 20000,
+          "can_reason": false,
+          "supports_attachments": true
+        },
+        {
+          "id": "gpt-4o-mini",
+          "name": "GPT-4o-mini",
+          "cost_per_1m_in": 0.15,
+          "cost_per_1m_out": 0.6,
+          "cost_per_1m_in_cached": 0,
+          "cost_per_1m_out_cached": 0.075,
+          "context_window": 128000,
+          "default_max_tokens": 20000,
+          "can_reason": false,
+          "reasoning_effort": "",
+          "supports_attachments": true
+        },
+        {
+          "id": "gemini-2.5-pro",
+          "name": "Gemini 2.5 Pro",
+          "cost_per_1m_in": 1.25,
+          "cost_per_1m_out": 10,
+          "cost_per_1m_in_cached": 1.625,
+          "cost_per_1m_out_cached": 0.31,
+          "context_window": 1048576,
+          "default_max_tokens": 50000,
+          "can_reason": true,
+          "supports_attachments": true
+        }
+      ]
+    },
+    "qwen-cli": {
+      "type": "openai",
+      "base_url": "https://qwen-cli-worker.uix.workers.dev/v1",
+      "api_key": "$OPENAI_KEY",
+      "models": [
+        {
+          "id": "qwen3-coder-plus",
+          "name": "Qwen3 Coder Plus",
+          "cost_per_1m_in": 1.25,
+          "cost_per_1m_out": 10,
+          "cost_per_1m_in_cached": 1.625,
+          "cost_per_1m_out_cached": 0.31,
+          "context_window": 1048576,
+          "default_max_tokens": 50000,
+          "can_reason": true,
+          "supports_attachments": true
+        }
+      ]
+    },
     "gemini-cli": {
       "type": "openai",
       "base_url": "$GEMINI_ENDPOINT",
@@ -8,23 +104,27 @@
       "models": [
         {
           "id": "gemini-2.5-pro",
-          "name": "gemini-2.5-pro",
-          "cost_per_1m_in": 0.27,
-          "cost_per_1m_out": 1.1,
-          "cost_per_1m_in_cached": 0.07,
-          "cost_per_1m_out_cached": 1.1,
-          "context_window": 1000000,
-          "default_max_tokens": 65000
+          "name": "Gemini 2.5 Pro",
+          "cost_per_1m_in": 1.25,
+          "cost_per_1m_out": 10,
+          "cost_per_1m_in_cached": 1.625,
+          "cost_per_1m_out_cached": 0.31,
+          "context_window": 1048576,
+          "default_max_tokens": 50000,
+          "can_reason": true,
+          "supports_attachments": true
         },
         {
           "id": "gemini-2.5-flash",
-          "name": "gemini-2.5-flash",
-          "cost_per_1m_in": 0.27,
-          "cost_per_1m_out": 1.1,
-          "cost_per_1m_in_cached": 0.07,
-          "cost_per_1m_out_cached": 1.1,
-          "context_window": 1000000,
-          "default_max_tokens": 65000
+          "name": "Gemini 2.5 Flash",
+          "cost_per_1m_in": 0.3,
+          "cost_per_1m_out": 2.5,
+          "cost_per_1m_in_cached": 0.3833,
+          "cost_per_1m_out_cached": 0.075,
+          "context_window": 1048576,
+          "default_max_tokens": 50000,
+          "can_reason": true,
+          "supports_attachments": true
         }
       ]
     }
