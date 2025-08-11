@@ -1,22 +1,57 @@
 const os = require("os");
 const path = require("path");
 const fs = require("fs/promises");
-const { log } = require("claude-code-router");
 
 const OAUTH_FILE = path.join(os.homedir(), ".gemini", "oauth_creds.json");
 
-function cleanupParameters(obj) {
+function cleanupParameters(obj, keyName) {
   if (!obj || typeof obj !== "object") {
     return;
   }
 
   if (Array.isArray(obj)) {
-    obj.forEach(cleanupParameters);
+    obj.forEach((item) => {
+      cleanupParameters(item);
+    });
     return;
   }
 
-  delete obj.$schema;
-  delete obj.additionalProperties;
+  const validFields = new Set([
+    "type",
+    "format",
+    "title",
+    "description",
+    "nullable",
+    "enum",
+    "maxItems",
+    "minItems",
+    "properties",
+    "required",
+    "minProperties",
+    "maxProperties",
+    "minLength",
+    "maxLength",
+    "pattern",
+    "example",
+    "anyOf",
+    "propertyOrdering",
+    "default",
+    "items",
+    "minimum",
+    "maximum",
+  ]);
+
+  if (keyName !== "properties") {
+    Object.keys(obj).forEach((key) => {
+      if (!validFields.has(key)) {
+        delete obj[key];
+      }
+    });
+  }
+
+  if (obj.enum && obj.type !== "string") {
+    delete obj.enum;
+  }
 
   if (
     obj.type === "string" &&
@@ -27,7 +62,7 @@ function cleanupParameters(obj) {
   }
 
   Object.keys(obj).forEach((key) => {
-    cleanupParameters(obj[key]);
+    cleanupParameters(obj[key], key);
   });
 }
 
@@ -38,7 +73,7 @@ class GeminiCLITransformer {
     this.options = options;
     try {
       this.oauth_creds = require(OAUTH_FILE);
-    } catch { }
+    } catch {}
   }
 
   async transformRequestIn(request, provider) {
@@ -68,7 +103,7 @@ class GeminiCLITransformer {
     );
     if (webSearch) {
       tools.push({
-        google_search: {},
+        googleSearch: {},
       });
     }
     return {
@@ -144,7 +179,8 @@ class GeminiCLITransformer {
       },
       config: {
         url: new URL(
-          `https://cloudcode-pa.googleapis.com/v1internal:${request.stream ? "streamGenerateContent?alt=sse" : "generateContent"
+          `https://cloudcode-pa.googleapis.com/v1internal:${
+            request.stream ? "streamGenerateContent?alt=sse" : "generateContent"
           }`,
         ),
         headers: {
@@ -213,7 +249,7 @@ class GeminiCLITransformer {
         if (line.startsWith("data: ")) {
           const chunkStr = line.slice(6).trim();
           if (chunkStr) {
-            log("gemini-cli chunk:", chunkStr);
+            this.logger.debug({ chunkStr }, "gemini-cli chunk:");
             try {
               let chunk = JSON.parse(chunkStr);
               chunk = chunk.response;
@@ -288,7 +324,10 @@ class GeminiCLITransformer {
                 encoder.encode(`data: ${JSON.stringify(res)}\n\n`),
               );
             } catch (error) {
-              log("Error parsing Gemini stream chunk", chunkStr, error.message);
+              this.logger.error(
+                { chunkStr, error },
+                "Error parsing Gemini stream chunk",
+              );
             }
           }
         }
