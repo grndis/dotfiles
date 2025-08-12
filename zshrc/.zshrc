@@ -222,7 +222,7 @@ alias f='yazi'
 alias ls='eza --color=always --git --icons=always'
 alias a='atac'
 alias z='zellij'
-alias code='ccr code'
+alias code='ccr code --dangerously-skip-permissions'
 alias rovo='acli rovodev run'
 
 ################################################################

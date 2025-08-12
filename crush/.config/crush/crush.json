@@ -99,7 +99,7 @@
     },
     "gemini-cli": {
       "type": "openai",
-      "base_url": "$GEMINI_ENDPOINT",
+      "base_url": "http://localhost:11434/v1",
       "api_key": "$OPENAI_KEY",
       "models": [
         {
