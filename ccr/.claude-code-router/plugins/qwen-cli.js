@@ -1,6 +1,3 @@
-const { log } = require("claude-code-router");
-log("Loading QwenCLITransformer plugin");
-
 const os = require("os");
 const path = require("path");
 const fs = require("fs/promises");
@@ -13,7 +10,7 @@ const QWEN_CLIENT_ID = "f0304373b74a44d2b584a3fb70ca9e56";
 function objectToUrlEncoded(data) {
   return Object.keys(data)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-    .join('&');
+    .join("&");
 }
 
 class QwenCLITransformer {
@@ -80,8 +77,6 @@ class QwenCLITransformer {
   async transformResponseOut(response) {
     // Check for authentication errors in non-streaming responses
     if (this.isAuthError(response)) {
-      log("Authentication error detected in response");
-      
       // For non-streaming responses, we can check the body
       const contentType = response.headers.get("Content-Type");
       if (contentType?.includes("application/json")) {
@@ -89,20 +84,13 @@ class QwenCLITransformer {
           // Clone the response so we don't consume the original
           const clonedResponse = response.clone();
           const errorData = await clonedResponse.json();
-          
-          // Log the error details
-          log("Auth error details:", errorData.error || errorData.error_description || "Unknown error");
-          
+
           // Attempt to refresh the token
           try {
             await this.forceRefreshToken();
-            log("Token refreshed successfully after auth error");
-          } catch (refreshError) {
-            log("Failed to refresh token:", refreshError.message);
-          }
+          } catch (refreshError) { }
         } catch (e) {
           // If we can't parse the response, just proceed
-          log("Could not parse error response");
         }
       }
     }
@@ -130,39 +118,36 @@ class QwenCLITransformer {
           if (chunkStr) {
             try {
               let chunk = JSON.parse(chunkStr);
-              
+
               // Check for authentication errors in streaming response
               if (chunk.error) {
                 const errorCode = chunk.error.code || chunk.error.type;
-                const errorMessage = chunk.error.message || chunk.error.error_description || "";
-                
+                const errorMessage =
+                  chunk.error.message || chunk.error.error_description || "";
+
                 if (self.isStreamAuthError(errorCode, errorMessage)) {
-                  log("Authentication error in stream:", errorMessage);
                   // Attempt to refresh token for next request
-                  self.forceRefreshToken().catch(err => 
-                    log("Failed to refresh token in stream:", err.message)
-                  );
+                  self.forceRefreshToken();
                 }
               }
-              
+
               // Transform the chunk to the expected format
-              const choices = chunk.choices?.map((choice) => {
-                const delta = choice.delta;
-                if (delta.role === "assistant") {
-                  delta.role = "model";
-                }
-                return {
-                  ...choice,
-                  delta,
-                };
-              }) || [];
+              const choices =
+                chunk.choices?.map((choice) => {
+                  const delta = choice.delta;
+                  if (delta.role === "assistant") {
+                    delta.role = "model";
+                  }
+                  return {
+                    ...choice,
+                    delta,
+                  };
+                }) || [];
               chunk.choices = choices;
               controller.enqueue(
                 encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`),
               );
-            } catch (error) {
-              log("Error parsing Qwen stream chunk", chunkStr, error.message);
-            }
+            } catch (error) { }
           }
         }
       };
@@ -235,8 +220,11 @@ class QwenCLITransformer {
     // Check if token is expired or about to expire (with 5 minute buffer)
     const now = Date.now();
     const expiryBuffer = 5 * 60 * 1000; // 5 minutes
-    
-    if (!this.oauth_creds.expiry_date || this.oauth_creds.expiry_date < now + expiryBuffer) {
+
+    if (
+      !this.oauth_creds.expiry_date ||
+      this.oauth_creds.expiry_date < now + expiryBuffer
+    ) {
       await this.getValidToken();
     }
   }
@@ -252,7 +240,7 @@ class QwenCLITransformer {
 
     // Start a new refresh operation
     this.refreshPromise = this.performTokenRefresh();
-    
+
     try {
       await this.refreshPromise;
     } finally {
@@ -269,7 +257,7 @@ class QwenCLITransformer {
     }
 
     this.refreshPromise = this.performTokenRefresh();
-    
+
     try {
       await this.refreshPromise;
     } finally {
@@ -293,7 +281,7 @@ class QwenCLITransformer {
    */
   isAuthError(response) {
     if (!response) return false;
-    
+
     const status = response.status;
     if (status === 400 || status === 401 || status === 403) {
       return true;
@@ -301,7 +289,10 @@ class QwenCLITransformer {
 
     // Check for specific error messages in response body if available
     const contentType = response.headers.get("Content-Type");
-    if (contentType?.includes("application/json") && response.bodyUsed === false) {
+    if (
+      contentType?.includes("application/json") &&
+      response.bodyUsed === false
+    ) {
       // Note: We can't check the body here as it would consume the stream
       // The status code check above should be sufficient
     }
@@ -314,34 +305,33 @@ class QwenCLITransformer {
    */
   isStreamAuthError(errorCode, errorMessage) {
     if (!errorCode && !errorMessage) return false;
-    
+
     const code = String(errorCode).toLowerCase();
     const message = String(errorMessage).toLowerCase();
-    
+
     return (
-      code === 'unauthorized' ||
-      code === 'forbidden' ||
-      code === 'invalid_api_key' ||
-      code === 'invalid_access_token' ||
-      code === 'token_expired' ||
-      code === 'authentication_error' ||
-      code === 'permission_denied' ||
-      message.includes('unauthorized') ||
-      message.includes('forbidden') ||
-      message.includes('invalid api key') ||
-      message.includes('invalid access token') ||
-      message.includes('token expired') ||
-      message.includes('authentication') ||
-      message.includes('access denied') ||
-      (message.includes('token') && message.includes('expired'))
+      code === "unauthorized" ||
+      code === "forbidden" ||
+      code === "invalid_api_key" ||
+      code === "invalid_access_token" ||
+      code === "token_expired" ||
+      code === "authentication_error" ||
+      code === "permission_denied" ||
+      message.includes("unauthorized") ||
+      message.includes("forbidden") ||
+      message.includes("invalid api key") ||
+      message.includes("invalid access token") ||
+      message.includes("token expired") ||
+      message.includes("authentication") ||
+      message.includes("access denied") ||
+      (message.includes("token") && message.includes("expired"))
     );
   }
 
   async refreshToken(refresh_token) {
-    log("Refreshing Qwen token");
     try {
       const bodyData = {
-        grant_type: 'refresh_token',
+        grant_type: "refresh_token",
         refresh_token: refresh_token,
         client_id: QWEN_CLIENT_ID,
       };
@@ -350,64 +340,60 @@ class QwenCLITransformer {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         body: objectToUrlEncoded(bodyData),
       });
 
       const responseText = await response.text();
-      
+
       if (!response.ok) {
         let errorMsg = `Token refresh failed with status: ${response.status}`;
         try {
-            const errorData = JSON.parse(responseText);
-            errorMsg = errorData.error_description || errorData.error || responseText;
+          const errorData = JSON.parse(responseText);
+          errorMsg =
+            errorData.error_description || errorData.error || responseText;
         } catch (e) {
-            errorMsg = `${errorMsg} - ${responseText}`;
+          errorMsg = `${errorMsg} - ${responseText}`;
         }
-        
-        log("Token refresh failed:", errorMsg);
 
         if (response.status === 400) {
-            log("Refresh token is invalid, clearing credentials");
-            this.oauth_creds = null;
-            try {
-                await fs.unlink(OAUTH_FILE);
-            } catch (e) {
-                // Ignore file deletion errors
-            }
+          this.oauth_creds = null;
+          try {
+            await fs.unlink(OAUTH_FILE);
+          } catch (e) {
+            // Ignore file deletion errors
+          }
         }
-        
+
         throw new Error(errorMsg);
       }
 
       const data = JSON.parse(responseText);
 
-      const expiry_date = Date.now() + (data.expires_in * 1000);
-      
+      const expiry_date = Date.now() + data.expires_in * 1000;
+
       const newCredentials = {
-          access_token: data.access_token,
-          token_type: data.token_type,
-          refresh_token: data.refresh_token || refresh_token,
-          resource_url: data.resource_url,
-          expiry_date: expiry_date,
+        access_token: data.access_token,
+        token_type: data.token_type,
+        refresh_token: data.refresh_token || refresh_token,
+        resource_url: data.resource_url,
+        expiry_date: expiry_date,
       };
 
       this.oauth_creds = newCredentials;
-      
+
       const dir = path.dirname(OAUTH_FILE);
       try {
         await fs.mkdir(dir, { recursive: true });
       } catch (e) {
         // Directory might already exist
       }
-      
+
       await fs.writeFile(OAUTH_FILE, JSON.stringify(newCredentials, null, 2));
-      log("Qwen token refreshed successfully");
-      
+
       return newCredentials.access_token;
     } catch (error) {
-      log("Error refreshing Qwen token:", error.message);
       this.refreshPromise = null; // Clear the promise on error
       throw error;
     }
