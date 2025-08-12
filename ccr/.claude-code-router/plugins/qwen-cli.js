@@ -50,9 +50,7 @@ class QwenCLITransformer {
       stream: request.stream,
     };
 
-    const DEFAULT_QWEN_BASE_URL =
-      "https://dashscope.aliyuncs.com/compatible-mode/v1";
-    let qwenEndpoint = this.oauth_creds?.resource_url || DEFAULT_QWEN_BASE_URL;
+    let qwenEndpoint = this.oauth_creds?.resource_url;
     if (!qwenEndpoint.startsWith("http")) {
       qwenEndpoint = "https://" + qwenEndpoint;
     }
