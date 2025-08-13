@@ -274,9 +274,48 @@ _create_claude_config() {
       "options": {
         "project": "$GCLOUD_GEMINI"
       }
+    },
+    {
+      "name": "",
+      "path": "/Users/grandis/.claude-code-router/plugins/qwen-cli.js",
+      "options": {}
     }
   ],
   "Providers": [
+    {
+      "name": "qwen",
+      "api_base_url": "http://192.168.31.172:9999/qwen/v1/chat/completions",
+      "api_key": "sk-c5184ba9251d4ba5bc0cdfc125b85739",
+      "models": [
+        "qwen3-coder-plus"
+      ],
+      "transformer": {
+        "use": [
+          "qwen",
+          "enhancetool"
+        ]
+      }
+    },
+    {
+      "name": "qwen-cli",
+      "api_base_url": "http://localhost",
+      "api_key": "dummy-key",
+      "models": [
+        "qwen3-coder-plus"
+      ],
+      "transformer": {
+        "use": [
+          "enhancetool",
+          [
+            "maxtoken",
+            {
+              "max_tokens": 1000000
+            }
+          ],
+          "qwen-cli"
+        ]
+      }
+    },
     {
       "name": "gemini",
       "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
@@ -324,13 +363,14 @@ _create_claude_config() {
         "use": ["copilot"]
       }
     }
-
   ],
   "Router": {
-    "default": "gemini-cli,gemini-2.5-flash",
-    "background": "gemini-cli,gemini-2.5-pro",
-    "think": "gemini-cli,gemini-2.5-pro",
-    "longContext": "gemini-cli,gemini-2.5-pro"
+    "default": "qwen,qwen3-coder-plus",
+    "background": "qwen,qwen3-coder-plus",
+    "think": "qwen-cli,qwen3-coder-plus",
+    "longContext": "gemini-cli,gemini-2.5-pro",
+    "longContextThreshold": 800000,
+    "webSearch": "gemini-cli,gemini-2.5-pro"
   }
 }
 EOF
