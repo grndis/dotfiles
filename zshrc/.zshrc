@@ -56,6 +56,9 @@ export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
 export OPENAI_BASE_URL=https://openrouter.ai/api/v1
 export OPENAI_MODEL="qwen/qwen3-coder"
+export CLAUDE_POWERLINE_THEME=dark
+export CLAUDE_POWERLINE_STYLE=tokyo-night
+export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
 
 ################################################################
 # PATH Setup
