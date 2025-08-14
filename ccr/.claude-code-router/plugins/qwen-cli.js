@@ -160,36 +160,6 @@ class QwenCLITransformer {
     return this.accounts.get(accountId) || null;
   }
 
-  /**
-   * Add a new account
-   * @param {Object} credentials - The account credentials
-   * @param {string} accountId - The account ID
-   */
-  async addAccount(credentials, accountId) {
-    await this.saveCredentials(credentials, accountId);
-  }
-
-  /**
-   * Remove an account
-   * @param {string} accountId - The account ID to remove
-   */
-  async removeAccount(accountId) {
-    try {
-      const accountFilename = `${QWEN_MULTI_ACCOUNT_PREFIX}${accountId}${QWEN_MULTI_ACCOUNT_SUFFIX}`;
-      const accountPath = path.join(this.qwenDir, accountFilename);
-      
-      // Remove file
-      await fs.unlink(accountPath);
-      
-      // Remove from accounts map
-      this.accounts.delete(accountId);
-      
-      console.log(`Account ${accountId} removed successfully`);
-    } catch (error) {
-      console.error(`Error removing account ${accountId}:`, error.message);
-      throw error;
-    }
-  }
 
   /**
    * Get the next available account for rotation
