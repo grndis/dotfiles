@@ -262,120 +262,120 @@ fi
 # Config File Management (moved to separate script)
 ################################################################
 # Create configs only when tools are first used
-_create_claude_config() {
-    if [[ ! -f "$HOME/.claude-code-router/config.json" ]]; then
-        mkdir -p "$HOME/.claude-code-router"
-        cat > "$HOME/.claude-code-router/config.json" << EOF
-{
-  "LOG": false,
-  "transformers": [
-    {
-      "path": "$HOME/.claude-code-router/plugins/gemini-cli.js",
-      "options": {
-        "project": "$GCLOUD_GEMINI"
-      }
-    },
-    {
-      "name": "",
-      "path": "/Users/grandis/.claude-code-router/plugins/qwen-cli.js",
-      "options": {}
-    }
-  ],
-  "Providers": [
-    {
-      "name": "qwen",
-      "api_base_url": "http://192.168.31.172:9999/qwen/v1/chat/completions",
-      "api_key": "sk-c5184ba9251d4ba5bc0cdfc125b85739",
-      "models": [
-        "qwen3-coder-plus"
-      ],
-      "transformer": {
-        "use": [
-          "qwen",
-          "enhancetool"
-        ]
-      }
-    },
-    {
-      "name": "qwen-cli",
-      "api_base_url": "http://localhost",
-      "api_key": "dummy-key",
-      "models": [
-        "qwen3-coder-plus"
-      ],
-      "transformer": {
-        "use": [
-          "enhancetool",
-          [
-            "maxtoken",
-            {
-              "max_tokens": 1000000
-            }
-          ],
-          "qwen-cli"
-        ]
-      }
-    },
-    {
-      "name": "gemini",
-      "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
-      "api_key": "$GEMINI_API_KEY",
-      "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
-      "transformer": {
-        "use": ["gemini"]
-      }
-    },
-    {
-      "name": "gemini-cli",
-      "api_base_url": "https://cloudcode-pa.googleapis.com/v1internal",
-      "api_key": "$GEMINI_API_KEY",
-      "models": ["gemini-2.5-flash", "gemini-2.5-pro"],
-      "transformer": {
-        "use": ["gemini-cli"]
-      }
-    },
-    {
-      "name": "openrouter",
-      "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
-      "api_key": "$OPENROUTER_KEY",
-      "models": [
-        "anthropic/claude-sonnet-4",
-        "anthropic/claude-opus-4",
-        "google/gemini-2.5-flash",
-        "google/gemini-2.5-pro"
-      ],
-      "transformer": {
-        "use": ["openrouter"]
-      }
-    },
-    {
-      "name": "copilot",
-      "api_base_url": "https://api.githubcopilot.com/chat/completions",
-      "api_key": "$COPILOT_TOKEN",
-      "models": [
-        "gemini-2.5-pro",
-        "claude-sonnet-4",
-        "gpt-4.1",
-        "gpt-4o",
-        "gpt-4o-mini"
-      ],
-      "transformer": {
-        "use": ["copilot"]
-      }
-    }
-  ],
-  "Router": {
-    "default": "qwen,qwen3-coder-plus",
-    "background": "qwen,qwen3-coder-plus",
-    "think": "qwen-cli,qwen3-coder-plus",
-    "longContext": "gemini-cli,gemini-2.5-pro",
-    "longContextThreshold": 800000,
-    "webSearch": "gemini-cli,gemini-2.5-pro"
-  }
-}
-EOF
-    fi
-}
+# _create_claude_config() {
+#     if [[ ! -f "$HOME/.claude-code-router/config.json" ]]; then
+#         mkdir -p "$HOME/.claude-code-router"
+#         cat > "$HOME/.claude-code-router/config.json" << EOF
+# {
+#   "LOG": false,
+#   "transformers": [
+#     {
+#       "path": "$HOME/.claude-code-router/plugins/gemini-cli.js",
+#       "options": {
+#         "project": "$GCLOUD_GEMINI"
+#       }
+#     },
+#     {
+#       "name": "",
+#       "path": "/Users/grandis/.claude-code-router/plugins/qwen-cli.js",
+#       "options": {}
+#     }
+#   ],
+#   "Providers": [
+#     {
+#       "name": "qwen",
+#       "api_base_url": "http://192.168.31.172:9999/qwen/v1/chat/completions",
+#       "api_key": "sk-c5184ba9251d4ba5bc0cdfc125b85739",
+#       "models": [
+#         "qwen3-coder-plus"
+#       ],
+#       "transformer": {
+#         "use": [
+#           "qwen",
+#           "enhancetool"
+#         ]
+#       }
+#     },
+#     {
+#       "name": "qwen-cli",
+#       "api_base_url": "http://localhost",
+#       "api_key": "dummy-key",
+#       "models": [
+#         "qwen3-coder-plus"
+#       ],
+#       "transformer": {
+#         "use": [
+#           "enhancetool",
+#           [
+#             "maxtoken",
+#             {
+#               "max_tokens": 1000000
+#             }
+#           ],
+#           "qwen-cli"
+#         ]
+#       }
+#     },
+#     {
+#       "name": "gemini",
+#       "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
+#       "api_key": "$GEMINI_API_KEY",
+#       "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
+#       "transformer": {
+#         "use": ["gemini"]
+#       }
+#     },
+#     {
+#       "name": "gemini-cli",
+#       "api_base_url": "https://cloudcode-pa.googleapis.com/v1internal",
+#       "api_key": "$GEMINI_API_KEY",
+#       "models": ["gemini-2.5-flash", "gemini-2.5-pro"],
+#       "transformer": {
+#         "use": ["gemini-cli"]
+#       }
+#     },
+#     {
+#       "name": "openrouter",
+#       "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+#       "api_key": "$OPENROUTER_KEY",
+#       "models": [
+#         "anthropic/claude-sonnet-4",
+#         "anthropic/claude-opus-4",
+#         "google/gemini-2.5-flash",
+#         "google/gemini-2.5-pro"
+#       ],
+#       "transformer": {
+#         "use": ["openrouter"]
+#       }
+#     },
+#     {
+#       "name": "copilot",
+#       "api_base_url": "https://api.githubcopilot.com/chat/completions",
+#       "api_key": "$COPILOT_TOKEN",
+#       "models": [
+#         "gemini-2.5-pro",
+#         "claude-sonnet-4",
+#         "gpt-4.1",
+#         "gpt-4o",
+#         "gpt-4o-mini"
+#       ],
+#       "transformer": {
+#         "use": ["copilot"]
+#       }
+#     }
+#   ],
+#   "Router": {
+#     "default": "qwen,qwen3-coder-plus",
+#     "background": "qwen,qwen3-coder-plus",
+#     "think": "qwen-cli,qwen3-coder-plus",
+#     "longContext": "gemini-cli,gemini-2.5-pro",
+#     "longContextThreshold": 800000,
+#     "webSearch": "gemini-cli,gemini-2.5-pro"
+#   }
+# }
+# EOF
+#     fi
+# }
 
 # _create_lumen_config() {
 #     if [[ ! -f "$HOME/.config/lumen/lumen.config.json" ]]; then
@@ -406,10 +406,10 @@ EOF
 # }
 
 # Override commands to create configs on first use
-ccr() {
-    _create_claude_config
-    command ccr "$@"
-}
+# ccr() {
+#     _create_claude_config
+#     command ccr "$@"
+# }
 
 # Unset any existing lumen alias before defining function
 # unalias lumen 2>/dev/null
