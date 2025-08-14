@@ -4,11 +4,19 @@
       {
         "segments": {
           "directory": {
-            "enabled": true
+            "enabled": true,
+            "showBasename": false
           },
           "git": {
             "enabled": true,
-            "showSha": true
+            "showSha": true,
+            "showWorkingTree": true,
+            "showOperation": false,
+            "showTag": false,
+            "showTimeSinceCommit": false,
+            "showStashCount": false,
+            "showUpstream": false,
+            "showRepoName": false
           },
           "model": {
             "enabled": true
@@ -17,16 +25,28 @@
             "enabled": true,
             "type": "tokens"
           },
-          "today": {
-            "enabled": false,
-            "type": "both"
-          },
           "block": {
             "enabled": false,
             "type": "cost"
           },
+          "today": {
+            "enabled": false,
+            "type": "cost"
+          },
+          "context": {
+            "enabled": true
+          },
           "tmux": {
             "enabled": false
+          },
+          "metrics": {
+            "enabled": true,
+            "showResponseTime": false,
+            "showLastResponseTime": false,
+            "showDuration": true,
+            "showMessageCount": true,
+            "showCostBurnRate": false,
+            "showTokenBurnRate": false
           }
         }
       }
