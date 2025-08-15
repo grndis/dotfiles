@@ -6,12 +6,6 @@
   "APIKEY": "",
   "API_TIMEOUT_MS": "600000",
   "PROXY_URL": "",
-  "OPENAI_API_KEY": "$OPENAI_API_KEY",
-  "GEMINI_API_KEY": "$GEMINI_API_KEY",
-  "OPENROUTER_KEY": "$OPENROUTER_KEY",
-  "COPILOT_TOKEN": "$COPILOT_TOKEN",
-  "GCLOUD_GEMINI": "$GCLOUD_GEMINI",
-  "HOME": "$HOME",
   "transformers": [
     {
       "path": "$HOME/.claude-code-router/plugins/gemini-cli.js",
@@ -30,47 +24,43 @@
       "options": {}
     },
     {
-      "name": "",
       "path": "$HOME/.claude-code-router/plugins/rovo-cli.js",
       "options": {}
     }
   ],
   "Providers": [
     {
+      "name": "rovo-cli",
+      "api_base_url": "https://api.atlassian.com/rovodev/v2/proxy/ai/v1/openai/v1/chat/completions",
+      "api_key": "$GEMINI_API_KEY",
+      "models": ["gpt-5-2025-08-07", "claude-sonnet-4"],
+      "transformer": {
+        "use": ["rovo-cli"]
+      }
+    },
+    {
       "name": "gemini",
       "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
       "api_key": "$GEMINI_API_KEY",
-      "models": [
-        "gemini-2.5-pro",
-        "gemini-2.5-flash"
-      ],
+      "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
       "transformer": {
-        "use": [
-          "gemini"
-        ]
+        "use": ["gemini"]
       }
     },
     {
       "name": "qwen-code",
       "api_base_url": "https://portal.qwen.ai/v1/chat/completions",
       "api_key": "$GEMINI_API_KEY",
-      "models": [
-        "qwen3-coder-plus"
-      ],
+      "models": ["qwen3-coder-plus"],
       "transformer": {
-        "use": [
-          "enhancetool",
-          "qwen-code"
-        ]
+        "use": ["enhancetool", "qwen-code"]
       }
     },
     {
       "name": "qwen-cli",
       "api_base_url": "http://localhost",
       "api_key": "$GEMINI_API_KEY",
-      "models": [
-        "qwen3-coder-plus"
-      ],
+      "models": ["qwen3-coder-plus"],
       "transformer": {
         "use": [
           "enhancetool",
@@ -88,14 +78,9 @@
       "name": "gemini-cli",
       "api_base_url": "https://cloudcode-pa.googleapis.com/v1internal",
       "api_key": "$GEMINI_API_KEY",
-      "models": [
-        "gemini-2.5-flash",
-        "gemini-2.5-pro"
-      ],
+      "models": ["gemini-2.5-flash", "gemini-2.5-pro"],
       "transformer": {
-        "use": [
-          "gemini-cli"
-        ]
+        "use": ["gemini-cli"]
       }
     },
     {
@@ -112,9 +97,7 @@
         "moonshotai/kimi-k2:free"
       ],
       "transformer": {
-        "use": [
-          "openrouter"
-        ]
+        "use": ["openrouter"]
       }
     },
     {
@@ -129,33 +112,23 @@
         "gpt-4o-mini"
       ],
       "transformer": {
-        "use": [
-          "copilot"
-        ]
+        "use": ["copilot"]
       }
     },
     {
       "name": "qwen",
       "api_base_url": "http://192.168.31.172:8800/v1/chat/completions",
       "api_key": "$COPILOT_TOKEN",
-      "models": [
-        "qwen3-coder-plus"
-      ],
+      "models": ["qwen3-coder-plus"],
       "transformer": {
-        "use": [
-          "qwen",
-          "enhancetool"
-        ]
+        "use": ["qwen", "enhancetool"]
       }
     },
     {
       "name": "openai",
       "api_base_url": "https://api.openai.com/v1/chat/completions",
       "api_key": "$OPENAI_API_KEY",
-      "models": [
-        "gpt-5",
-        "gpt-5-mini"
-      ]
+      "models": ["gpt-5", "gpt-5-mini"]
     }
   ],
   "Router": {
