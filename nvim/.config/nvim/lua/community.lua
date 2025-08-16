@@ -36,6 +36,7 @@ return {
   { import = "astrocommunity.recipes.telescope-nvchad-theme" },
   { import = "astrocommunity.color.modes-nvim" },
   { import = "astrocommunity.syntax.vim-easy-align" },
+  -- { import = "astrocommunity.split-and-window.edgy-nvim" },
   -- { import = "astrocommunity.indent.indent-rainbowline" },
   -- { import = "astrocommunity.scrolling.vim-smoothie" },
   { import = "astrocommunity.scrolling.nvim-scrollbar" },
