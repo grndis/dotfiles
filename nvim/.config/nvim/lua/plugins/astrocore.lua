@@ -95,8 +95,19 @@ return {
         ["<Leader>c"] = {
           function()
             local bufs = vim.fn.getbufinfo { buflisted = true }
-            require("astrocore.buffer").close(0)
-            if not bufs[2] then require("snacks").dashboard() end
+            -- Check if this is the last buffer
+            if #bufs <= 1 then
+              -- If it's the last buffer, close it and open NeoTree in its place
+              local current_buf = vim.api.nvim_get_current_buf()
+              vim.api.nvim_command "Neotree filesystem current"
+              -- Close the previous buffer forcefully after a short delay
+              vim.defer_fn(function()
+                pcall(vim.api.nvim_buf_delete, current_buf, { force = true })
+              end, 50)
+            else
+              -- Otherwise, close the buffer normally
+              require("astrocore.buffer").close(0)
+            end
           end,
           desc = "Close buffer",
         },
