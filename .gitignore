@@ -5,3 +5,5 @@
 launch_configurations
 .aider*
 .crush*
+*.log
+logs/

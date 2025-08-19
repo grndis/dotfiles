@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(rm /Users/grandis/dotfiles/ccr/.claude-code-router/plugins/qwen-cli-test.js)"
-    ],
-    "deny": []
-  }
-}
