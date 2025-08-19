@@ -99,7 +99,7 @@
     },
     "gemini-cli": {
       "type": "openai",
-      "base_url": "http://192.168.31.172:9999/gemini/v1",
+      "base_url": "http://192.168.31.2:11434/v1",
       "api_key": "$OPENAI_KEY",
       "models": [
         {
