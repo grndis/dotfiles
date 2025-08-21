@@ -162,6 +162,20 @@
       }
     },
     {
+      "name": "gemini-proxy",
+      "api_base_url": "http://192.168.31.2:4445/v1/chat/completions",
+      "api_key": "$COPILOT_TOKEN",
+      "models": [
+        "gemini-2.5-pro"
+      ],
+      "transformer": {
+        "use": [
+          "gemini-proxy",
+          "enhancetool"
+        ]
+      }
+    },
+    {
       "name": "openai",
       "api_base_url": "https://api.openai.com/v1/chat/completions",
       "api_key": "$OPENAI_API_KEY",
