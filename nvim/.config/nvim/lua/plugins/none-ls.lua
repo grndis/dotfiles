@@ -9,6 +9,9 @@ return {
     -- config variable is the default configuration table for the setup function call
     local null_ls = require "null-ls"
     local wp = require "wordpress"
+    local lspconfig = require "lspconfig"
+
+    lspconfig.intelephense.setup(wp.intelephense)
 
     -- Check supported formatters and linters
     -- https://github.com/nvimtools/none-ls.nvim/tree/main/lua/null-ls/builtins/formatting

@@ -1,7 +1,7 @@
 {
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "npx -y @owloops/claude-powerline --theme=tokyo-night --style=minimal"
-  },
-  "model": "opus"
+  }
 }
