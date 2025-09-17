@@ -21,7 +21,6 @@ return {
     formatting = {
       filter = function(client)
         vim.lsp.buf.format { filter = require("wordpress").null_ls_formatter }
-
         -- if vim.bo.filetype == "php" then return client.name == "null-ls" end
         if vim.bo.filetype == "vue" then return client.name == "null-ls" end
         return true

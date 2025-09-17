@@ -27,17 +27,17 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "# Cached environment variables - regenerated when .zshrc changes" > ~/.zsh_env_cache
     echo "export GEMINI_API_KEY=\"$(pass show Development/Gemini/GEMINI_API_KEY 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export LLM_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export OPENAI_API_BASE=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export OPENAI_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    # echo "export OPENAI_API_BASE=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    # echo "export OPENAI_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export API_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export COPILOT_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export OPENAI_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    # echo "export OPENAI_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export OPENROUTER_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export LUMEN_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export COPILOT_API_ENDPOINT=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    # echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/anthropic/ANTHROPIC_AUTH_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
@@ -54,11 +54,13 @@ export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
-export OPENAI_BASE_URL=https://openrouter.ai/api/v1
-export OPENAI_MODEL="qwen/qwen3-coder"
+# export OPENAI_BASE_URL=https://openrouter.ai/api/v1
+# export OPENAI_MODEL="qwen/qwen3-coder"
 export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
+export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
+export ANTHROPIC_MODEL="glm-4.5"
 
 ################################################################
 # PATH Setup
@@ -115,6 +117,9 @@ ZVM_VI_ESCAPE_BINDKEY=^[
 ZVM_VI_SURROUND_BINDKEY='classic'
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
+ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+ZVM_CLIPBOARD_COPY_CMD='xclip -selection clipboard'
+ZVM_CLIPBOARD_PASTE_CMD='xclip -selection clipboard -o'
 
 # Starship integration - load after ZVM initialization
 zvm_after_init_commands+=('if command -v starship >/dev/null 2>&1; then eval "$(starship init zsh)"; fi')
@@ -139,7 +144,7 @@ ZVM_VI_EDITOR='nvim'
 # Shell Integrations - Simple and Reliable
 ################################################################
 # Load zoxide immediately for consistent performance
-if command -v zoxide >/dev/null 2>&1; then
+if command -v zoxide >/dev/null 2>&1 && [ "$CLAUDECODE" != "1" ]; then
     eval "$(zoxide init --cmd cd zsh)"
 fi
 
@@ -248,15 +253,15 @@ y() {
 # AI CLI Setup
 ################################################################
 # Initialize AI tools if needed
-if command -v ai &> /dev/null; then
-    if [ ! -f ~/.ai-shell ]; then
-        echo "First time setup: Configuring ai..."
-        ai config set OPENAI_KEY="$COPILOT_TOKEN"
-        ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
-        touch ~/.ai-shell
-        echo "AI configuration completed."
-    fi
-fi
+# if command -v ai &> /dev/null; then
+#     if [ ! -f ~/.ai-shell ]; then
+#         echo "First time setup: Configuring ai..."
+#         ai config set OPENAI_KEY="$COPILOT_TOKEN"
+#         ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
+#         touch ~/.ai-shell
+#         echo "AI configuration completed."
+#     fi
+# fi
 
 ################################################################
 # Config File Management (moved to separate script)
