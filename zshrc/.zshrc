@@ -430,3 +430,10 @@ y() {
 # if [ -f '/Users/grandis/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/completion.zsh.inc'; fi
 # . "/Users/grandis/.acme.sh/acme.sh.env"
 export PATH="$HOME/.local/bin:$PATH"
+
+# bun completions
+[ -s "/Users/grandis/.bun/_bun" ] && source "/Users/grandis/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
