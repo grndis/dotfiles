@@ -87,6 +87,19 @@ keybinds clear-defaults=true {
             SwitchToMode "locked";
         }
 
+        bind "f" {
+            Run "scooter" {
+                close_on_exit true
+                move_to_focused_tab true
+                floating true
+                width "80%"
+                height "80%"
+                x "10%"
+                y "10%"
+            };
+            SwitchToMode "locked";
+        }
+
         bind "o" { LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zellij-sessionizer.wasm" {
             floating true
             move_to_focused_tab true

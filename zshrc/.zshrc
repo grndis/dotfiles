@@ -60,7 +60,7 @@ export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
 export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
-export ANTHROPIC_MODEL="glm-4.5"
+export ANTHROPIC_MODEL="glm-4.6"
 
 ################################################################
 # PATH Setup
