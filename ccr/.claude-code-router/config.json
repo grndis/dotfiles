@@ -37,7 +37,7 @@
   "Providers": [
     {
       "name": "cliproxy",
-      "api_base_url": "http://localhost:8315/v1/chat/completions",
+      "api_base_url": "http://localhost:4444/v1/chat/completions",
       "api_key": "1234",
       "models": [
         "qwen3-max",
@@ -52,9 +52,9 @@
     }
   ],
   "Router": {
-    "default": "cliproxy,gpt-5-codex",
-    "background": "cliproxy,gpt-5-codex",
-    "think": "cliproxy,gpt-5-codex",
+    "default": "cliproxy,qwen3-coder-plus",
+    "background": "cliproxy,qwen3-coder-plus",
+    "think": "cliproxy,qwen3-coder-plus",
     "longContext": "qwen,qwen3-coder-plus",
     "longContextThreshold": 800000,
     "webSearch": "gemini-cli,gemini-2.5-pro",
