@@ -39,6 +39,8 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/anthropic/ANTHROPIC_AUTH_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export PROXY_ENDPOINT=\"$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -60,7 +62,7 @@ export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
 export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
-export ANTHROPIC_MODEL="glm-4.6"
+export ANTHROPIC_MODEL="glm-4.7"
 
 ################################################################
 # PATH Setup
@@ -232,6 +234,7 @@ alias a='atac'
 alias z='zellij'
 alias code='ccr code --dangerously-skip-permissions'
 alias rovo='acli rovodev run'
+alias ccp='cli-proxy-api-plus --config /Users/grandis/.config/cliapiproxy/config.yaml'
 
 ################################################################
 # Yazi setup with cd integration
@@ -437,3 +440,7 @@ export PATH="$HOME/.local/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/grandis/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
