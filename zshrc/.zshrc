@@ -41,6 +41,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_ENDPOINT=\"$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export GROQ_API=\"$(pass show Development/custom/GROQ_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -444,3 +445,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Added by Antigravity
 export PATH="/Users/grandis/.antigravity/antigravity/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# opencode
+export PATH=/Users/grandis/.opencode/bin:$PATH
