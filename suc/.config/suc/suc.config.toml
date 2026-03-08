@@ -6,15 +6,17 @@ provider = "openai"
 
 # API key - you can use an environment variable
 # Example: api_key = "${SUC_API_KEY}" or api_key = "${OPENAI_API_KEY}"
-api_key = "${PROXY_API}"
+# api_key = "${COPILOT_TOKEN}"
+api_key = "${QWEN_WORKER_API}"
 
 # Model identifier - you can use an environment variable
 # Example: model = "${SUC_AI_MODEL}"
-model = "qwen3-coder-flash"
+model = "coder-model"
 
 # Custom OpenAI-compatible endpoint
 # Example: openai_endpoint = "https://api.example.com/v1"
-openai_endpoint = "${PROXY_ENDPOINT}/chat/completions"
+# openai_endpoint = "${COPILOT_API_ENDPOINT}/chat/completions"
+openai_endpoint = "${QWEN_WORKER_ENDPOINT}/v1/chat/completions"
 
 # Gemini project ID (required for Gemini provider)
 # Example: gemini_project = "${GEMINI_PROJECT}"
