@@ -42,6 +42,8 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export PROXY_ENDPOINT=\"$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GROQ_API=\"$(pass show Development/custom/GROQ_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export QWEN_WORKER_API=\"$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export QWEN_WORKER_ENDPOINT=\"$(pass show Development/custom/QWEN_WORKER_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -62,8 +64,8 @@ export AIDER_MODEL=gemini-2.5-pro
 export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
-export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
-export ANTHROPIC_MODEL="glm-4.7"
+# export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
+# export ANTHROPIC_MODEL="glm-4.7"
 
 ################################################################
 # PATH Setup
@@ -448,3 +450,8 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # opencode
 export PATH=/Users/grandis/.opencode/bin:$PATH
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/grandis/.cache/lm-studio/bin"
+# End of LM Studio CLI section
+
