@@ -8,7 +8,7 @@ lines = [
 [cship.model]
 symbol = "  "
 format = '[$symbol$value ]($style)'
-style  = "bg:#a3aed2 fg:#090c0c"
+style  = "bg:#394260 fg:#cccccc"
 
 [cship.context_bar]
 width              = 10
