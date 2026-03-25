@@ -2,7 +2,7 @@
 # Full config reference: https://cship.dev
 [cship]
 lines = [
-  "$os$hostname$directory$git_branch$git_status$python$nodejs$rust$golang$php$time$cship.model$cship.context_bar"
+  "$starship_prompt$cship.model$cship.context_bar"
 ]
 
 [cship.model]
@@ -34,4 +34,5 @@ warn_threshold     = 60.0
 warn_style         = "fg:#e0af68"
 critical_threshold = 80.0
 critical_style     = "bold fg:#f7768e"
+
 
