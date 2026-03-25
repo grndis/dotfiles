@@ -42,6 +42,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export PROXY_ENDPOINT=\"$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export QWEN_WORKER_ENDPOINT=\"$(pass show Development/custom/QWEN_WORKER_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export QWEN_WORKER_API=\"$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
