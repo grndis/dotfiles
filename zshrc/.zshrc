@@ -118,12 +118,10 @@ zinit light zsh-users/zsh-autosuggestions
 # ZVM Custom Config
 ################################################################
 ZVM_VI_ESCAPE_BINDKEY=^[
-ZVM_VI_SURROUND_BINDKEY='classic'
+ZVM_VI_SURROUND_BINDKEY='s-prefix'
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
 ZVM_SYSTEM_CLIPBOARD_ENABLED=true
-ZVM_CLIPBOARD_COPY_CMD='xclip -selection clipboard'
-ZVM_CLIPBOARD_PASTE_CMD='xclip -selection clipboard -o'
 
 # Starship integration - load after ZVM initialization
 zvm_after_init_commands+=('if command -v starship >/dev/null 2>&1; then eval "$(starship init zsh)"; fi')
@@ -445,7 +443,3 @@ export PATH="$HOME/.local/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Added by Antigravity
-export PATH="/Users/grandis/.antigravity/antigravity/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
