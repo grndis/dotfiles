@@ -84,7 +84,7 @@ keybinds clear-defaults=true {
                 x "10%"
                 y "10%"
             };
-            SwitchToMode "locked";
+            SwitchToMode "Locked";
         }
 
         bind "f" {
