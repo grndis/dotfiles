@@ -253,42 +253,9 @@ keybinds clear-defaults=true {
         //     SwitchToMode "Normal"
         // }
 
-        bind "Ctrl h" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "left";
-
-                // Plugin Configuration
-                move_mod "ctrl"; // Optional, should be added on every command if you want to use it
-            };
-        }
-
-        bind "Ctrl j" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "down";
-
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Ctrl k" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "up";
-
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Ctrl l" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "right";
-
-                move_mod "ctrl";
-            };
-        }
+        // Ctrl+H/J/K/L handled by shell directly (zsh-vi-mode bindings for normal mode,
+        // natural behavior for insert mode, smart-splits.nvim handles it inside vim).
+        // No Zellij binding needed - keys pass through to the foreground process.
 
         bind "Alt h" {
             MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
