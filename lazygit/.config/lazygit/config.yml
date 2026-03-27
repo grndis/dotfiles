@@ -1,12 +1,31 @@
 customCommands:
   - key: "C"
     context: "files"
+    output: terminal
+    command: |
+      if [ "{{.Form.Action}}" = "edit" ]; then
+        echo "{{.Form.Msg}}" > .git/COMMIT_EDITMSG && nvim .git/COMMIT_EDITMSG && [ -s .git/COMMIT_EDITMSG ] && git commit -F .git/COMMIT_EDITMSG || echo "Commit message is empty, commit aborted."
+      else
+        git commit -m "{{.Form.Msg}}"
+      fi
     prompts:
-      - type: "input"
+      - type: "menuFromCommand"
+        title: "AI Commit Messages"
         key: "Msg"
-        title: "Commit message:"
-        initialValue: '{{ runCommand "sh -c \"git diff --staged | claude -p \\\"Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format.\\\" --output-format text 2>/dev/null || true\"" }}'
-    command: 'if git diff --cached --quiet; then echo "No staged changes to commit"; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
+        command: "git diff --staged --quiet && exit 1; git diff --staged | claude -p 'Generate 3 concise git commit messages for these staged changes, each on its own line. Output ONLY the raw commit messages with no markdown, no code blocks, no backticks, no explanations, no numbering. Use conventional commit format.' --output-format text 2>&1 || true"
+        filter: "^(?P<raw>.+)$"
+        valueFormat: "{{ .raw }}"
+        labelFormat: "{{ .raw | green }}"
+      - type: "menu"
+        title: "Choose Action"
+        key: "Action"
+        options:
+          - name: "Commit directly"
+            description: "Use this message as-is"
+            value: "direct"
+          - name: "Edit before commit"
+            description: "Open in editor first"
+            value: "edit"
 
 gui:
   showBottomLine: false
