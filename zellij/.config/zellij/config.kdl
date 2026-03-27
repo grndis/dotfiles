@@ -468,7 +468,7 @@ simplified_ui true
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 // 
-// default_shell "fish"
+default_shell "zsh"
 
 // Choose the path to override cwd that zellij will use for opening new panes
 // 
@@ -606,7 +606,7 @@ pane_frames false
 // (Requires restart)
 // Default: true
 // 
-// styled_underlines false
+styled_underlines false
 
 // How often in seconds sessions are serialized
 // 
@@ -634,9 +634,10 @@ pane_frames false
 // Default: true
 // 
 show_startup_tips false
+osc8_hyperlinks true
 
 // Whether to show release notes on first version run
 // Default: true
 // 
-// show_release_notes false
+show_release_notes false
 
