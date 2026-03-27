@@ -140,10 +140,12 @@ if [[ "$TERM" != "xterm-kitty" ]]; then
 fi
 ZVM_VI_HIGHLIGHT_FOREGROUND=#cccccc
 ZVM_VI_HIGHLIGHT_BACKGROUND=#534557
-ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold,underline
+ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
 ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
 
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]='none'
 ################################################################
 # Shell Integrations - Simple and Reliable
 ################################################################
@@ -183,6 +185,7 @@ setopt hist_find_no_dups
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
+bindkey '\e[109;5u' accept-line
 
 ################################################################
 # Completions - Optimized
