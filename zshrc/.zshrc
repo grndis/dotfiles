@@ -142,6 +142,23 @@ ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
 ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
 
+# zsh-vi-mode: navigate zellij panes with Ctrl+H/J/K/L in normal mode
+function _zellij_nav_left()  { zellij action move-focus left; }
+function _zellij_nav_down()  { zellij action move-focus down; }
+function _zellij_nav_up()    { zellij action move-focus up; }
+function _zellij_nav_right() { zellij action move-focus right; }
+zle -N _zellij_nav_left
+zle -N _zellij_nav_down
+zle -N _zellij_nav_up
+zle -N _zellij_nav_right
+
+zvm_after_lazy_keybindings_commands+=(
+  'zvm_bindkey vicmd "^H" _zellij_nav_left'
+  'zvm_bindkey vicmd "^J" _zellij_nav_down'
+  'zvm_bindkey vicmd "^K" _zellij_nav_up'
+  'zvm_bindkey vicmd "^L" _zellij_nav_right'
+)
+
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]='none'
 ################################################################
