@@ -5,7 +5,7 @@ customCommands:
       - type: "input"
         key: "Msg"
         title: "Commit message:"
-        initialValue: '{{ runCommand "sh -c \"output=$(suc draft 2>&1); if echo \\\"$output\\\" | grep -q \\\"error:\\\"; then echo \\\"\\\"; else echo \\\"$output\\\"; fi\"" }}'
+        initialValue: '{{ runCommand "sh -c \"git diff --staged | claude -p \\\"Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format.\\\" --output-format text 2>/dev/null || true\"" }}'
     command: 'if git diff --cached --quiet; then echo "No staged changes to commit"; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
 
 gui:
