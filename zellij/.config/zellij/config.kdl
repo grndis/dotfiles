@@ -22,8 +22,7 @@ plugins {
         // Enabled at start?
         is_enabled true
         // Lock when any open these programs open.
-        triggers "nvim|vim|v|nv|git|fzf|zoxide|atuin"
-        watch_triggers "fzf|zoxide|atuin|atac"
+        triggers "nvim|vim|v|nv|git|fzf|zoxide|atuin|claude|ccs"
         watch_interval "1.0"
         // Reaction to input occurs after this many seconds. (default=0.3)
         // (An existing scheduled reaction prevents additional reactions.)
@@ -97,7 +96,7 @@ keybinds clear-defaults=true {
                 x "10%"
                 y "10%"
             };
-            SwitchToMode "locked";
+            SwitchToMode "Locked";
         }
 
         bind "o" { LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zellij-sessionizer.wasm" {
@@ -133,7 +132,7 @@ keybinds clear-defaults=true {
                 x "15%"
                 y "15%"
             };
-            SwitchToMode "locked";
+            SwitchToMode "Normal";
         }
 
         // Moving between tabs
