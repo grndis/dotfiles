@@ -57,7 +57,7 @@ keybinds clear-defaults=true {
         bind "[" { SwitchToMode "Scroll"; }
 
         // Leave tmux mode
-        bind "Ctrl a" "Esc" { Write 2; SwitchToMode "Normal"; }
+        bind "Ctrl a" "Esc" { SwitchToMode "Normal"; }
 
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
         bind "v" { EditScrollback; SwitchToMode "Normal"; }
@@ -143,23 +143,23 @@ keybinds clear-defaults=true {
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
 
         // Moving between panes
-        bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "Left" { MovePane "Left";  }
+        bind "Right" { MovePane "Right";  }
+        bind "Down" { MovePane "Down";  }
+        bind "Up" { MovePane "Up"; }
         // Renaming panes
         bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
         // Resizing panes
-        bind "h" { Resize "Increase Left"; }
-        bind "l" { Resize "Increase Right"; }
-        bind "k" { Resize "Increase Up"; }
-        bind "j" { Resize "Increase Down"; }
+        bind "H" { Resize "Increase Left"; }
+        bind "L" { Resize "Increase Right"; }
+        bind "K" { Resize "Increase Up"; }
+        bind "J" { Resize "Increase Down"; }
 
         // Move Pane
-        bind "H" { MovePane "Left"; }
-        bind "L" { MovePane "Right"; }
-        bind "K" { MovePane "Up"; }
-        bind "J" { MovePane "Down"; }
+        bind "h" { MoveFocus "Left"; }
+        bind "l" { MoveFocus "Right"; }
+        bind "k" { MoveFocus "Up"; }
+        bind "j" { MoveFocus "Down"; }
 
 
         // bind "o" { FocusNextPane; }
