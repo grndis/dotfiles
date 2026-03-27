@@ -43,6 +43,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export QWEN_WORKER_ENDPOINT=\"$(pass show Development/custom/QWEN_WORKER_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export QWEN_WORKER_API=\"$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export ALIBABA_API=\"$(pass show Development/custom/ALIBABA_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -63,8 +64,9 @@ export AIDER_MODEL=gemini-2.5-pro
 export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
-export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
-export ANTHROPIC_MODEL="glm-4.7"
+export ANTHROPIC_BASE_URL=https://coding-intl.dashscope.aliyuncs.com/apps/anthropic
+export ANTHROPIC_MODEL="qwen3.5-plus"
+export ANTHROPIC_AUTH_TOKEN="$ALIBABA_API"
 
 ################################################################
 # PATH Setup
