@@ -184,6 +184,7 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
 bindkey '\e[109;5u' accept-line
+bindkey '^h' backward-delete-char
 
 ################################################################
 # Completions - Optimized
