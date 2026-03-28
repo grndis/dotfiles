@@ -9,6 +9,7 @@ customCommands:
     command: 'if [ "{{.Form.Msg}}" = "No staged changes" ] || [ -z "{{.Form.Msg}}" ]; then echo "No staged changes to commit" >&2; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
 
 gui:
+  showCommandLog: false
   showBottomLine: false
   nerdFontsVersion: "3"
   theme:
