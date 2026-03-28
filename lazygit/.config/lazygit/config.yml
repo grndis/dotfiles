@@ -1,18 +1,12 @@
 customCommands:
   - key: "C"
     context: "files"
-    output: terminal
-    command: |
-      if [ "{{.Form.Action}}" = "edit" ]; then
-        echo "{{.Form.Msg}}" > .git/COMMIT_EDITMSG && nvim .git/COMMIT_EDITMSG && [ -s .git/COMMIT_EDITMSG ] && git commit -F .git/COMMIT_EDITMSG || echo "Commit message is empty, commit aborted."
-      else
-        git commit -m "{{.Form.Msg}}"
-      fi
+    command: 'if git diff --cached --quiet; then echo "No staged changes to commit"; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
     prompts:
       - type: "menuFromCommand"
         title: "AI Commit Messages"
         key: "Msg"
-        command: "sh -c 'git diff --staged --quiet && exit 1; git diff --staged | claude -p \"Generate 3 concise git commit messages for these staged changes, each on its own line. Output ONLY the raw commit messages with no markdown, no code blocks, no backticks, no explanations, no numbering. Use conventional commit format.\" --output-format text 2>&1 || true'"
+        command: 'sh -c ''git diff --staged --quiet && exit 1; git diff --staged | claude -p "Generate 3 concise git commit messages for these staged changes, each on its own line. Output ONLY the raw commit messages with no markdown, no code blocks, no backticks, no explanations, no numbering. Use conventional commit format." --output-format text 2>&1 || true'''
         filter: "^(?P<raw>.+)$"
         valueFormat: "{{ .raw }}"
         labelFormat: "{{ .raw | green }}"
