@@ -35,12 +35,19 @@ plugins {
 load_plugins {
     autolock
     "file:~/.config/zellij/plugins/zjframes.wasm" {
-        hide_frame_for_single_pane       "false"
+        hide_frame_for_single_pane       "true"
         hide_frame_except_for_search     "true"
-        hide_frame_except_for_fullscreen "false"
+        hide_frame_except_for_fullscreen "true"
     }
 }
 keybinds clear-defaults=true {
+    shared {
+        // Move Pane
+        bind "Super h" { MoveFocus "Left"; }
+        bind "Super l" { MoveFocus "Right"; }
+        bind "Super k" { MoveFocus "Up"; }
+        bind "Super j" { MoveFocus "Down"; }
+    }
     shared_among "tab" "tmux" {
         bind "1" { GoToTab 1; SwitchToMode "Normal"; }
         bind "2" { GoToTab 2; SwitchToMode "Normal"; }
@@ -53,6 +60,7 @@ keybinds clear-defaults=true {
         bind "9" { GoToTab 9; SwitchToMode "Normal"; }
     }
     tmux {
+        bind "0" { SwitchToMode "Locked"; }
         bind "[" { SwitchToMode "Scroll"; }
 
         // Leave tmux mode
@@ -142,10 +150,10 @@ keybinds clear-defaults=true {
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
 
         // Moving between panes
-        bind "Left" { MovePane "Left";  }
-        bind "Right" { MovePane "Right";  }
-        bind "Down" { MovePane "Down";  }
-        bind "Up" { MovePane "Up"; }
+        bind "Left" "Alt h"  { MovePane "Left";  }
+        bind "Right" "Alt l" { MovePane "Right";  }
+        bind "Up" "Alt k" { MovePane "Up"; }
+        bind "Down" "Alt j" { MovePane "Down";  }
         // Renaming panes
         bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
         // Resizing panes
@@ -168,6 +176,7 @@ keybinds clear-defaults=true {
         // bind "Space" { NextSwapLayout; }
 
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
+        bind "X" { CloseTab; SwitchToMode "Normal"; }
     }
     scroll {
         //bind "e" { EditScrollback; SwitchToMode "Normal"; }
@@ -230,6 +239,7 @@ keybinds clear-defaults=true {
         bind "Ctrl a" { SwitchToMode "Tmux"; }
     }
     shared_except "locked" {
+
         // bind "Ctrl t" {
         //     LaunchOrFocusPlugin "file:~/.config/zellij/plugins/room.wasm" {
         //         floating true
@@ -255,42 +265,42 @@ keybinds clear-defaults=true {
         // Ctrl+H/J/K/L handled by shell directly (zsh-vi-mode bindings for normal mode,
         // natural behavior for insert mode, smart-splits.nvim handles it inside vim).
         // No Zellij binding needed - keys pass through to the foreground process.
-
-        bind "Alt h" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "resize";
-                payload "left";
-
-                resize_mod "alt"; // Optional, should be added on every command if you want to use it
-            };
-        }
-
-        bind "Alt j" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "resize";
-                payload "down";
-
-                resize_mod "alt";
-            };
-        }
-
-        bind "Alt k" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "resize";
-                payload "up";
-
-                resize_mod "alt";
-            };
-        }
-
-        bind "Alt l" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "resize";
-                payload "right";
-
-                resize_mod "alt";
-            };
-        }
+        //
+        // bind "Alt h" {
+        //     MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        //         name "resize";
+        //         payload "left";
+        //
+        //         resize_mod "alt"; // Optional, should be added on every command if you want to use it
+        //     };
+        // }
+        //
+        // bind "Alt j" {
+        //     MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        //         name "resize";
+        //         payload "down";
+        //
+        //         resize_mod "alt";
+        //     };
+        // }
+        //
+        // bind "Alt k" {
+        //     MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        //         name "resize";
+        //         payload "up";
+        //
+        //         resize_mod "alt";
+        //     };
+        // }
+        //
+        // bind "Alt l" {
+        //     MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        //         name "resize";
+        //         payload "right";
+        //
+        //         resize_mod "alt";
+        //     };
+        // }
     }
 }
 themes {
@@ -434,7 +444,7 @@ simplified_ui true
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 // 
-default_shell "zsh"
+// default_shell "zsh"
 
 // Choose the path to override cwd that zellij will use for opening new panes
 // 
@@ -606,4 +616,3 @@ osc8_hyperlinks true
 // Default: true
 // 
 show_release_notes false
-
