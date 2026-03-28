@@ -67,6 +67,12 @@ export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
 export ANTHROPIC_BASE_URL=https://coding-intl.dashscope.aliyuncs.com/apps/anthropic
 export ANTHROPIC_MODEL="qwen3.5-plus"
 export ANTHROPIC_AUTH_TOKEN="$ALIBABA_API"
+export ASK_SH_API_KEY="$QWEN_WORKER_API"
+export ASK_SH_API_MODEL="qwen3-coder-flash"
+export ASK_SH_API_ENDPOINT="$QWEN_WORKER_ENDPOINT/v1/chat/completions"
+export ASK_SH_ANSWER_LANGUAGE="english"
+export ASK_SH_TIMEOUT=60
+export ASK_SH_DEBUG=false
 
 ################################################################
 # PATH Setup
