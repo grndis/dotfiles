@@ -94,19 +94,6 @@ keybinds clear-defaults=true {
             SwitchToMode "Locked";
         }
 
-        bind "f" {
-            Run "scooter" {
-                close_on_exit true
-                move_to_focused_tab true
-                floating true
-                width "80%"
-                height "80%"
-                x "10%"
-                y "10%"
-            };
-            SwitchToMode "Locked";
-        }
-
         bind "o" { LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zellij-sessionizer.wasm" {
             floating true
             move_to_focused_tab true
@@ -136,13 +123,11 @@ keybinds clear-defaults=true {
                 close_on_exit true
                 move_to_focused_tab true
                 floating true
-                width "70%"
-                height "70%"
-                x "15%"
-                y "15%"
             };
             SwitchToMode "Normal";
         }
+        bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
+        bind "p" { TogglePanePinned; }
 
         // Moving between tabs
         bind "N" { GoToPreviousTab; }
