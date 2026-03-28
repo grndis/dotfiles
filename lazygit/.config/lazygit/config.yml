@@ -1,11 +1,13 @@
 customCommands:
   - key: "C"
     context: "files"
-    command: 'git diff --staged --quiet 2>/dev/null && { echo "No staged changes" >&2; exit 1; } || { MSG=$(git diff --staged | claude -p "Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format." --output-format text 2>&1 | tr -d "\n"); git commit -m "$MSG"; }'
     loadingText: "Generating commit message..."
-    description: "Generate commit message"
-    outputTitle: "Commit Message"
-    background: true
+    prompts:
+      - type: "input"
+        key: "Msg"
+        title: "Commit message:"
+        initialValue: '{{ runCommand "sh -c \"if git diff --staged --quiet 2>/dev/null; then echo \\\"No staged changes\\\"; else git diff --staged | claude -p \\\"Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format.\\\" --output-format text 2>&1; fi\"" }}'
+    command: 'if [ "{{.Form.Msg}}" = "No staged changes" ] || [ -z "{{.Form.Msg}}" ]; then echo "No staged changes to commit" >&2; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
 gui:
   showCommandLog: false
   showBottomLine: false
