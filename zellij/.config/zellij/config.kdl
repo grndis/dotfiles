@@ -35,9 +35,9 @@ plugins {
 load_plugins {
     autolock
     "file:~/.config/zellij/plugins/zjframes.wasm" {
-        hide_frame_for_single_pane       "true"
+        hide_frame_for_single_pane       "false"
         hide_frame_except_for_search     "true"
-        hide_frame_except_for_fullscreen "true"
+        hide_frame_except_for_fullscreen "false"
     }
 }
 keybinds clear-defaults=true {
@@ -143,6 +143,7 @@ keybinds clear-defaults=true {
 
         // Renaming panes
         bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
+
         // Resizing panes
         bind "h" { Resize "Increase Left"; }
         bind "l" { Resize "Increase Right"; }
