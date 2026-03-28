@@ -41,9 +41,9 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_ENDPOINT=\"$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export GROQ_API=\"$(pass show Development/custom/GROQ_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export QWEN_WORKER_API=\"$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export QWEN_WORKER_ENDPOINT=\"$(pass show Development/custom/QWEN_WORKER_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export QWEN_WORKER_API=\"$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export ALIBABA_API=\"$(pass show Development/custom/ALIBABA_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -64,8 +64,9 @@ export AIDER_MODEL=gemini-2.5-pro
 export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
-# export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
-# export ANTHROPIC_MODEL="glm-4.7"
+export ANTHROPIC_BASE_URL=https://coding-intl.dashscope.aliyuncs.com/apps/anthropic
+export ANTHROPIC_MODEL="qwen3.5-plus"
+export ANTHROPIC_AUTH_TOKEN="$ALIBABA_API"
 
 ################################################################
 # PATH Setup
@@ -119,12 +120,10 @@ zinit light zsh-users/zsh-autosuggestions
 # ZVM Custom Config
 ################################################################
 ZVM_VI_ESCAPE_BINDKEY=^[
-ZVM_VI_SURROUND_BINDKEY='classic'
+ZVM_VI_SURROUND_BINDKEY='s-prefix'
 ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
 ZVM_SYSTEM_CLIPBOARD_ENABLED=true
-ZVM_CLIPBOARD_COPY_CMD='xclip -selection clipboard'
-ZVM_CLIPBOARD_PASTE_CMD='xclip -selection clipboard -o'
 
 # Starship integration - load after ZVM initialization
 zvm_after_init_commands+=('if command -v starship >/dev/null 2>&1; then eval "$(starship init zsh)"; fi')
@@ -141,10 +140,29 @@ if [[ "$TERM" != "xterm-kitty" ]]; then
 fi
 ZVM_VI_HIGHLIGHT_FOREGROUND=#cccccc
 ZVM_VI_HIGHLIGHT_BACKGROUND=#534557
-ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold,underline
+ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
 ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
 
+# zsh-vi-mode: navigate zellij panes with Ctrl+H/J/K/L in normal mode
+function _zellij_nav_left()  { zellij action move-focus left; }
+function _zellij_nav_down()  { zellij action move-focus down; }
+function _zellij_nav_up()    { zellij action move-focus up; }
+function _zellij_nav_right() { zellij action move-focus right; }
+zle -N _zellij_nav_left
+zle -N _zellij_nav_down
+zle -N _zellij_nav_up
+zle -N _zellij_nav_right
+
+zvm_after_lazy_keybindings_commands+=(
+  'zvm_bindkey vicmd "^H" _zellij_nav_left'
+  'zvm_bindkey vicmd "^J" _zellij_nav_down'
+  'zvm_bindkey vicmd "^K" _zellij_nav_up'
+  'zvm_bindkey vicmd "^L" _zellij_nav_right'
+)
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]='none'
 ################################################################
 # Shell Integrations - Simple and Reliable
 ################################################################
@@ -184,6 +202,8 @@ setopt hist_find_no_dups
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
+bindkey '\e[109;5u' accept-line
+bindkey '^h' backward-delete-char
 
 ################################################################
 # Completions - Optimized
@@ -443,15 +463,3 @@ export PATH="$HOME/.local/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Added by Antigravity
-export PATH="/Users/grandis/.antigravity/antigravity/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-
-# opencode
-export PATH=/Users/grandis/.opencode/bin:$PATH
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/grandis/.cache/lm-studio/bin"
-# End of LM Studio CLI section
-
