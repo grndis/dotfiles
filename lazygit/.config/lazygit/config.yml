@@ -6,7 +6,7 @@ customCommands:
     description: "Generate commit message"
     outputTitle: "Commit Message"
     background: true
-    output: log
+    output: popup
 gui:
   showCommandLog: false
   showBottomLine: false
