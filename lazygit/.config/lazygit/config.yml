@@ -1,10 +1,10 @@
 customCommands:
   - key: "C"
     context: "files"
-    command: 'git diff --staged --quiet 2>/dev/null && { echo "No staged changes" >&2; exit 1; } || git diff --staged | claude -p "Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format." --output-format text 2>&1 | tr -d "\\n" | tee >(pbcopy)'
+    command: 'git diff --staged --quiet 2>/dev/null && { echo "No staged changes" >&2; exit 1; } || { MSG=$(git diff --staged | claude -p "Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format." --output-format text 2>&1 | tr -d "\n"); echo "$MSG" | pbcopy; git commit -m "$MSG"; }'
     loadingText: "Generating commit message..."
-    description: "Generate commit message by AI and copy to clipboard"
-    outputTitle: "Commit Message (Copied)"
+    description: "Generate commit message"
+    outputTitle: "Commit Message"
     background: true
     output: popup
 gui:
