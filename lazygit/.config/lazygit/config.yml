@@ -1,7 +1,12 @@
 customCommands:
   - key: "C"
     context: "files"
-    command: "bash -c \"git diff --staged --quiet && { echo 'Error: No staged changes'; exit 1; }; git diff --staged | claude -p 'Generate concise git commit message. ONLY raw message, no markdown/backticks. Use conventional commit format.' --output-format text > /tmp/lazygit_msg.txt && git commit -F /tmp/lazygit_msg.txt\""
+    prompts:
+      - type: "input"
+        key: "Msg"
+        title: "Commit message:"
+        initialValue: '{{ runCommand "sh -c \"if git diff --staged --quiet 2>/dev/null; then echo \\\"\\\"; else git diff --staged | claude -p \\\"Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format.\\\" --output-format text 2>&1; fi\"" }}'
+    command: 'if [ -z "{{.Form.Msg}}" ]; then echo "No staged changes to commit" >&2; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
 
 gui:
   showBottomLine: false
