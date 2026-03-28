@@ -150,10 +150,10 @@ keybinds clear-defaults=true {
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
 
         // Moving between panes
-        bind "Left"  { MovePane "Left";  }
-        bind "Right" { MovePane "Right";  }
-        bind "Up" { MovePane "Up"; }
-        bind "Down" { MovePane "Down";  }
+        bind "Left" "Alt h"  { MovePane "Left";  }
+        bind "Right" "Alt l" { MovePane "Right";  }
+        bind "Up" "Alt k" { MovePane "Up"; }
+        bind "Down" "Alt j" { MovePane "Down";  }
         // Renaming panes
         bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
         // Resizing panes
