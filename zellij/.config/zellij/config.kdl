@@ -136,24 +136,30 @@ keybinds clear-defaults=true {
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
 
         // Moving between panes
-        bind "Left" "Alt h"  { MovePane "Left";  }
-        bind "Right" "Alt l" { MovePane "Right";  }
-        bind "Up" "Alt k" { MovePane "Up"; }
-        bind "Down" "Alt j" { MovePane "Down";  }
+        bind "Left" "H"  { MovePane "Left";  }
+        bind "Right" "L" { MovePane "Right";  }
+        bind "Up" "K" { MovePane "Up"; }
+        bind "Down" "J" { MovePane "Down";  }
+
         // Renaming panes
         bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
         // Resizing panes
-        bind "H" { Resize "Increase Left"; }
-        bind "L" { Resize "Increase Right"; }
-        bind "K" { Resize "Increase Up"; }
-        bind "J" { Resize "Increase Down"; }
+        bind "h" { Resize "Increase Left"; }
+        bind "l" { Resize "Increase Right"; }
+        bind "k" { Resize "Increase Up"; }
+        bind "j" { Resize "Increase Down"; }
 
         // Move Pane
-        bind "h" { MoveFocus "Left"; }
-        bind "l" { MoveFocus "Right"; }
-        bind "k" { MoveFocus "Up"; }
-        bind "j" { MoveFocus "Down"; }
+        // bind "h" { MoveFocus "Left"; }
+        // bind "l" { MoveFocus "Right"; }
+        // bind "k" { MoveFocus "Up"; }
+        // bind "j" { MoveFocus "Down"; }
 
+        // Move Pane
+        bind "Ctrl h" { MoveFocus "Left"; }
+        bind "Ctrl l" { MoveFocus "Right"; }
+        bind "Ctrl k" { MoveFocus "Up"; }
+        bind "Ctrl j" { MoveFocus "Down"; }
 
         // bind "o" { FocusNextPane; }
 
