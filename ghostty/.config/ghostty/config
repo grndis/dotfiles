@@ -18,6 +18,7 @@ keybind = ctrl+[=text:\x1B
 font-family = "Geist Mono"
 font-size = 15
 adjust-cell-height = 10
+adjust-underline-thickness = -10
 
 palette = 0=#15161e
 palette = 1=#f7768e
@@ -42,3 +43,5 @@ cursor-color = #c0caf5
 selection-background = #283457
 selection-foreground = #c0caf5
 keybind = shift+enter=text:\n
+
+link-url = false

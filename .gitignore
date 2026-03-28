@@ -8,3 +8,11 @@ launch_configurations
 *.log
 logs/
 *.pid
+
+# gnupg sensitive data
+gnupg/.gnupg/random_seed
+gnupg/.gnupg/*.kbx
+gnupg/.gnupg/*.kbx~
+gnupg/.gnupg/*.gpg
+gnupg/.gnupg/.#lk*
+gnupg/.gnupg/private-keys-v1.d/

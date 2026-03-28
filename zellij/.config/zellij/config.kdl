@@ -22,8 +22,7 @@ plugins {
         // Enabled at start?
         is_enabled true
         // Lock when any open these programs open.
-        triggers "nvim|vim|v|nv|git|fzf|zoxide|atuin"
-        watch_triggers "fzf|zoxide|atuin|atac"
+        triggers "nvim|vim|v|nv|git|fzf|zoxide|atuin|claude|ccs"
         watch_interval "1.0"
         // Reaction to input occurs after this many seconds. (default=0.3)
         // (An existing scheduled reaction prevents additional reactions.)
@@ -57,7 +56,7 @@ keybinds clear-defaults=true {
         bind "[" { SwitchToMode "Scroll"; }
 
         // Leave tmux mode
-        bind "Ctrl a" "Esc" { Write 2; SwitchToMode "Normal"; }
+        bind "Ctrl a" "Esc" { SwitchToMode "Normal"; }
 
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
         bind "v" { EditScrollback; SwitchToMode "Normal"; }
@@ -84,7 +83,7 @@ keybinds clear-defaults=true {
                 x "10%"
                 y "10%"
             };
-            SwitchToMode "locked";
+            SwitchToMode "Locked";
         }
 
         bind "f" {
@@ -97,7 +96,7 @@ keybinds clear-defaults=true {
                 x "10%"
                 y "10%"
             };
-            SwitchToMode "locked";
+            SwitchToMode "Locked";
         }
 
         bind "o" { LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zellij-sessionizer.wasm" {
@@ -133,7 +132,7 @@ keybinds clear-defaults=true {
                 x "15%"
                 y "15%"
             };
-            SwitchToMode "locked";
+            SwitchToMode "Normal";
         }
 
         // Moving between tabs
@@ -143,23 +142,23 @@ keybinds clear-defaults=true {
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
 
         // Moving between panes
-        bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "Left" { MovePane "Left";  }
+        bind "Right" { MovePane "Right";  }
+        bind "Down" { MovePane "Down";  }
+        bind "Up" { MovePane "Up"; }
         // Renaming panes
         bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
         // Resizing panes
-        bind "h" { Resize "Increase Left"; }
-        bind "l" { Resize "Increase Right"; }
-        bind "k" { Resize "Increase Up"; }
-        bind "j" { Resize "Increase Down"; }
+        bind "H" { Resize "Increase Left"; }
+        bind "L" { Resize "Increase Right"; }
+        bind "K" { Resize "Increase Up"; }
+        bind "J" { Resize "Increase Down"; }
 
         // Move Pane
-        bind "H" { MovePane "Left"; }
-        bind "L" { MovePane "Right"; }
-        bind "K" { MovePane "Up"; }
-        bind "J" { MovePane "Down"; }
+        bind "h" { MoveFocus "Left"; }
+        bind "l" { MoveFocus "Right"; }
+        bind "k" { MoveFocus "Up"; }
+        bind "j" { MoveFocus "Down"; }
 
 
         // bind "o" { FocusNextPane; }
@@ -253,42 +252,9 @@ keybinds clear-defaults=true {
         //     SwitchToMode "Normal"
         // }
 
-        bind "Ctrl h" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "left";
-
-                // Plugin Configuration
-                move_mod "ctrl"; // Optional, should be added on every command if you want to use it
-            };
-        }
-
-        bind "Ctrl j" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "down";
-
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Ctrl k" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "up";
-
-                move_mod "ctrl";
-            };
-        }
-
-        bind "Ctrl l" {
-            MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
-                name "move_focus";
-                payload "right";
-
-                move_mod "ctrl";
-            };
-        }
+        // Ctrl+H/J/K/L handled by shell directly (zsh-vi-mode bindings for normal mode,
+        // natural behavior for insert mode, smart-splits.nvim handles it inside vim).
+        // No Zellij binding needed - keys pass through to the foreground process.
 
         bind "Alt h" {
             MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
@@ -468,7 +434,7 @@ simplified_ui true
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 // 
-// default_shell "fish"
+default_shell "zsh"
 
 // Choose the path to override cwd that zellij will use for opening new panes
 // 
@@ -606,7 +572,7 @@ pane_frames false
 // (Requires restart)
 // Default: true
 // 
-// styled_underlines false
+styled_underlines false
 
 // How often in seconds sessions are serialized
 // 
@@ -634,9 +600,10 @@ pane_frames false
 // Default: true
 // 
 show_startup_tips false
+osc8_hyperlinks true
 
 // Whether to show release notes on first version run
 // Default: true
 // 
-// show_release_notes false
+show_release_notes false
 
