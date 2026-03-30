@@ -37,7 +37,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export COPILOT_API_ENDPOINT=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     # echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/anthropic/ANTHROPIC_AUTH_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    # echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/anthropic/ANTHROPIC_AUTH_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_ENDPOINT=\"$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
@@ -149,7 +149,7 @@ ZVM_VI_HIGHLIGHT_BACKGROUND=#534557
 ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
 ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
-ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+ZVM_LINE_INIT_MODE=$ZVM_MODE_NORMAL
 
 # zsh-vi-mode: navigate zellij panes with Ctrl+H/J/K/L in normal mode
 function _zellij_nav_left()  { zellij action move-focus left; }
