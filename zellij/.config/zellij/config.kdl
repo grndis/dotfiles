@@ -157,10 +157,10 @@ keybinds clear-defaults=true {
         // bind "j" { MoveFocus "Down"; }
 
         // Move Pane
-        bind "Ctrl h" { MoveFocus "Left"; }
-        bind "Ctrl l" { MoveFocus "Right"; }
-        bind "Ctrl k" { MoveFocus "Up"; }
-        bind "Ctrl j" { MoveFocus "Down"; }
+        bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
 
         // bind "o" { FocusNextPane; }
 
