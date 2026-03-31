@@ -149,7 +149,7 @@ ZVM_VI_HIGHLIGHT_BACKGROUND=#534557
 ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
 ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
-ZVM_LINE_INIT_MODE=$ZVM_MODE_NORMAL
+# ZVM_LINE_INIT_MODE=$ZVM_MODE_NORMAL
 
 # zsh-vi-mode: navigate zellij panes with Ctrl+H/J/K/L in normal mode
 function _zellij_nav_left()  { zellij action move-focus left; }
