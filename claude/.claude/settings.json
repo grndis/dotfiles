@@ -1,7 +1,12 @@
 {
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
   "statusLine": {
     "type": "command",
-    "command": "npx -y @owloops/claude-powerline --theme=tokyo-night --style=minimal"
+    "command": "cship"
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "showWelcomeBanner": false,
+  "skipDangerousModePermissionPrompt": true
 }
