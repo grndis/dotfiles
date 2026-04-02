@@ -229,11 +229,20 @@ keybinds clear-defaults=true {
     renamepane {
         bind "Enter" { SwitchToMode "Normal"; }
         bind "Ctrl c" { SwitchToMode "Normal"; }
-        bind "Esc" { UndoRenamePane; SwitchToMode "Pane"; }
+        bind "Esc" { UndoRenamePane; SwitchToMode "Normal"; }
     }
     shared_except "tmux" {
         // Enter tmux mode
         bind "Ctrl a" { SwitchToMode "Tmux"; }
+        bind "Ctrl p" { SwitchToMode "Pane"; }
+    }
+    pane {
+        bind "Esc" { SwitchToMode "Normal"; }
+        // Move Pane
+        bind "Ctrl h" { MoveFocus "Left"; }
+        bind "Ctrl l" { MoveFocus "Right"; }
+        bind "Ctrl k" { MoveFocus "Up"; }
+        bind "Ctrl j" { MoveFocus "Down"; }
     }
     shared_except "locked" {
 
