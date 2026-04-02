@@ -42,6 +42,11 @@ load_plugins {
 keybinds clear-defaults=true {
     shared {
         bind "Ctrl p" { SwitchToMode "Pane"; }
+        // Move Pane
+        bind "Super h" { MoveFocus "Left"; }
+        bind "Super l" { MoveFocus "Right"; }
+        bind "Super k" { MoveFocus "Up"; }
+        bind "Super j" { MoveFocus "Down"; }
     }
     shared_among "tab" "tmux" {
         bind "1" { GoToTab 1; SwitchToMode "Normal"; }
@@ -238,6 +243,12 @@ keybinds clear-defaults=true {
     locked {
         bind "Ctrl 0" { SwitchToMode "Normal"; }
     }
+    shared_except "normal" {
+        bind "Ctrl h" { MoveFocus "Left"; }
+        bind "Ctrl l" { MoveFocus "Right"; }
+        bind "Ctrl k" { MoveFocus "Up"; }
+        bind "Ctrl j" { MoveFocus "Down"; }
+    }
     shared_except "tmux" {
         // Enter tmux mode
         bind "Ctrl a" { SwitchToMode "Tmux"; }
@@ -248,17 +259,12 @@ keybinds clear-defaults=true {
     shared_except "locked" {
         bind "Ctrl 0" { SwitchToMode "Locked"; }
 
-        // Move Pane
-        bind "Super h" { MoveFocus "Left"; }
-        bind "Super l" { MoveFocus "Right"; }
-        bind "Super k" { MoveFocus "Up"; }
-        bind "Super j" { MoveFocus "Down"; }
 
         // Move Pane
-        bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
+        // bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        // bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        // bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        // bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
 
         // bind "Ctrl t" {
         //     LaunchOrFocusPlugin "file:~/.config/zellij/plugins/room.wasm" {
