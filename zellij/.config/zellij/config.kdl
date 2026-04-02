@@ -78,7 +78,7 @@ keybinds clear-defaults=true {
             floating true
             move_to_focused_tab true
             show_plugins false
-        }; SwitchToMode "Locked";
+        }; SwitchToMode "Normal";
         }
 
         bind "g" {
@@ -91,7 +91,7 @@ keybinds clear-defaults=true {
                 x "10%"
                 y "10%"
             };
-            SwitchToMode "Locked";
+            SwitchToMode "Normal";
         }
 
         bind "o" { LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zellij-sessionizer.wasm" {
@@ -100,7 +100,7 @@ keybinds clear-defaults=true {
             cwd "/"
             root_dirs "/opt/homebrew/var/www"
             session_layout "main"
-        }; SwitchToMode "Locked";
+        }; SwitchToMode "Normal";
         }
 
         bind "S" "$" "space" {
