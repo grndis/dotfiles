@@ -151,6 +151,10 @@ keybinds clear-defaults=true {
         bind "j" { Resize "Increase Down"; }
 
         // Move Pane
+        bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
         // bind "h" { MoveFocus "Left"; }
         // bind "l" { MoveFocus "Right"; }
         // bind "k" { MoveFocus "Up"; }
@@ -234,7 +238,7 @@ keybinds clear-defaults=true {
     pane {
         bind "Esc" { SwitchToMode "Normal"; }
         bind "ctrl p" { SwitchToMode "Normal"; }
-        // Move Pane
+        // // Move Pane
         bind "Ctrl h" { MoveFocus "Left"; }
         bind "Ctrl l" { MoveFocus "Right"; }
         bind "Ctrl k" { MoveFocus "Up"; }
@@ -243,12 +247,7 @@ keybinds clear-defaults=true {
     locked {
         bind "Ctrl 0" { SwitchToMode "Normal"; }
     }
-    shared_except "normal" {
-        bind "Ctrl h" { MoveFocus "Left"; }
-        bind "Ctrl l" { MoveFocus "Right"; }
-        bind "Ctrl k" { MoveFocus "Up"; }
-        bind "Ctrl j" { MoveFocus "Down"; }
-    }
+
     shared_except "tmux" {
         // Enter tmux mode
         bind "Ctrl a" { SwitchToMode "Tmux"; }
