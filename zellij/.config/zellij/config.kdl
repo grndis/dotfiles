@@ -33,7 +33,6 @@ plugins {
 }
 
 load_plugins {
-    autolock
     "file:~/.config/zellij/plugins/zjframes.wasm" {
         hide_frame_for_single_pane       "false"
         hide_frame_except_for_search     "true"
@@ -153,10 +152,10 @@ keybinds clear-defaults=true {
         // bind "j" { MoveFocus "Down"; }
 
         // Move Pane
-        bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
+        // bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        // bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        // bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        // bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
         // bind "Ctrl h" { MoveFocus "Left"; }
         // bind "Ctrl l" { MoveFocus "Right"; }
         // bind "Ctrl k" { MoveFocus "Up"; }
@@ -256,10 +255,10 @@ keybinds clear-defaults=true {
         bind "Super j" { MoveFocus "Down"; }
 
         // Move Pane
-        // bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        // bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        // bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        // bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
+        bind "Ctrl h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "Ctrl l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        bind "Ctrl k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "Ctrl j" { MoveFocus "Down"; SwitchToMode "Normal"; }
 
         // bind "Ctrl t" {
         //     LaunchOrFocusPlugin "file:~/.config/zellij/plugins/room.wasm" {
