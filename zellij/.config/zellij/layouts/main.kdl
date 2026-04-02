@@ -34,7 +34,7 @@ layout {
                 mode_normal        "#[bg=#6ea3fe] "
                 mode_locked        "#[bg=#545c7e] "
                 mode_resize        "#[bg=#f7768e] "
-                mode_pane          "#[bg=#7aa2f7] "
+                mode_pane          "#[bg=#A0AED5] "
                 mode_tab           "#[bg=#bb9af7] "
                 mode_scroll        "#[bg=#e0af68] "
                 mode_enter_search  "#[bg=#7dcfff] "
@@ -44,7 +44,7 @@ layout {
                 mode_session       "#[bg=#7aa2f7] "
                 mode_move          "#[bg=#bb9af7] "
                 mode_prompt        "#[bg=#7dcfff] "
-                mode_tmux          "#[bg=#90D05A] "
+                mode_tmux          "#[bg=#A0AED5] "
 
                 // formatting for inactive tabs (dimmed blue)
                 tab_normal              "#[bg=#1a1b26,fg=#545c7e]█#[bg=#545c7e,fg=#c0caf5,bold]{index} #[bg=#292e42,fg=#a9b1d6,bold] {name}{floating_indicator}#[bg=#1a1b26,fg=#292e42,bold]█"
