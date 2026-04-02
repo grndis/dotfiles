@@ -31,12 +31,12 @@ layout {
                 border_position "top"
 
                 // mode_normal        "#[bg=#A0AED5] "
-                mode_normal        "#[bg=#323845] "
-                mode_locked        "#[bg=#545c7e] "
+                mode_normal        "#[bg=#545c7e] "
+                mode_locked        "#[bg=#a0aed5] "
                 mode_resize        "#[bg=#f7768e] "
-                mode_pane          "#[bg=#A0AED5] "
+                mode_pane          "#[bg=#a0aed5] "
                 mode_tab           "#[bg=#bb9af7] "
-                mode_scroll        "#[bg=#545c7e] "
+                mode_scroll        "#[bg=#a0aed5] "
                 mode_enter_search  "#[bg=#7dcfff] "
                 mode_search        "#[bg=#7dcfff] "
                 mode_rename_tab    "#[bg=#bb9af7] "
@@ -44,7 +44,7 @@ layout {
                 mode_session       "#[bg=#7aa2f7] "
                 mode_move          "#[bg=#bb9af7] "
                 mode_prompt        "#[bg=#7dcfff] "
-                mode_tmux          "#[bg=#A0AED5] "
+                mode_tmux          "#[bg=#6EA3FE] "
 
                 // formatting for inactive tabs (dimmed blue)
                 tab_normal              "#[bg=#1a1b26,fg=#545c7e]█#[bg=#545c7e,fg=#c0caf5,bold]{index} #[bg=#292e42,fg=#a9b1d6,bold] {name}{floating_indicator}#[bg=#1a1b26,fg=#292e42,bold]█"
