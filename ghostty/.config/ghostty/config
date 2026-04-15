@@ -3,7 +3,8 @@ macos-titlebar-style = hidden
 window-colorspace = display-p3
 window-save-state = always
 confirm-close-surface = false
-shell-integration-features = ssh-env
+shell-integration-features = ssh-env,ssh-terminfo
+shell-integration = zsh
 
 macos-icon = xray
 macos-icon-frame = aluminum
