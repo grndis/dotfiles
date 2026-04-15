@@ -41,7 +41,7 @@ load_plugins {
 }
 keybinds clear-defaults=true {
     shared {
-        bind "Ctrl p" { SwitchToMode "Pane"; }
+        bind "Ctrl ]" { SwitchToMode "Pane"; }
         // Move Pane
         bind "Super h" { MoveFocus "Left"; }
         bind "Super l" { MoveFocus "Right"; }
@@ -237,7 +237,7 @@ keybinds clear-defaults=true {
     }
     pane {
         bind "Esc" { SwitchToMode "Normal"; }
-        bind "ctrl p" { SwitchToMode "Normal"; }
+        bind "Ctrl ]" { SwitchToMode "Normal"; }
         // // Move Pane
         bind "Ctrl h" { MoveFocus "Left"; }
         bind "Ctrl l" { MoveFocus "Right"; }
@@ -253,7 +253,7 @@ keybinds clear-defaults=true {
         bind "Ctrl a" { SwitchToMode "Tmux"; }
     }
     shared_except "pane" {
-        bind "Ctrl p" { SwitchToMode "Pane"; }
+        bind "Ctrl ]" { SwitchToMode "Pane"; }
     }
     shared_except "locked" {
         bind "Ctrl 0" { SwitchToMode "Locked"; }
