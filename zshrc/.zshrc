@@ -260,11 +260,7 @@ alias vi='nvim'
 alias c='clear'
 alias f='yazi'
 alias ls='eza --color=always --git --icons=always'
-alias a='atac'
 alias z='zellij'
-alias code='ccr code --dangerously-skip-permissions'
-alias rovo='acli rovodev run'
-alias ccp='cli-proxy-api-plus --config /Users/grandis/.config/cliapiproxy/config.yaml'
 
 ################################################################
 # Yazi setup with cd integration
@@ -470,6 +466,3 @@ export PATH="$HOME/.local/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# opencode
-export PATH=/Users/grandis/.opencode/bin:$PATH
