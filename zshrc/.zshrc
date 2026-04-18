@@ -475,7 +475,7 @@ claude() {
         command claude "$@"
         return $?
     fi
-    ccs proxy start opencode >/dev/null 2>&1
+    ccs proxy start opencode >/dev/null 2>&1 || return $?
     eval "$(ccs proxy activate)" || return $?
     command claude "$@"
 }
