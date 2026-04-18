@@ -466,3 +466,16 @@ export PATH="$HOME/.local/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+################################################################
+# Claude CLI with CCS Proxy
+################################################################
+claude() {
+    if ! command -v ccs >/dev/null 2>&1; then
+        command claude "$@"
+        return $?
+    fi
+    ccs proxy start opencode >/dev/null 2>&1
+    eval "$(ccs proxy activate)" || return $?
+    command claude "$@"
+}
