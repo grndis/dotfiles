@@ -58,6 +58,8 @@ keybinds clear-defaults=true {
         bind "7" { GoToTab 7; SwitchToMode "Normal"; }
         bind "8" { GoToTab 8; SwitchToMode "Normal"; }
         bind "9" { GoToTab 9; SwitchToMode "Normal"; }
+        bind "Ctrl n" { MoveTab "Right"; }
+        bind "Ctrl p" { MoveTab "Left"; }
     }
     tmux {
         bind "0" { SwitchToMode "Locked"; }
@@ -127,10 +129,10 @@ keybinds clear-defaults=true {
             SwitchToMode "Normal";
         }
         bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
-        bind "p" { TogglePanePinned; }
+        bind "Ctrl p" { TogglePanePinned; }
 
         // Moving between tabs
-        bind "N" { GoToPreviousTab; }
+        bind "N" "p" { GoToPreviousTab; }
         bind "n" { GoToNextTab; }
         // Renaming tabs
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
