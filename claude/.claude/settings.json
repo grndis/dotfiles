@@ -8,6 +8,8 @@
     "command": "cship"
   },
   "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "showWelcomeBanner": false
+  "showWelcomeBanner": false,
+  "effortLevel": "high"
 }
