@@ -6,7 +6,7 @@ customCommands:
       - type: "input"
         key: "Msg"
         title: "Commit message:"
-        initialValue: '{{ runCommand "sh -c \"if git diff --staged --quiet 2>/dev/null; then echo \\\"No staged changes\\\"; else git diff --staged | claude -p \\\"Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format.\\\" --output-format text 2>&1; fi\"" }}'
+        initialValue: '{{ runCommand "sh -c \"if git diff --staged --quiet 2>/dev/null; then echo \\\"No staged changes\\\"; else git diff --staged | ask \\\"Generate a concise git commit message for these staged changes. Output ONLY the raw commit message with no markdown, no code blocks, no backticks, no explanations. Use conventional commit format.\\\" 2>&1; fi\"" }}'
     command: 'if [ "{{.Form.Msg}}" = "No staged changes" ] || [ -z "{{.Form.Msg}}" ]; then echo "No staged changes to commit" >&2; exit 1; else git commit -m "{{.Form.Msg}}"; fi'
 gui:
   showCommandLog: false
