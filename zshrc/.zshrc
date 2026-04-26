@@ -44,6 +44,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     echo "export QWEN_WORKER_ENDPOINT=\"$(pass show Development/custom/QWEN_WORKER_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export QWEN_WORKER_API=\"$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
     echo "export ALIBABA_API=\"$(pass show Development/custom/ALIBABA_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    echo "export OLLAMA_API=\"$(pass show Development/custom/OLLAMA_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
 fi
 source ~/.zsh_env_cache
 
@@ -64,12 +65,12 @@ export AIDER_MODEL=gemini-2.5-pro
 export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
-export ANTHROPIC_BASE_URL=http://127.0.0.1:3456
-export ANTHROPIC_MODEL="qwen3.6-plus"
-export ANTHROPIC_AUTH_TOKEN="$ALIBABA_API"
-export ASK_SH_API_KEY="$QWEN_WORKER_API"
-export ASK_SH_API_MODEL="qwen3-coder-flash"
-export ASK_SH_API_ENDPOINT="$QWEN_WORKER_ENDPOINT/v1/chat/completions"
+export ANTHROPIC_BASE_URL=https://ollama.com
+export ANTHROPIC_MODEL="deepseek-v4-flash:cloud"
+export ANTHROPIC_AUTH_TOKEN="$OLLAMA_API"
+export ASK_SH_API_KEY="$OLLAMA_API"
+export ASK_SH_API_MODEL="deepseek-v4-flash:cloud"
+export ASK_SH_API_ENDPOINT="https://ollama.com/v1/chat/completions"
 export ASK_SH_ANSWER_LANGUAGE="english"
 export ASK_SH_TIMEOUT=60
 export ASK_SH_DEBUG=false
@@ -470,12 +471,22 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 ################################################################
 # Claude CLI with CCS Proxy
 ################################################################
-claude() {
+qw() {
     if ! command -v ccs >/dev/null 2>&1; then
         command claude "$@"
         return $?
     fi
-    ccs proxy start opencode >/dev/null 2>&1 || return $?
-    eval "$(ccs proxy activate)" || return $?
+    ccs proxy start qwen >/dev/null 2>&1 || return $?
+    eval "$(ccs proxy activate qwen)" || return $?
     command claude "$@"
 }
+km() {
+    if ! command -v ccs >/dev/null 2>&1; then
+        command claude "$@"
+        return $?
+    fi
+    ccs proxy start km >/dev/null 2>&1 || return $?
+    eval "$(ccs proxy activate km)" || return $?
+    command claude "$@"
+}
+
