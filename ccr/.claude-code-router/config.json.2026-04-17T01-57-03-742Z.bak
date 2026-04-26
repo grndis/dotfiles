@@ -1,17 +1,22 @@
 {
   "LOG": false,
-  "LOG_LEVEL": "debug",
   "CLAUDE_PATH": "",
   "HOST": "127.0.0.1",
   "PORT": 3456,
   "APIKEY": "",
   "API_TIMEOUT_MS": "600000",
   "PROXY_URL": "",
+  "OPENAI_API_KEY": "$OPENAI_API_KEY",
+  "GEMINI_API_KEY": "$GEMINI_API_KEY",
+  "OPENROUTER_KEY": "$OPENROUTER_KEY",
+  "COPILOT_TOKEN": "$COPILOT_TOKEN",
+  "GCLOUD_GEMINI": "$GCLOUD_GEMINI",
+  "HOME": "$HOME",
   "transformers": [
     {
       "path": "/Users/grandis/.claude-code-router/plugins/gemini-cli.js",
       "options": {
-        "project": "937798827506"
+        "project": "$GCLOUD_GEMINI"
       }
     },
     {
@@ -25,7 +30,7 @@
       "options": {}
     },
     {
-      "path": "/Users/grandis/.claude-code-router/plugins/rovo-cli.js",
+      "path": "$HOME/.claude-code-router/plugins/rovo-cli.js",
       "options": {}
     }
   ],
@@ -34,29 +39,16 @@
       "name": "opencode-qwen",
       "api_base_url": "https://opencode.ai/zen/go/v1/chat/completions",
       "api_key": "REDACTED_API_KEY",
-      "models": [
-        "qwen3.6-plus"
-      ]
+      "models": ["qwen3.6-plus"]
     }
   ],
-  "StatusLine": {
-    "enabled": false,
-    "currentStyle": "default",
-    "default": {
-      "modules": []
-    },
-    "powerline": {
-      "modules": []
-    }
-  },
   "Router": {
     "default": "opencode-qwen,qwen3.6-plus",
     "background": "opencode-qwen,qwen3.6-plus",
     "think": "opencode-qwen,qwen3.6-plus",
-    "longContext": "opencode-qwen,qwen3.6-plus",
+    "longContext": "qwen,qwen3-coder-plus",
     "longContextThreshold": 800000,
     "webSearch": "opencode-qwen,qwen3.6-plus",
     "image": "opencode-qwen,qwen3.6-plus"
-  },
-  "CUSTOM_ROUTER_PATH": ""
+  }
 }
