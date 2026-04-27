@@ -1,67 +1,77 @@
-###############################################################
+################################################################
 # Shell Options
 ################################################################
-setopt globdots  #include hidden files in globbing
+setopt globdots
 
-# Increase function nesting limit to prevent starship/zvm conflicts
 FUNCNEST=1000
 
 ################################################################
 # Early Performance Setup
 ################################################################
-# Skip global compinit for faster startup
 skip_global_compinit=1
-
-################################################################
-# MacOS Homebrew
-################################################################
-# if [[ -f "/opt/homebrew/bin/brew" ]] then
-#   eval "$(/opt/homebrew/bin/brew shellenv)"
-# fi
 
 ################################################################
 # Environment Variables Cache
 ################################################################
-# Cache expensive pass operations to avoid multiple external calls
+# Cache expensive pass operations to avoid multiple external calls.
+# Regenerated when .zshrc is newer than the cache file.
 if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
-    echo "# Cached environment variables - regenerated when .zshrc changes" > ~/.zsh_env_cache
-    echo "export GEMINI_API_KEY=\"$(pass show Development/Gemini/GEMINI_API_KEY 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export LLM_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    # echo "export OPENAI_API_BASE=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    # echo "export OPENAI_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export API_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export COPILOT_TOKEN=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    # echo "export OPENAI_KEY=\"$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export OPENROUTER_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export LUMEN_API_KEY=\"$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export COPILOT_API_ENDPOINT=\"$(pass show url/copilot_endpoint 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    # echo "export OPENAI_API_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export GEMINI_ENDPOINT=\"$(pass show url/openai_workers 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    # echo "export ANTHROPIC_AUTH_TOKEN=\"$(pass show Development/anthropic/ANTHROPIC_AUTH_TOKEN 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export GCLOUD_GEMINI=\"$(pass show gcloud/gemini 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export PROXY_ENDPOINT=\"$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export PROXY_API=\"$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export QWEN_WORKER_ENDPOINT=\"$(pass show Development/custom/QWEN_WORKER_ENDPOINT 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export QWEN_WORKER_API=\"$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export ALIBABA_API=\"$(pass show Development/custom/ALIBABA_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
-    echo "export OLLAMA_API=\"$(pass show Development/custom/OLLAMA_API 2>/dev/null || echo '')\"" >> ~/.zsh_env_cache
+    # Call each pass entry exactly once, then reuse for aliases
+    _gkey="$(pass show Development/Gemini/GEMINI_API_KEY 2>/dev/null || echo '')"
+    _ctoken="$(pass show Development/GitHub/COPILOT_TOKEN 2>/dev/null || echo '')"
+    _otoken="$(pass show Development/OpenRouter/OPENROUTER_TOKEN 2>/dev/null || echo '')"
+    _cendpoint="$(pass show url/copilot_endpoint 2>/dev/null || echo '')"
+    _wendpoint="$(pass show url/openai_workers 2>/dev/null || echo '')"
+    _ggemini="$(pass show gcloud/gemini 2>/dev/null || echo '')"
+    _pendpoint="$(pass show Development/custom/PROXY_ENDPOINT 2>/dev/null || echo '')"
+    _papi="$(pass show Development/custom/PROXY_API 2>/dev/null || echo '')"
+    _qendpoint="$(pass show Development/custom/QWEN_WORKER_ENDPOINT 2>/dev/null || echo '')"
+    _qapi="$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')"
+    _aapi="$(pass show Development/custom/ALIBABA_API 2>/dev/null || echo '')"
+    _oapi="$(pass show Development/custom/OLLAMA_API 2>/dev/null || echo '')"
+
+    cat > ~/.zsh_env_cache <<ENV_CACHE
+# Cached environment variables - regenerated when .zshrc changes
+export GEMINI_API_KEY="${_gkey}"
+export LLM_KEY="${_ctoken}"
+export API_KEY="${_ctoken}"
+export COPILOT_TOKEN="${_ctoken}"
+export OPENROUTER_KEY="${_otoken}"
+export LUMEN_API_KEY="${_otoken}"
+export COPILOT_API_ENDPOINT="${_cendpoint}"
+export GEMINI_ENDPOINT="${_wendpoint}"
+export GCLOUD_GEMINI="${_ggemini}"
+export PROXY_ENDPOINT="${_pendpoint}"
+export PROXY_API="${_papi}"
+export QWEN_WORKER_ENDPOINT="${_qendpoint}"
+export QWEN_WORKER_API="${_qapi}"
+export ALIBABA_API="${_aapi}"
+export OLLAMA_API="${_oapi}"
+ENV_CACHE
+
+    unset _gkey _ctoken _otoken _cendpoint _wendpoint _ggemini
+    unset _pendpoint _papi _qendpoint _qapi _aapi _oapi
 fi
 source ~/.zsh_env_cache
 
 ################################################################
 # Basic Environment Variables
 ################################################################
-export PNPM_HOME="$HOME/Library/pnpm"
 export EDITOR=nvim
 export VISUAL=nvim
 export PYENV_ROOT="$HOME/.pyenv"
 export XDG_CONFIG_HOME="$HOME/.config"
+
+if [[ "$(uname)" = "Darwin" ]]; then
+    export PNPM_HOME="$HOME/Library/pnpm"
+else
+    export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
+
 export ATAC_THEME=$HOME/.config/atac/themes/theme.toml
 export ATAC_KEY_BINDINGS=$HOME/.config/atac/key_bindings/vim.toml
 export AIDER_DARK_MODE=true
 export AIDER_MODEL=gemini-2.5-pro
-# export OPENAI_BASE_URL=https://openrouter.ai/api/v1
-# export OPENAI_MODEL="qwen/qwen3-coder"
 export CLAUDE_POWERLINE_THEME=dark
 export CLAUDE_POWERLINE_STYLE=tokyo-night
 export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
@@ -81,11 +91,12 @@ export ASK_SH_DEBUG=false
 path=(
     "$PNPM_HOME"
     "$HOME/.local/bin"
-    "$HOME/.composer/vendor/bin"
-    "/usr/local/elasticsearch/bin"
     "$PYENV_ROOT/bin"
     $path
 )
+if [[ "$(uname)" = "Darwin" ]]; then
+    path+=("$HOME/.composer/vendor/bin" "/usr/local/elasticsearch/bin")
+fi
 export PATH
 
 ################################################################
@@ -103,11 +114,11 @@ source "${ZINIT_HOME}/zinit.zsh"
 ################################################################
 # Zinit Plugins - Optimized Loading Order
 ################################################################
-# Load essential plugins immediately
+# Essential: load immediately
 zinit ice depth=1
 zinit light jeffreytse/zsh-vi-mode
 
-# Load interactive plugins with wait for faster startup
+# Interactive: load async for faster startup
 zinit ice lucid wait'0a'
 zinit light Aloxaf/fzf-tab
 
@@ -136,10 +147,10 @@ ZVM_SYSTEM_CLIPBOARD_ENABLED=true
 zvm_after_init_commands+=('if command -v starship >/dev/null 2>&1; then eval "$(starship init zsh)"; fi')
 
 if [[ "$TERM" != "xterm-kitty" ]]; then
-  local icur=$(zvm_cursor_style $ZVM_INSERT_MODE_CURSOR)
-  local ncur=$(zvm_cursor_style $ZVM_NORMAL_MODE_CURSOR)
-  local vcur=$(zvm_cursor_style $ZVM_VISUAL_MODE_CURSOR)
-  local vlcur=$(zvm_cursor_style $ZVM_VISUAL_LINE_MODE_CURSOR)
+  icur=$(zvm_cursor_style $ZVM_INSERT_MODE_CURSOR)
+  ncur=$(zvm_cursor_style $ZVM_NORMAL_MODE_CURSOR)
+  vcur=$(zvm_cursor_style $ZVM_VISUAL_MODE_CURSOR)
+  vlcur=$(zvm_cursor_style $ZVM_VISUAL_LINE_MODE_CURSOR)
   ZVM_INSERT_MODE_CURSOR=$icur'\e\e]12;#9ECE6A\a'
   ZVM_NORMAL_MODE_CURSOR=$ncur'\e\e]12;#a3aed2\a'
   ZVM_VISUAL_MODE_CURSOR=$vcur'\e\e]12;#c678dd\a'
@@ -150,7 +161,6 @@ ZVM_VI_HIGHLIGHT_BACKGROUND=#534557
 ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
 ZVM_TERM=xterm-256color
 ZVM_VI_EDITOR='nvim'
-# ZVM_LINE_INIT_MODE=$ZVM_MODE_NORMAL
 
 # zsh-vi-mode: navigate zellij panes with Ctrl+H/J/K/L in normal mode
 function _zellij_nav_left()  { zellij action move-focus left; }
@@ -171,28 +181,50 @@ zvm_after_lazy_keybindings_commands+=(
 
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[path]='none'
+
 ################################################################
-# Shell Integrations - Simple and Reliable
+# Shell Integrations - Cached Init for Speed
 ################################################################
-# Load zoxide immediately for consistent performance
+# Cache init script output to avoid spawning subprocesses every shell start.
+# Regenerate cache when tool version changes or cache file is missing.
+
+# --- zoxide ---
 if command -v zoxide >/dev/null 2>&1 && [ "$CLAUDECODE" != "1" ]; then
-    eval "$(zoxide init --cmd cd zsh)"
+    _zoxide_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zoxide_init.zsh"
+    if [[ ! -f "$_zoxide_cache" ]] || [[ "$(zoxide --version 2>/dev/null)" != "$(head -1 "$_zoxide_cache" 2>/dev/null | sed 's/# //')" ]]; then
+        mkdir -p "$(dirname "$_zoxide_cache")"
+        echo "# $(zoxide --version 2>/dev/null)" > "$_zoxide_cache"
+        zoxide init --cmd cd zsh >> "$_zoxide_cache"
+    fi
+    source "$_zoxide_cache"
 fi
 
-# Load atuin immediately
+# --- atuin ---
 if command -v atuin >/dev/null 2>&1; then
-    eval "$(atuin init zsh)"
+    _atuin_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/atuin_init.zsh"
+    if [[ ! -f "$_atuin_cache" ]] || [[ "$(atuin --version 2>/dev/null)" != "$(head -1 "$_atuin_cache" 2>/dev/null | sed 's/# //')" ]]; then
+        mkdir -p "$(dirname "$_atuin_cache")"
+        echo "# $(atuin --version 2>/dev/null)" > "$_atuin_cache"
+        atuin init zsh >> "$_atuin_cache"
+    fi
+    source "$_atuin_cache"
 fi
 
-# Load pyenv immediately if available
+# --- pyenv ---
 if command -v pyenv >/dev/null 2>&1; then
-    eval "$(pyenv init --no-rehash -)"
+    _pyenv_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/pyenv_init.zsh"
+    if [[ ! -f "$_pyenv_cache" ]] || [[ "$(pyenv --version 2>/dev/null)" != "$(head -1 "$_pyenv_cache" 2>/dev/null | sed 's/# //')" ]]; then
+        mkdir -p "$(dirname "$_pyenv_cache")"
+        echo "# $(pyenv --version 2>/dev/null)" > "$_pyenv_cache"
+        pyenv init --no-rehash - >> "$_pyenv_cache"
+    fi
+    source "$_pyenv_cache"
 fi
 
 ################################################################
 # History
 ################################################################
-HISTSIZE=5000
+HISTSIZE=50000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
@@ -201,7 +233,6 @@ setopt sharehistory
 setopt hist_ignore_space
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
-setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 ################################################################
@@ -214,13 +245,12 @@ bindkey '\e[109;5u' accept-line
 bindkey '^h' backward-delete-char
 
 ################################################################
-# Completions - Optimized
+# Completions
 ################################################################
 # Zellij Completion Function
 _zellij() {
     local -a sessions
     if (( CURRENT == 3 && (words[2] == "a" || words[2] == "attach" || words[2] == "kill-session") )); then
-        # Get session names: strip color codes, then take the first column.
         sessions=(${(f)"$(zellij ls 2>/dev/null | sed 's/\x1b\[[0-9;]*[mG]//g' | awk '{print $1}')"})
         compadd -a sessions
     elif (( CURRENT == 2 )); then
@@ -228,23 +258,21 @@ _zellij() {
     fi
 }
 
-# Optimized compinit with better caching
+# Optimized compinit with caching
 _compdump_path="${ZDOTDIR:-$HOME}/.zcompdump"
 if [[ ! -f "$_compdump_path" || "$HOME/.zshrc" -nt "$_compdump_path" ]]; then
     autoload -Uz compinit
     compinit -d "$_compdump_path"
-    # Rebuild zinit completion cache
     zinit cdreplay -q
 else
     autoload -Uz compinit
     compinit -C -d "$_compdump_path"
 fi
 
-# Apply completions
 compdef _zellij zellij z
 
 ################################################################
-# Completion styling
+# Completion Styling
 ################################################################
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -264,7 +292,7 @@ alias ls='eza --color=always --git --icons=always'
 alias z='zellij'
 
 ################################################################
-# Yazi setup with cd integration
+# Yazi with cd integration
 ################################################################
 y() {
     local cwd
@@ -275,201 +303,32 @@ y() {
 }
 
 ################################################################
-# Starship Integration with zsh-vi-mode
+# Platform-specific (macOS only)
 ################################################################
-# Starship is configured in ZVM section to prevent conflicts
+if [[ "$(uname)" = "Darwin" ]]; then
+    # Homebrew
+    # if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    #     eval "$(/opt/homebrew/bin/brew shellenv)"
+    # fi
 
-################################################################
-# AI CLI Setup
-################################################################
-# Initialize AI tools if needed
-# if command -v ai &> /dev/null; then
-#     if [ ! -f ~/.ai-shell ]; then
-#         echo "First time setup: Configuring ai..."
-#         ai config set OPENAI_KEY="$COPILOT_TOKEN"
-#         ai config set OPENAI_API_ENDPOINT="$COPILOT_API_ENDPOINT"
-#         touch ~/.ai-shell
-#         echo "AI configuration completed."
-#     fi
-# fi
+    # Bun completions
+    [ -s "/Users/grandis/.bun/_bun" ] && source "/Users/grandis/.bun/_bun"
+    export BUN_INSTALL="$HOME/.bun"
+    export PATH="$BUN_INSTALL/bin:$PATH"
 
-################################################################
-# Config File Management (moved to separate script)
-################################################################
-# Create configs only when tools are first used
-# _create_claude_config() {
-#     if [[ ! -f "$HOME/.claude-code-router/config.json" ]]; then
-#         mkdir -p "$HOME/.claude-code-router"
-#         cat > "$HOME/.claude-code-router/config.json" << EOF
-# {
-#   "LOG": false,
-#   "transformers": [
-#     {
-#       "path": "$HOME/.claude-code-router/plugins/gemini-cli.js",
-#       "options": {
-#         "project": "$GCLOUD_GEMINI"
-#       }
-#     },
-#     {
-#       "name": "",
-#       "path": "/Users/grandis/.claude-code-router/plugins/qwen-cli.js",
-#       "options": {}
-#     }
-#   ],
-#   "Providers": [
-#     {
-#       "name": "qwen",
-#       "api_base_url": "http://192.168.31.172:9999/qwen/v1/chat/completions",
-#       "api_key": "sk-c5184ba9251d4ba5bc0cdfc125b85739",
-#       "models": [
-#         "qwen3-coder-plus"
-#       ],
-#       "transformer": {
-#         "use": [
-#           "qwen",
-#           "enhancetool"
-#         ]
-#       }
-#     },
-#     {
-#       "name": "qwen-cli",
-#       "api_base_url": "http://localhost",
-#       "api_key": "dummy-key",
-#       "models": [
-#         "qwen3-coder-plus"
-#       ],
-#       "transformer": {
-#         "use": [
-#           "enhancetool",
-#           [
-#             "maxtoken",
-#             {
-#               "max_tokens": 1000000
-#             }
-#           ],
-#           "qwen-cli"
-#         ]
-#       }
-#     },
-#     {
-#       "name": "gemini",
-#       "api_base_url": "https://generativelanguage.googleapis.com/v1beta/models/",
-#       "api_key": "$GEMINI_API_KEY",
-#       "models": ["gemini-2.5-pro", "gemini-2.5-flash"],
-#       "transformer": {
-#         "use": ["gemini"]
-#       }
-#     },
-#     {
-#       "name": "gemini-cli",
-#       "api_base_url": "https://cloudcode-pa.googleapis.com/v1internal",
-#       "api_key": "$GEMINI_API_KEY",
-#       "models": ["gemini-2.5-flash", "gemini-2.5-pro"],
-#       "transformer": {
-#         "use": ["gemini-cli"]
-#       }
-#     },
-#     {
-#       "name": "openrouter",
-#       "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
-#       "api_key": "$OPENROUTER_KEY",
-#       "models": [
-#         "anthropic/claude-sonnet-4",
-#         "anthropic/claude-opus-4",
-#         "google/gemini-2.5-flash",
-#         "google/gemini-2.5-pro"
-#       ],
-#       "transformer": {
-#         "use": ["openrouter"]
-#       }
-#     },
-#     {
-#       "name": "copilot",
-#       "api_base_url": "https://api.githubcopilot.com/chat/completions",
-#       "api_key": "$COPILOT_TOKEN",
-#       "models": [
-#         "gemini-2.5-pro",
-#         "claude-sonnet-4",
-#         "gpt-4.1",
-#         "gpt-4o",
-#         "gpt-4o-mini"
-#       ],
-#       "transformer": {
-#         "use": ["copilot"]
-#       }
-#     }
-#   ],
-#   "Router": {
-#     "default": "qwen,qwen3-coder-plus",
-#     "background": "qwen,qwen3-coder-plus",
-#     "think": "qwen-cli,qwen3-coder-plus",
-#     "longContext": "gemini-cli,gemini-2.5-pro",
-#     "longContextThreshold": 800000,
-#     "webSearch": "gemini-cli,gemini-2.5-pro"
-#   }
-# }
-# EOF
-#     fi
-# }
+    # Google Cloud SDK
+    [ -f '/Users/grandis/google-cloud-sdk/path.zsh.inc' ] && source '/Users/grandis/google-cloud-sdk/path.zsh.inc'
+    [ -f '/Users/grandis/google-cloud-sdk/completion.zsh.inc' ] && source '/Users/grandis/google-cloud-sdk/completion.zsh.inc'
 
-# _create_lumen_config() {
-#     if [[ ! -f "$HOME/.config/lumen/lumen.config.json" ]]; then
-#         mkdir -p "$HOME/.config/lumen"
-#         cat > "$HOME/.config/lumen/lumen.config.json" << EOF
-# {
-#   "provider": "openrouter",
-#   "model": "google/gemini-2.5-flash-lite-preview-06-17",
-#   "api_key": "$LUMEN_API_KEY",
-#   "draft": {
-#     "commit_types": {
-#       "docs": "Documentation only changes",
-#       "style": "Changes that do not affect the meaning of the code",
-#       "refactor": "A code change that neither fixes a bug nor adds a feature",
-#       "perf": "A code change that improves performance",
-#       "test": "Adding missing tests or correcting existing tests",
-#       "build": "Changes that affect the build system or external dependencies",
-#       "ci": "Changes to our CI configuration files and scripts",
-#       "chore": "Other changes that don't modify src or test files",
-#       "revert": "Reverts a previous commit",
-#       "feat": "A new feature",
-#       "fix": "A bug fix"
-#     }
-#   }
-# }
-# EOF
-#     fi
-# }
+    # acme.sh
+    # [ -f "/Users/grandis/.acme.sh/acme.sh.env" ] && source "/Users/grandis/.acme.sh/acme.sh.env"
 
-# Override commands to create configs on first use
-# ccr() {
-#     _create_claude_config
-#     command ccr "$@"
-# }
-
-# Unset any existing lumen alias before defining function
-# unalias lumen 2>/dev/null
-# lumen() {
-#     _create_lumen_config
-#     command lumen "$@"
-# }
-#
-# The next line updates PATH for the Google Cloud SDK.
-# if [ -f '/Users/grandis/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-# if [ -f '/Users/grandis/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/grandis/google-cloud-sdk/completion.zsh.inc'; fi
-# . "/Users/grandis/.acme.sh/acme.sh.env"
-export PATH="$HOME/.local/bin:$PATH"
-
-# bun completions
-[ -s "/Users/grandis/.bun/_bun" ] && source "/Users/grandis/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+    # Elasticsearch
+    # path+=("/usr/local/elasticsearch/bin")
+fi
 
 ################################################################
-# Claude CLI with CCS Proxy
+# Claude CLI with CCS Proxy shortcuts
 ################################################################
 qw() {
     if ! command -v ccs >/dev/null 2>&1; then
@@ -489,4 +348,3 @@ km() {
     eval "$(ccs proxy activate km)" || return $?
     command claude "$@"
 }
-
