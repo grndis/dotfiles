@@ -1,30 +1,30 @@
 -- if true then return {} end -- Disable noice
 
+---@type LazySpec
 return {
-  -- ~/.config/nvim/lua/setup-noice.lua
-
-  require("noice").setup {
+  "folke/noice.nvim",
+  opts = {
     format = {
       substitute = {
         pattern = "^:%%?s/",
-        icon = " ",
+        icon = "",
         ft = "regex",
         opts = { border = { text = { top = " sub (old/new/) " } } },
       },
     },
     messages = {
-      enabled = true, -- enables the Noice messages UI
-      view = "mini", -- default view for messages
-      view_error = "mini", -- view for errors
-      view_warn = "mini", -- view for warnings
-      view_history = "messages", -- view for :messages
-      view_search = "mini", -- view for search count messages. Set to `false` to disable
+      enabled = true,
+      view = "mini",
+      view_error = "mini",
+      view_warn = "mini",
+      view_history = "messages",
+      view_search = "mini",
     },
     presets = {
-      bottom_search = false, -- use a classic bottom cmdline for search
-      command_palette = true, -- position the cmdline and popupmenu together
-      long_message_to_split = true, -- long messages will be sent to a split
-      inc_rename = true, -- enables an input dialog for inc-rename.nvim
+      bottom_search = false,
+      command_palette = true,
+      long_message_to_split = true,
+      inc_rename = true,
     },
     notify = {
       enabled = false,
@@ -58,19 +58,18 @@ return {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "before #", -- This will match any message containing "before #"
+          find = "before #",
         },
         view = "mini",
         opts = {
           title = "Undo",
         },
       },
-      -- Route for redo
       {
         filter = {
           event = "msg_show",
           kind = "",
-          find = "after #", -- This will match any message containing "after #"
+          find = "after #",
         },
         view = "mini",
         opts = {
@@ -88,7 +87,6 @@ return {
           title = "Oldest",
         },
       },
-      -- Route for "Already at newest change"
       {
         filter = {
           event = "msg_show",
@@ -122,7 +120,6 @@ return {
           title = "Pasted!",
         },
       },
-      ---------------------- Disable Notification --------------------------------
       {
         filter = {
           any = {
@@ -130,13 +127,9 @@ return {
             { event = "notify", kind = "" },
             { event = "msg_show", kind = "echomsg" },
             { event = "notify", kind = "info" },
-            -- { event = "notify", find = "Minuet" },
-            -- { event = "msg_show", kind = "emsg", find = "E%d+:" },
-            -- { event = "msg_show", kind = "", find = "E382:" },
             { error = true },
             { warning = true },
             { event = "lsp" },
-            -- { event = "none-ls" },
           },
         },
         opts = {

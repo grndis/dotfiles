@@ -28,6 +28,14 @@ vim.api.nvim_create_autocmd("VimLeave", {
 
 require "lazy_setup"
 require "filetype"
-require "notification"
-require "keymaps"
-require "remove_comments"
+
+-- Defer non-essential modules to VeryLazy so they don't block startup
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  once = true,
+  callback = function()
+    require "notification"
+    require "keymaps"
+    require "remove_comments"
+  end,
+})
