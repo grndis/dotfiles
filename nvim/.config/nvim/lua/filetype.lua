@@ -17,8 +17,32 @@ vim.filetype.add {
   -- },
   pattern = {
     [".*%.blade%.php"] = "blade",
+    -- WordPress PHP filetypes (inlined from wordpress.nvim)
+    [".*/wp%-includes/*.php"] = "php.wp",
+    [".*/wp%-admin/*.php"] = "php.wp",
+    [".*/wp%-content/*.php"] = "php.wp",
+    [".*/wp%-.*.php"] = "php.wp",
+    [".*/class%-.*.php"] = "php.wp",
+    [".*/interface%-.*.php"] = "php.wp",
+  },
+  filename = {
+    -- WordPress cache drop-ins
+    ["object-cache.php"] = "php.wp",
+    ["advanced-cache.php"] = "php.wp",
   },
   extension = {
     ["http"] = "http",
   },
 }
+
+-- WordPress ftplugin: use tabs (inlined from wordpress.nvim ftplugin/wp.lua)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "php.wp",
+  callback = function()
+    local opt = vim.opt_local
+    opt.expandtab = false
+    opt.copyindent = true
+    opt.preserveindent = true
+    opt.softtabstop = 0
+  end,
+})

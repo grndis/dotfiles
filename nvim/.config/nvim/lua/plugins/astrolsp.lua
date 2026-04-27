@@ -19,10 +19,8 @@ return {
     },
     -- customize lsp formatting options
     formatting = {
-      -- filter decides which LSP clients are allowed to format the buffer.
-      -- It must return a boolean (true = allow, false = skip).
-      -- For PHP files managed by wordpress.nvim, only allow null-ls (phpcbf)
-      -- to format, so intelephense doesn't interfere.
+      -- For PHP files, only allow null-ls (phpcbf) to format —
+      -- intelephense should not interfere with phpcbf formatting.
       filter = function(client)
         if vim.bo.filetype == "php" or vim.bo.filetype == "php.wp" then
           return client.name == "null-ls"
@@ -137,7 +135,12 @@ return {
                 "zip",
                 "zlib",
                 "wordpress",
+                "memcache",
+                "memcached",
                 "phpunit",
+              },
+              files = {
+                maxSize = 5000000,
               },
             },
           },
@@ -186,7 +189,7 @@ return {
     -- A custom `on_attach` function to be run after the default `on_attach` function
     -- takes two parameters `client` and `bufnr`  (`:h lspconfig-setup`)
     on_attach = function(client, bufnr)
-      -- this would disable semanticTokensProvider for all clients
+      -- this would disable semantic tokens provider for all clients
       -- client.server_capabilities.semanticTokensProvider = nil
     end,
   },
