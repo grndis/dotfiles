@@ -98,6 +98,13 @@ return {
           -- PHP deprecation notices (e.g. from react/promise on PHP 8.5+)
           -- are printed to stdout before the formatted code, causing them
           -- to be literally written into the buffer as file content.
+          --
+          -- phpcbf stdout may look like:
+          --   \nDeprecated: ...\n<?php\n...   (with leading/trailing newlines)
+          -- After stripping the Deprecated line, the surrounding empty lines
+          -- remain and add spurious blank lines at the top of the file that
+          -- accumulate on every save. Fix: trim leading blank lines after
+          -- filtering, then restore trailing newline to match original.
           local lines = vim.split(output, "\n")
           local cleaned = {}
           for _, line in ipairs(lines) do
@@ -110,7 +117,12 @@ return {
               table.insert(cleaned, line)
             end
           end
+          -- Remove leading empty lines left behind by stripped diagnostics
+          while #cleaned > 0 and cleaned[1]:match("^%s*$") do
+            table.remove(cleaned, 1)
+          end
           local result = table.concat(cleaned, "\n")
+          -- Preserve trailing newline (phpcbf ends output with \n)
           if output:sub(-1) == "\n" and result:sub(-1) ~= "\n" then
             result = result .. "\n"
           end
