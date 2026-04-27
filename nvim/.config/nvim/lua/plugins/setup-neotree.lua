@@ -29,16 +29,22 @@ return {
   config = function(_, opts)
     require("neo-tree").setup(opts)
 
-    -- Function to auto-refresh NeoTree when files change
     local function refresh_neotree()
       local events = require "neo-tree.events"
       events.fire_event(events.GIT_EVENT)
     end
 
-    -- Set up an autocmd to call the refresh function
+    -- Only refresh git status when neo-tree is actually visible
     vim.api.nvim_create_autocmd({ "BufWritePost", "FocusGained" }, {
-      callback = function() refresh_neotree() end,
-      desc = "Refresh NeoTree when files change",
+      callback = function()
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "neo-tree" then
+            refresh_neotree()
+            return
+          end
+        end
+      end,
+      desc = "Refresh NeoTree when files change (only if visible)",
     })
   end,
 }

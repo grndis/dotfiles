@@ -1,16 +1,13 @@
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
+---@type LazySpec
 return {
-
-  -- lua/user/colorscheme.lua
-
-  require("tokyonight").setup {
-    -- use the night style
+  "folke/tokyonight.nvim",
+  opts = {
     style = "night",
-    -- disable italic for functions
     styles = {
       functions = {},
     },
-    -- sidebars = { "qf", "vista_kind", "terminal", "packer" },
-    -- Customize colors and add your custom highlights
     on_colors = function(colors)
       -- colors.bg = "#15131D"
       -- colors.bg_dark = "#15131D"

@@ -1,7 +1,7 @@
 return {
   "folke/snacks.nvim",
   priority = 1000,
-  lazy = false,
+  lazy = false, -- needs to stay loaded for snacks.picker UI select replacement, notifier, etc.
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   opts = {
     -- explorer = {},

@@ -8,15 +8,15 @@
 -- vim.keymap.set("n", "<leader>gg", function() require("utils.lazygit").lazygit:toggle() end, {
 --   desc = "LazyGit",
 -- })
---
+
 -- vim.keymap.set("n", "<leader>gg", function() require("utils.lazygit").open_lazygit() end, {
 --   desc = "LazyGit",
 -- })
---
+
 -- vim.keymap.set("n", "<leader>ta", function() require("utils.atac").open_atac() end, {
 --   desc = "Open Atac",
 -- })
---
+
 vim.keymap.set("n", "<leader>r", ":checktime<CR>", { silent = true, desc = "Reload" })
 
 -- vim.keymap.set(
@@ -31,21 +31,21 @@ vim.keymap.set("n", "<leader>r", ":checktime<CR>", { silent = true, desc = "Relo
 --   "<cmd>CodeCompanionActions<cr>",
 --   { noremap = true, silent = true, desc = "AI Actions" }
 -- )
---
+
 -- vim.keymap.set(
 --   "n",
 --   "<leader>ai",
 --   "<cmd>CodeCompanionChat Toggle<cr>",
 --   { noremap = true, silent = true, desc = "AI Chat" }
 -- )
---
+
 -- vim.keymap.set(
 --   "v",
 --   "<leader>ai",
 --   "<cmd>CodeCompanionChat Toggle<cr>",
 --   { noremap = true, silent = true, desc = "AI Chat" }
 -- )
---
+
 -- vim.keymap.set("v", "<leader>ad", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true, desc = "AI Add" })
 
 vim.keymap.set("n", "<leader>tt", '<CMD>lua require("FTerm").toggle()<CR>', { desc = "Open Terminal" })
@@ -53,8 +53,16 @@ vim.keymap.set("t", "<leader>tt", '<C-\\><C-n><CMD>lua require("FTerm").toggle()
 -- Expand 'cc' into 'CodeCompanion' in the command line
 -- vim.cmd [[cab cc CodeCompanion]]
 
-local wk = require "which-key"
-wk.add {
-  { "<leader>a", group = " AI" },
-  { "<leader>t", group = " Terminal" },
-}
+-- Defer which-key group registration until which-key actually loads
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    local ok, wk = pcall(require, "which-key")
+    if ok then
+      wk.add {
+        { "<leader>a", group = " AI" },
+        { "<leader>t", group = " Terminal" },
+      }
+    end
+  end,
+})
