@@ -8,7 +8,12 @@ return {
   "nvimtools/none-ls.nvim",
   opts = function(_, config)
     local null_ls = require "null-ls"
+    local h = require "null-ls.helpers"
     local lspconfig = require "lspconfig"
+    local methods = require "null-ls.methods"
+
+    local FORMATTING = methods.internal.FORMATTING
+    local DIAGNOSTICS = methods.internal.DIAGNOSTICS
 
     -- Intelephense with WordPress stubs (inlined from wordpress.nvim)
     lspconfig.intelephense.setup {
@@ -35,13 +40,12 @@ return {
       },
     }
 
-    -- PHPCS root pattern for finding local config (inlined from wordpress.nvim)
+    -- PHPCS root pattern for finding local config
     local phpcs_root_pattern = require("null-ls.utils").root_pattern(
       "phpcs.xml.dist", "phpcs.xml", ".phpcs.xml.dist", ".phpcs.xml"
     )
 
-    -- Shared phpcbf/phpcs args builder (inlined from wordpress.nvim)
-    -- Adds WordPress coding standard + PHP deprecation suppression for php.wp files
+    -- Build phpcbf/phpcs extra args with WordPress standards + deprecation suppression
     local function wp_extra_args(params)
       local args = { "-d", "memory_limit=1G" }
       if params.ft == "php.wp" then
@@ -50,7 +54,6 @@ return {
           table.insert(args, "--standard=WordPress")
         end
       end
-      -- Suppress PHP deprecation warnings that would leak into phpcbf stdout
       vim.list_extend(args, {
         "-d", "error_reporting=E_ALL&~E_DEPRECATED&~E_USER_DEPRECATED",
       })
@@ -62,32 +65,39 @@ return {
       return local_root or params.root
     end
 
-    config.sources = {
-      null_ls.builtins.formatting.stylua,
-      null_ls.builtins.formatting.prettierd,
-      -- PHPCS diagnostics (WordPress coding standards for php.wp files)
-      null_ls.builtins.diagnostics.phpcs.with {
-        timeout = 15000,
-        extra_args = wp_extra_args,
+    -- Custom phpcbf source built with generator_factory (NOT formatter_factory)
+    -- so we control on_output and can strip PHP deprecation warnings from stdout.
+    -- formatter_factory always overwrites on_output, making it impossible to
+    -- filter garbage lines before they reach the buffer.
+    local phpcbf_source = h.make_builtin({
+      name = "phpcbf",
+      method = FORMATTING,
+      filetypes = { "php", "php.wp" },
+      generator_opts = {
+        command = "phpcbf",
+        args = function(params)
+          local base = { "-q", "--stdin-path=$FILENAME", "-" }
+          local extra = wp_extra_args(params) or {}
+          -- keep "-" as last arg
+          table.remove(base, #base)
+          local merged = vim.list_extend(base, extra)
+          table.insert(merged, "-")
+          return merged
+        end,
+        to_stdin = true,
         cwd = wp_cwd,
-        ignore_stderr = true,
-      },
-      -- PHPCBF formatter
-      -- PHP deprecation warnings (e.g. from react/promise on PHP 8.5+) can
-      -- leak into phpcbf's stdout. none-ls formatter_factory passes ALL stdout
-      -- as formatted text, so we override on_output to strip them.
-      null_ls.builtins.formatting.phpcbf.with {
         timeout = 15000,
-        extra_args = wp_extra_args,
-        cwd = wp_cwd,
+        check_exit_code = function(code)
+          return code <= 2
+        end,
         ignore_stderr = true,
         on_output = function(params, done)
           local output = params.output
           if not output then return done() end
-          -- Strip PHP diagnostic lines from stdout before using as formatted text.
-          -- These warnings should never appear in formatted output — they are
-          -- side-effects of the PHP interpreter running phpcbf, not part of
-          -- the code itself.
+          -- Strip PHP diagnostic lines that leaked into stdout.
+          -- PHP deprecation notices (e.g. from react/promise on PHP 8.5+)
+          -- are printed to stdout before the formatted code, causing them
+          -- to be literally written into the buffer as file content.
           local lines = vim.split(output, "\n")
           local cleaned = {}
           for _, line in ipairs(lines) do
@@ -107,6 +117,22 @@ return {
           return done({ { text = result } })
         end,
       },
+      factory = h.generator_factory,
+    })
+
+    config.sources = {
+      null_ls.builtins.formatting.stylua,
+      null_ls.builtins.formatting.prettierd,
+      -- PHPCS diagnostics (WordPress coding standards for php.wp files)
+      null_ls.builtins.diagnostics.phpcs.with {
+        timeout = 15000,
+        extra_args = wp_extra_args,
+        cwd = wp_cwd,
+        ignore_stderr = true,
+      },
+      -- PHPCBF formatter — custom source using generator_factory directly
+      -- to control on_output and strip deprecation warnings from stdout.
+      phpcbf_source,
     }
     return config
   end,
