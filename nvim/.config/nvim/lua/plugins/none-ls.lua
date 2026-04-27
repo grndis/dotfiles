@@ -21,11 +21,13 @@ return {
       null_ls.builtins.formatting.stylua,
       null_ls.builtins.formatting.prettierd,
       null_ls.builtins.diagnostics.phpcs.with(wp.null_ls_phpcs),
-      -- phpcbf: suppress PHP deprecation warnings (e.g. from react/promise on PHP 8.5+)
-      -- that could leak into stdout and end up written into the buffer as literal text.
-      -- Two-layer defense:
-      --   extra_args: -d error_reporting=...  → prevents PHP from emitting deprecation notices
-      --   ignore_stderr: true  → discards any stderr output
+      -- phpcbf: PHP deprecation warnings (e.g. from react/promise on PHP 8.5+)
+      -- can leak into phpcbf's stdout. none-ls formatter_factory passes ALL stdout
+      -- directly as formatted text, so these warnings end up literally written
+      -- into the buffer. Three layers of defense:
+      --   1. on_output: strips any "Deprecated:" lines from phpcbf stdout (guaranteed fix)
+      --   2. extra_args with -d error_reporting: tells PHP not to emit deprecation notices
+      --   3. ignore_stderr: discards stderr output (belt-and-suspenders)
       null_ls.builtins.formatting.phpcbf.with(vim.tbl_extend("force", wp.null_ls_phpcs, {
         extra_args = function(params)
           local base_args = {}
@@ -34,6 +36,7 @@ return {
           elseif wp.null_ls_phpcs.extra_args then
             base_args = wp.null_ls_phpcs.extra_args
           end
+          -- Always add deprecation suppression, not just for php.wp
           vim.list_extend(base_args, {
             "-d",
             "error_reporting=E_ALL&~E_DEPRECATED&~E_USER_DEPRECATED",
@@ -41,6 +44,30 @@ return {
           return base_args
         end,
         ignore_stderr = true,
+        -- Override on_output to strip PHP deprecation/notice lines that leaked
+        -- into stdout. This is the guaranteed fix: even if -d error_reporting
+        -- doesn't reach the PHP interpreter (e.g. because phpcbf is a phar
+        -- wrapper), we strip the garbage lines before they reach the buffer.
+        on_output = function(params, done)
+          local output = params.output
+          if not output then return done() end
+          -- Remove lines starting with PHP severity keywords that shouldn't
+          -- be in formatted output: Deprecated, Notice, Warning, Fatal error, etc.
+          local lines = vim.split(output, "\n")
+          local cleaned = {}
+          for _, line in ipairs(lines) do
+            if not line:match("^Deprecated:%s") and not line:match("^Notice:%s") and not line:match("^Warning:%s") and not line:match("^Fatal error:%s") and not line:match("^Parse error:%s") then
+              table.insert(cleaned, line)
+            end
+          end
+          -- Rejoin with newlines; handle trailing newline preservation
+          local result = table.concat(cleaned, "\n")
+          -- Preserve original trailing newline behavior
+          if output:sub(-1) == "\n" and result:sub(-1) ~= "\n" then
+            result = result .. "\n"
+          end
+          return done({ { text = result } })
+        end,
       })),
     }
     return config -- return final config table
