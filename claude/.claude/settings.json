@@ -8,8 +8,11 @@
     "command": "cship"
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "showWelcomeBanner": false,
-  "effortLevel": "high"
+  "editorMode": "vim",
+  "preferredNotifChannel": "ghostty",
+  "autoCompactEnabled": false
 }
