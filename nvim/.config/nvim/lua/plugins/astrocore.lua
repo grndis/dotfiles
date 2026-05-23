@@ -98,10 +98,11 @@ return {
             local bufs = vim.fn.getbufinfo { buflisted = true }
             -- Check if this is the last buffer
             if #bufs <= 1 then
-              -- If it's the last buffer, open a new empty buffer then close the old one
+              -- If it's the last buffer, close it and open neo-tree fullscreen
               local current_buf = vim.api.nvim_get_current_buf()
-              vim.cmd.enew()
+              vim.cmd.Neotree "close"
               pcall(vim.api.nvim_buf_delete, current_buf, { force = true })
+              vim.cmd.edit(vim.fn.getcwd())
             else
               -- Otherwise, close the buffer normally
               require("astrocore.buffer").close(0)
