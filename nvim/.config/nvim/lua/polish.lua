@@ -1,3 +1,8 @@
+-- if true then return end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
+-- This will run last in the setup process.
+-- This is just pure lua so anything that doesn't
+-- fit in the normal config locations above can go here
 local RemoveComments = function()
   local ts = vim.treesitter
   local bufnr = vim.api.nvim_get_current_buf()

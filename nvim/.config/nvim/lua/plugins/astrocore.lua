@@ -27,6 +27,7 @@ return {
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
+        winborder = "none",
         relativenumber = true, -- sets vim.opt.relativenumber
         number = true, -- sets vim.opt.number
         spell = false, -- sets vim.opt.spell
@@ -97,13 +98,10 @@ return {
             local bufs = vim.fn.getbufinfo { buflisted = true }
             -- Check if this is the last buffer
             if #bufs <= 1 then
-              -- If it's the last buffer, close it and open NeoTree in its place
+              -- If it's the last buffer, open a new empty buffer then close the old one
               local current_buf = vim.api.nvim_get_current_buf()
-              vim.api.nvim_command "Neotree filesystem current"
-              -- Close the previous buffer forcefully after a short delay
-              vim.defer_fn(function()
-                pcall(vim.api.nvim_buf_delete, current_buf, { force = true })
-              end, 50)
+              vim.cmd.enew()
+              pcall(vim.api.nvim_buf_delete, current_buf, { force = true })
             else
               -- Otherwise, close the buffer normally
               require("astrocore.buffer").close(0)
