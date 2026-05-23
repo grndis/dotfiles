@@ -115,6 +115,18 @@ return {
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+
+        ["<Leader>e"] = {
+          function()
+            if vim.bo.filetype == "neo-tree" then
+              vim.cmd.wincmd "p"
+              vim.cmd.Neotree "close"
+            else
+              vim.cmd.Neotree "toggle"
+            end
+          end,
+          desc = "Toggle Explorer",
+        },
       },
     },
   },
