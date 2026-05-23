@@ -100,7 +100,7 @@ keybinds clear-defaults=true {
             floating true
             move_to_focused_tab true
             cwd "/"
-            root_dirs "/opt/homebrew/var/www"
+            root_dirs "/opt/homebrew/var/www;/Users/grandis/Developer/github"
             session_layout "main"
         }; SwitchToMode "Normal";
         }
