@@ -71,11 +71,11 @@ return {
     window = {
       position = "left",
       width = 28,
-      mapping_options = {
-        noremap = true,
-        nowait = true,
-      },
-      mappings = {},
+      -- mapping_options = {
+      --   noremap = true,
+      --   nowait = true,
+      -- },
+      -- mappings = {},
     },
     -- nesting_rules = {},
     -- filesystem = {
