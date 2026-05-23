@@ -100,7 +100,7 @@ return {
             if #bufs <= 1 then
               -- If it's the last buffer, close it and open neo-tree fullscreen
               local current_buf = vim.api.nvim_get_current_buf()
-              vim.cmd.Neotree "close"
+              vim.cmd [[noautocmd Neotree close]]
               pcall(vim.api.nvim_buf_delete, current_buf, { force = true })
               vim.cmd.edit(vim.fn.getcwd())
             else
