@@ -348,3 +348,6 @@ km() {
     eval "$(ccs proxy activate km)" || return $?
     command claude "$@"
 }
+
+# Browser-Use
+export PATH="/Users/grandis/.browser-use-env/bin:/Users/grandis/.local/bin:$PATH"
