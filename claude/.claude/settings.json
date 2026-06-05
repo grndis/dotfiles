@@ -11,8 +11,9 @@
   "effortLevel": "high",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "showWelcomeBanner": false,
   "editorMode": "vim",
   "preferredNotifChannel": "ghostty",
-  "autoCompactEnabled": false
+  "autoCompactEnabled": false,
+  "showWelcomeBanner": false,
+  "autoUpdatesChannel": "stable"
 }
