@@ -25,8 +25,8 @@ return {
           allow_filetypes = { -- enable format on save for specified filetypes only
             -- "go",
           },
-          ignore_filetypes = { -- disable format on save for specified filetypes
-            -- "python",
+          ignore_filetypes = {
+            "vue",
           },
         },
         disabled = { -- disable formatting capabilities for the listed language servers
