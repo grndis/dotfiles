@@ -303,6 +303,20 @@ y() {
 }
 
 ################################################################
+# SSH inside Zellij: force compatible TERM
+# Ghostty's shell-integration-features (ssh-env,ssh-terminfo)
+# only works in the outer shell — not inside Zellij's PTY.
+# Force xterm-256color so the remote always gets a terminfo it has.
+################################################################
+ssh() {
+    if [[ -n "$ZELLIJ" ]]; then
+        command ssh -o "SetEnv=TERM=xterm-256color" "$@"
+    else
+        command ssh "$@"
+    fi
+}
+
+################################################################
 # Platform-specific (macOS only)
 ################################################################
 if [[ "$(uname)" = "Darwin" ]]; then
