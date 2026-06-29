@@ -283,9 +283,10 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 ################################################################
 # Aliases
 ################################################################
-alias vim='nvim'
+# Dipisahkan: vim/vi = Vim asli (/usr/bin/vim), nvim = Neovim
+# alias vim='nvim'
 alias v='nvim'
-alias vi='nvim'
+# alias vi='nvim'
 alias c='clear'
 alias f='yazi'
 alias ls='eza --color=always --git --icons=always'
