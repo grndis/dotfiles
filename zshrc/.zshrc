@@ -29,6 +29,7 @@ if [[ ! -f ~/.zsh_env_cache ]] || [[ ~/.zshrc -nt ~/.zsh_env_cache ]]; then
     _qapi="$(pass show Development/custom/QWEN_WORKER_API 2>/dev/null || echo '')"
     _aapi="$(pass show Development/custom/ALIBABA_API 2>/dev/null || echo '')"
     _oapi="$(pass show Development/custom/OLLAMA_API 2>/dev/null || echo '')"
+    _deepapi="$(pass show Development/custom/DEEPSEEK_API 2>/dev/null || echo '')"
 
     cat > ~/.zsh_env_cache <<ENV_CACHE
 # Cached environment variables - regenerated when .zshrc changes
@@ -47,10 +48,11 @@ export QWEN_WORKER_ENDPOINT="${_qendpoint}"
 export QWEN_WORKER_API="${_qapi}"
 export ALIBABA_API="${_aapi}"
 export OLLAMA_API="${_oapi}"
+export DEEPSEEK_API="${_deepapi}"
 ENV_CACHE
 
     unset _gkey _ctoken _otoken _cendpoint _wendpoint _ggemini
-    unset _pendpoint _papi _qendpoint _qapi _aapi _oapi
+    unset _pendpoint _papi _qendpoint _qapi _aapi _oapi _deepapi
 fi
 source ~/.zsh_env_cache
 
@@ -78,9 +80,9 @@ export CLAUDE_POWERLINE_CONFIG=$HOME/.claude/claude-powerline/config.json
 export ANTHROPIC_BASE_URL=https://ollama.com
 export ANTHROPIC_MODEL="deepseek-v4-flash:cloud"
 export ANTHROPIC_AUTH_TOKEN="$OLLAMA_API"
-export ASK_SH_API_KEY="$OPENROUTER_KEY"
-export ASK_SH_API_MODEL="deepseek/deepseek-v4-flash"
-export ASK_SH_API_ENDPOINT="https://openrouter.ai/api/v1/chat/completions"
+export ASK_SH_API_KEY="$DEEPSEEK_API"
+export ASK_SH_API_MODEL="deepseek-chat"
+export ASK_SH_API_ENDPOINT="https://api.deepseek.com/chat/completions"
 export ASK_SH_ANSWER_LANGUAGE="english"
 export ASK_SH_TIMEOUT=60
 export ASK_SH_DEBUG=false
